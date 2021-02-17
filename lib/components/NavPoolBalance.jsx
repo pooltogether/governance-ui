@@ -236,9 +236,9 @@ const SetDelegateeForm = (props) => {
       )}
 
       <form onSubmit={handleSubmit(onSubmit, onError)}>
-        <div className='mb-2 flex'>
-          {t('delegatee')}:
-          <img src={Squiggle} className='mx-auto my-2' />
+        <div className='mb-2 flex justify-between'>
+          <span className='text-accent-1'>{t('delegatee')}:</span>
+          {/* <img src={Squiggle} className='mx-auto my-2' /> */}
           <button type='button' onClick={onSelfDelegateClick}>
             {t('selfDelegate')}
           </button>
