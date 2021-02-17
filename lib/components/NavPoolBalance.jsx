@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { Dialog } from '@reach/dialog'
 
@@ -9,6 +9,16 @@ import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import Squiggle from 'assets/images/squiggle.svg'
 import PoolIcon from 'assets/images/pool-icon.svg'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { useTokenHolder } from 'lib/hooks/useTokenHolder'
+import { DelegateAddress } from 'lib/components/delegates/DelegateAddress'
+import { Button } from 'lib/components/Button'
+import { TxStatus } from 'lib/components/TxStatus'
+import DelegateableERC20ABI from 'abis/DelegateableERC20ABI'
+import { useForm } from 'react-hook-form'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTransaction } from 'lib/hooks/useTransaction'
+import { CONTRACT_ADDRESSES } from 'lib/constants'
 
 export const NavPoolBalance = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -44,11 +54,21 @@ const PoolBalanceModal = (props) => {
   const { isOpen, closeModal, tokenData } = props
   const { usersBalance, totalSupply } = tokenData
 
+  const { usersAddress } = useContext(AuthControllerContext)
+  const {
+    data: tokenHolder,
+    isFetched: tokenHolderIsFetched,
+    refetch: refetchTokenHolderData,
+    isFetching: tokenHolderIsFetching
+  } = useTokenHolder(usersAddress)
+  const [showDelegateeForm, setShowDelegateeForm] = useState(false)
+  const delegateAddress = tokenHolder?.delegate?.id
+
   const { total: totalClaimablePool, isFetched: totalClaimableIsFetched } = useTotalClaimablePool()
 
-  // if (!totalClaimableIsFetched) {
-  //   return null
-  // }
+  if (!tokenHolderIsFetched) {
+    return null
+  }
 
   const totalClaimablePoolFormatted = numberWithCommas(totalClaimablePool, {
     precision: getPrecision(totalClaimablePool)
@@ -98,7 +118,146 @@ const PoolBalanceModal = (props) => {
             <span className='font-bold'>{formattedTotalSupply}</span>
           </div>
         </div>
+
+        <div className='bg-body p-4 rounded-xl mt-4'>
+          {!showDelegateeForm && delegateAddress && (
+            <>
+              <div className='flex justify-between'>
+                <span className='text-accent-1 capitalize'>{t('delegatee')}:</span>
+                <span className='font-bold'>
+                  {delegateAddress ? (
+                    <DelegateAddress alwaysShorten address={delegateAddress} />
+                  ) : (
+                    '--'
+                  )}
+                </span>
+              </div>
+              <div className='flex justify-end mt-4'>
+                <button
+                  className='text-xxs text-inverse hover:opacity-70 trans'
+                  type='button'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setShowDelegateeForm(true)
+                  }}
+                >
+                  {t('changeDelegatee')}
+                </button>
+              </div>
+            </>
+          )}
+          {(showDelegateeForm || !delegateAddress) && (
+            <SetDelegateeForm
+              refetchTokenHolderData={refetchTokenHolderData}
+              isFormHideable={Boolean(delegateAddress)}
+              hideForm={() => setShowDelegateeForm(false)}
+            />
+          )}
+        </div>
       </div>
     </Dialog>
+  )
+}
+
+const SetDelegateeForm = (props) => {
+  const { hideForm, isFormHideable, refetchTokenHolderData } = props
+  const { t } = useTranslation()
+
+  const { usersAddress, chainId } = useContext(AuthControllerContext)
+  const { register, handleSubmit, setValue } = useForm()
+
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
+
+  const handleDelegate = async (address) => {
+    const params = [address]
+
+    const id = await sendTx(
+      t('delegate'),
+      DelegateableERC20ABI,
+      CONTRACT_ADDRESSES[chainId].GovernanceToken,
+      'delegate',
+      params,
+      {
+        refetch: refetchTokenHolderData
+      }
+    )
+    setTxId(id)
+  }
+
+  const onSubmit = async (data) => {
+    handleDelegate(data.delegateeAddress)
+  }
+
+  const onError = (data) => console.error('Error', data)
+
+  const onSelfDelegateClick = (e) => {
+    e.preventDefault()
+    setValue('delegateeAddress', usersAddress)
+  }
+
+  if (tx && !tx.cancelled) {
+    return (
+      <div className='flex flex-col text-center'>
+        <TxStatus tx={tx} />
+        {tx && tx.completed && (
+          <Button
+            className='mt-6'
+            textSize='xxxs'
+            type='button'
+            onClick={(e) => {
+              e.preventDefault()
+              hideForm()
+            }}
+          >
+            {t('back')}
+          </Button>
+        )}
+      </div>
+    )
+  }
+
+  return (
+    <>
+      {isFormHideable && (
+        <div className='flex justify-end mb-2'>
+          <button
+            className='text-xxs text-inverse hover:opacity-70 trans'
+            type='button'
+            onClick={(e) => {
+              e.preventDefault()
+              hideForm()
+            }}
+          >
+            <FeatherIcon icon='x' className='w-6 h-6' />
+          </button>
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit(onSubmit, onError)}>
+        <div className='mb-2 flex'>
+          {t('delegatee')}:
+          <img src={Squiggle} className='mx-auto my-2' />
+          <button type='button' onClick={onSelfDelegateClick}>
+            {t('selfDelegate')}
+          </button>
+        </div>
+        <input
+          className='bg-card w-full p-2 rounded-sm outline-none focus:outline-none active:outline-none hover:bg-primary focus:bg-primary trans trans-fast border border-transparent focus:border-card'
+          id={'_newDelegateeAddress'}
+          name={'delegateeAddress'}
+          ref={register}
+          type='text'
+          autoComplete={'hidden'}
+          placeholder='0x123abc'
+        />
+        <div className='flex justify-end mt-4'>
+          <Button textSize='xxxs' type='submit'>
+            {t('submit')}
+          </Button>
+        </div>
+      </form>
+    </>
   )
 }

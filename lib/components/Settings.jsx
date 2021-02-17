@@ -12,16 +12,10 @@ import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { PTHint } from 'lib/components/PTHint'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
-import { Button } from 'lib/components/Button'
-import { DelegatePoolModal } from 'lib/components/delegates/DelegatePoolModal'
-import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 
 export function Settings (props) {
   const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
-
-  const [delegateModalIsOpen, setDelegateModalIsOpen] = useState(false)
-  const { usersAddress } = useContext(AuthControllerContext)
 
   const [showManageLinks, setShowManageLinks] = useState(false)
   useEffect(() => {
@@ -178,34 +172,6 @@ export function Settings (props) {
           >
             {t('openPoolClaim')}
           </ButtonLink>
-        </div>
-
-        <div className='mt-10'>
-          <label className='uppercase text-accent-1 font-bold text-xxs mb-4 mr-2'>
-            {t('delegate')}
-          </label>
-
-          <p className='text-white font-bold text-xxs leading-snug mb-4'>
-            {t('delegateToAnotherUser')}
-          </p>
-
-          <Button
-            secondary
-            textSize='xxxs'
-            padding='px-6 py-2'
-            type='button'
-            onClick={(e) => {
-              e.preventDefault()
-              setDelegateModalIsOpen(true)
-            }}
-            disabled={!usersAddress}
-          >
-            {t('openDelegate')}
-          </Button>
-          <DelegatePoolModal
-            isOpen={delegateModalIsOpen}
-            closeModal={() => setDelegateModalIsOpen(false)}
-          />
         </div>
       </motion.div>
     </>
