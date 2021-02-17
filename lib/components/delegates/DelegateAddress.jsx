@@ -6,7 +6,7 @@ import { useSocialIdentity } from 'lib/hooks/useTwitterProfile'
 import { shorten } from 'lib/utils/shorten'
 
 export const DelegateAddress = (props) => {
-  const { address } = props
+  const { address, alwaysShorten } = props
   const delegateIdentity = useSocialIdentity(address)
   const twitterHandle = delegateIdentity?.twitter?.handle
 
@@ -28,6 +28,14 @@ export const DelegateAddress = (props) => {
         </EtherscanAddressLink>
         )
       </>
+    )
+  }
+
+  if (alwaysShorten) {
+    return (
+      <EtherscanAddressLink className='text-inverse hover:text-accent-1' address={address}>
+        <span className='inline'>{shorten(address)}</span>
+      </EtherscanAddressLink>
     )
   }
 

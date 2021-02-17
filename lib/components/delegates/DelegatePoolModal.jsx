@@ -4,16 +4,22 @@ import FeatherIcon from 'feather-icons-react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import DelegateableERC20ABI from 'abis/DelegateableERC20ABI'
 import { useTranslation } from 'lib/../i18n'
 import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
 import { useTokenHolder } from 'lib/hooks/useTokenHolder'
 import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { DelegateAddress } from 'lib/components/delegates/DelegateAddress'
+import { Button } from 'lib/components/Button'
+import { useSendTransaction } from 'lib/hooks/useSendTransaction'
+import { useTransaction } from 'lib/hooks/useTransaction'
+import { TxStatus } from 'lib/components/TxStatus'
 
 import PoolIcon from 'assets/images/pool-icon.svg'
 import Squiggle from 'assets/images/squiggle.svg'
-import { Button } from 'lib/components/Button'
+import { CONTRACT_ADDRESSES } from 'lib/constants'
+import { testAddress } from 'lib/utils/testAddress'
 
 export const DelegatePoolModal = (props) => {
   const { t } = useTranslation()
@@ -32,8 +38,6 @@ export const DelegatePoolModal = (props) => {
   const usersBalance = poolTokenData?.usersBalance
 
   if (!poolTokenDataIsFetched || !tokenHolderIsFetched) return null
-
-  console.log(tokenHolder)
 
   return (
     <Dialog aria-label='Delegate POOL Token Modal' isOpen={isOpen} onDismiss={closeModal}>
@@ -56,15 +60,19 @@ export const DelegatePoolModal = (props) => {
         </div>
 
         <div className='bg-body p-4 rounded-xl mt-8'>
-          {!showDelegateeForm && (
+          {!showDelegateeForm && delegateAddress && (
             <>
               <div className='flex justify-between'>
                 <span className='text-accent-1 capitalize'>{t('delegatee')}:</span>
                 <span className='font-bold'>
-                  {delegateAddress ? <DelegateAddress address={delegateAddress} /> : '--'}
+                  {delegateAddress ? (
+                    <DelegateAddress alwaysShorten address={delegateAddress} />
+                  ) : (
+                    '--'
+                  )}
                 </span>
               </div>
-              <div className='flex justify-end'>
+              <div className='flex justify-end mt-4'>
                 <button
                   className='text-xxs text-inverse hover:opacity-70 trans'
                   type='button'
@@ -73,12 +81,17 @@ export const DelegatePoolModal = (props) => {
                     setShowDelegateeForm(true)
                   }}
                 >
-                  Change delegatee
+                  {t('changeDelegatee')}
                 </button>
               </div>
             </>
           )}
-          {showDelegateeForm && <SetDelegateeRow hideForm={() => setShowDelegateeForm(false)} />}
+          {(showDelegateeForm || !delegateAddress) && (
+            <SetDelegateeRow
+              isFormHideable={Boolean(delegateAddress)}
+              hideForm={() => setShowDelegateeForm(false)}
+            />
+          )}
         </div>
       </div>
     </Dialog>
@@ -86,15 +99,34 @@ export const DelegatePoolModal = (props) => {
 }
 
 const SetDelegateeRow = (props) => {
-  const { hideForm } = props
+  const { hideForm, isFormHideable, refetchTokenHolderData } = props
   const { t } = useTranslation()
 
-  const { usersAddress } = useContext(AuthControllerContext)
+  const { usersAddress, chainId } = useContext(AuthControllerContext)
   const { register, handleSubmit, setValue } = useForm()
 
+  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const tx = useTransaction(txId)
+
+  const handleDelegate = async (address) => {
+    const params = [address]
+
+    const id = await sendTx(
+      t('delegate'),
+      DelegateableERC20ABI,
+      CONTRACT_ADDRESSES[chainId].GovernanceToken,
+      'delegate',
+      params,
+      {
+        refetch: refetchTokenHolderData
+      }
+    )
+    setTxId(id)
+  }
+
   const onSubmit = async (data) => {
-    console.log('Submit', data)
-    // TODO: Submit
+    handleDelegate(data.delegateeAddress)
   }
 
   const onError = (data) => console.error('Error', data)
@@ -104,20 +136,43 @@ const SetDelegateeRow = (props) => {
     setValue('delegateeAddress', usersAddress)
   }
 
+  if (tx && !tx.cancelled) {
+    return (
+      <div className='flex flex-col text-center'>
+        <TxStatus tx={tx} />
+        {tx && tx.completed && (
+          <Button
+            className='mt-6'
+            textSize='xxxs'
+            type='button'
+            onClick={(e) => {
+              e.preventDefault()
+              hideForm()
+            }}
+          >
+            {t('back')}
+          </Button>
+        )}
+      </div>
+    )
+  }
+
   return (
     <>
-      <div className='flex justify-end mb-8'>
-        <button
-          className='text-xxs text-inverse hover:opacity-70 trans'
-          type='button'
-          onClick={(e) => {
-            e.preventDefault()
-            hideForm()
-          }}
-        >
-          Hide Delegatee Form
-        </button>
-      </div>
+      {isFormHideable && (
+        <div className='flex justify-end mb-8'>
+          <button
+            className='text-xxs text-inverse hover:opacity-70 trans'
+            type='button'
+            onClick={(e) => {
+              e.preventDefault()
+              hideForm()
+            }}
+          >
+            {t('hideDelegateeForm')}
+          </button>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit(onSubmit, onError)}>
         <div className='mb-2 flex'>
@@ -138,7 +193,7 @@ const SetDelegateeRow = (props) => {
         />
         <div className='flex justify-end mt-4'>
           <Button textSize='xxxs' type='submit'>
-            Submit
+            {t('submit')}
           </Button>
         </div>
       </form>
