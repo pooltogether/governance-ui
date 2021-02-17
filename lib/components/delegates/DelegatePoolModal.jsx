@@ -30,7 +30,8 @@ export const DelegatePoolModal = (props) => {
   const {
     data: tokenHolder,
     isFetched: tokenHolderIsFetched,
-    refetch: refetchTokenHolderData
+    refetch: refetchTokenHolderData,
+    isFetching: tokenHolderIsFetching
   } = useTokenHolder(usersAddress)
   const [showDelegateeForm, setShowDelegateeForm] = useState(false)
 
@@ -39,6 +40,7 @@ export const DelegatePoolModal = (props) => {
 
   if (!poolTokenDataIsFetched || !tokenHolderIsFetched) return null
 
+  console.log(tokenHolder?.delegate?.id, tokenHolderIsFetching, tokenHolderIsFetched)
   return (
     <Dialog aria-label='Delegate POOL Token Modal' isOpen={isOpen} onDismiss={closeModal}>
       <div className='text-inverse p-4 bg-card h-full sm:h-auto rounded-none sm:rounded-xl sm:max-w-sm mx-auto flex flex-col'>
@@ -88,6 +90,7 @@ export const DelegatePoolModal = (props) => {
           )}
           {(showDelegateeForm || !delegateAddress) && (
             <SetDelegateeRow
+              refetchTokenHolderData={refetchTokenHolderData}
               isFormHideable={Boolean(delegateAddress)}
               hideForm={() => setShowDelegateeForm(false)}
             />

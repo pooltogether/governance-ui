@@ -186,7 +186,7 @@ export function Settings (props) {
           </label>
 
           <p className='text-white font-bold text-xxs leading-snug mb-4'>
-            Delegate your votes to another PoolTogether user
+            {t('delegateToAnotherUser')}
           </p>
 
           <Button
@@ -200,7 +200,7 @@ export function Settings (props) {
             }}
             disabled={!usersAddress}
           >
-            Open Delegate
+            {t('openDelegate')}
           </Button>
           <DelegatePoolModal
             isOpen={delegateModalIsOpen}
