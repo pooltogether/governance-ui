@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
@@ -12,10 +12,16 @@ import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
 import { QuestionMarkCircle } from 'lib/components/QuestionMarkCircle'
 import { PTHint } from 'lib/components/PTHint'
 import { ThemeSwitcher } from 'lib/components/ThemeSwitcher'
+import { Button } from 'lib/components/Button'
+import { DelegatePoolModal } from 'lib/components/delegates/DelegatePoolModal'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 
-export function Settings(props) {
+export function Settings (props) {
   const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
+
+  const [delegateModalIsOpen, setDelegateModalIsOpen] = useState(false)
+  const { usersAddress } = useContext(AuthControllerContext)
 
   const [showManageLinks, setShowManageLinks] = useState(false)
   useEffect(() => {
@@ -47,7 +53,7 @@ export function Settings(props) {
         onClick={toggleOpen}
         className={classnames('w-5 h-5 sm:w-6 sm:h-6 ml-2 my-2 hover:text-inverse', {
           'text-highlight-2': !isOpen,
-          'text-highlight-1': isOpen,
+          'text-highlight-1': isOpen
         })}
       >
         <FeatherIcon icon='settings' className='w-full h-full' strokeWidth='0.09rem' />
@@ -57,10 +63,10 @@ export function Settings(props) {
         key='settings-overlay'
         onClick={toggleOpen}
         className={classnames('fixed t-0 l-0 r-0 b-0 w-full h-full z-30 bg-overlay bg-blur', {
-          'pointer-events-none': !isOpen,
+          'pointer-events-none': !isOpen
         })}
         style={{
-          top: 108,
+          top: 108
         }}
         animate={isOpen ? 'enter' : 'exit'}
         initial='initial'
@@ -68,7 +74,7 @@ export function Settings(props) {
         variants={{
           exit: { opacity: 0 },
           enter: { opacity: 1 },
-          initial: { opacity: 0 },
+          initial: { opacity: 0 }
         }}
       />
 
@@ -78,7 +84,7 @@ export function Settings(props) {
           height: '100vh',
           right: -30,
           top: '108px',
-          width: '320px',
+          width: '320px'
         }}
         animate={isOpen ? 'enter' : 'exit'}
         initial='initial'
@@ -88,24 +94,24 @@ export function Settings(props) {
             opacity: 0,
             transition: {
               duration: 0.2,
-              staggerChildren: 0.1,
-            },
+              staggerChildren: 0.1
+            }
           },
           enter: {
             x: 0,
             opacity: 1,
             transition: {
               duration: 0.1,
-              staggerChildren: 0.1,
-            },
+              staggerChildren: 0.1
+            }
           },
           initial: {
             x: 0,
             opacity: 0,
             transition: {
-              duration: 0.1,
-            },
-          },
+              duration: 0.1
+            }
+          }
         }}
       >
         <button
@@ -113,7 +119,7 @@ export function Settings(props) {
           className='absolute close-button text-highlight-2 hover:text-green trans outline-none focus:outline-none active:outline-none'
           style={{
             right: 50,
-            top: 34,
+            top: 34
           }}
         >
           <VisuallyHidden>Close</VisuallyHidden>
@@ -131,11 +137,15 @@ export function Settings(props) {
 
         <div className='mt-6'>
           <div className='flex items-end'>
-            <label className='uppercase text-accent-1 font-bold text-xxs mb-2 mr-2'>{t('manage')}</label> <PTHint
+            <label className='uppercase text-accent-1 font-bold text-xxs mb-2 mr-2'>
+              {t('manage')}
+            </label>{' '}
+            <PTHint
               title={t('managePools')}
-              tip={<div className='my-2 text-xs sm:text-sm'>
-                {t('showPoolManagementDescription')}
-              </div>}>
+              tip={
+                <div className='my-2 text-xs sm:text-sm'>{t('showPoolManagementDescription')}</div>
+              }
+            >
               <QuestionMarkCircle />
             </PTHint>
           </div>
@@ -151,7 +161,9 @@ export function Settings(props) {
         </div>
 
         <div className='mt-10'>
-          <label className='uppercase text-accent-1 font-bold text-xxs mb-4 mr-2'>{t('claim')}</label>
+          <label className='uppercase text-accent-1 font-bold text-xxs mb-4 mr-2'>
+            {t('claim')}
+          </label>
 
           <p className='text-white font-bold text-xxs leading-snug mb-4'>
             {t('claimTokensOnBehalfOf')}
@@ -168,6 +180,33 @@ export function Settings(props) {
           </ButtonLink>
         </div>
 
+        <div className='mt-10'>
+          <label className='uppercase text-accent-1 font-bold text-xxs mb-4 mr-2'>
+            {t('delegate')}
+          </label>
+
+          <p className='text-white font-bold text-xxs leading-snug mb-4'>
+            Delegate your votes to another PoolTogether user
+          </p>
+
+          <Button
+            secondary
+            textSize='xxxs'
+            padding='px-6 py-2'
+            type='button'
+            onClick={(e) => {
+              e.preventDefault()
+              setDelegateModalIsOpen(true)
+            }}
+            disabled={!usersAddress}
+          >
+            Open Delegate
+          </Button>
+          <DelegatePoolModal
+            isOpen={delegateModalIsOpen}
+            closeModal={() => setDelegateModalIsOpen(false)}
+          />
+        </div>
       </motion.div>
     </>
   )

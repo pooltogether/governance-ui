@@ -20,6 +20,7 @@ import { useTokenHolder } from 'lib/hooks/useTokenHolder'
 import { numberWithCommas, getPrecision } from 'lib/utils/numberWithCommas'
 import { shorten } from 'lib/utils/shorten'
 import { useTransaction } from 'lib/hooks/useTransaction'
+import { DelegateAddress } from 'lib/components/delegates/DelegateAddress'
 
 const UsersVotesCardBlankState = (props) => {
   const { isDataFromBeforeCurrentBlock } = props
@@ -314,39 +315,5 @@ const DelegateTrigger = (props) => {
         }}
       />
     </p>
-  )
-}
-
-export const DelegateAddress = (props) => {
-  const { address } = props
-  const delegateIdentity = useSocialIdentity(address)
-  const twitterHandle = delegateIdentity?.twitter?.handle
-
-  if (twitterHandle) {
-    return (
-      <>
-        <a
-          className='text-inverse hover:text-accent-1 mr-2 trans'
-          href={`https://twitter.com/${twitterHandle}`}
-          target='_blank'
-          rel='noopener'
-        >
-          {twitterHandle}
-          <FeatherIcon icon='external-link' className='inline w-4 h-4 mb-1 ml-1' />
-        </a>
-        (
-        <EtherscanAddressLink className='text-inverse hover:text-accent-1' address={address}>
-          {shorten(address)}
-        </EtherscanAddressLink>
-        )
-      </>
-    )
-  }
-
-  return (
-    <EtherscanAddressLink className='text-inverse hover:text-accent-1' address={address}>
-      <span className='hidden sm:inline'>{address}</span>
-      <span className='inline sm:hidden'>{shorten(address)}</span>
-    </EtherscanAddressLink>
   )
 }
