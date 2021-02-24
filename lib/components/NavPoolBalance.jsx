@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { Dialog } from '@reach/dialog'
 
@@ -19,6 +20,7 @@ import { useForm } from 'react-hook-form'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
+import { isValidAddress } from 'lib/utils/isValidAddress'
 
 export const NavPoolBalance = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -164,7 +166,7 @@ const SetDelegateeForm = (props) => {
   const { t } = useTranslation()
 
   const { usersAddress, chainId } = useContext(AuthControllerContext)
-  const { register, handleSubmit, setValue } = useForm()
+  const { register, handleSubmit, setValue, errors } = useForm()
 
   const [txId, setTxId] = useState(0)
   const sendTx = useSendTransaction()
@@ -238,16 +240,23 @@ const SetDelegateeForm = (props) => {
       <form onSubmit={handleSubmit(onSubmit, onError)}>
         <div className='mb-2 flex justify-between'>
           <span className='text-accent-1'>{t('delegatee')}:</span>
-          {/* <img src={Squiggle} className='mx-auto my-2' /> */}
           <button type='button' onClick={onSelfDelegateClick}>
             {t('selfDelegate')}
           </button>
         </div>
         <input
-          className='bg-card w-full p-2 rounded-sm outline-none focus:outline-none active:outline-none hover:bg-primary focus:bg-primary trans trans-fast border border-transparent focus:border-card'
+          className={classnames(
+            'bg-card w-full p-2 rounded-sm outline-none focus:outline-none active:outline-none hover:bg-primary focus:bg-primary trans trans-fast border focus:border-card',
+            {
+              'border-transparent': !Boolean(errors?.delegateeAddress),
+              'border-red': Boolean(errors?.delegateeAddress)
+            }
+          )}
           id={'_newDelegateeAddress'}
           name={'delegateeAddress'}
-          ref={register}
+          ref={register({
+            validate: isValidAddress
+          })}
           type='text'
           autoComplete={'hidden'}
           placeholder='0x123abc'
