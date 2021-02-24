@@ -175,16 +175,16 @@ const SetDelegateeForm = (props) => {
   const handleDelegate = async (address) => {
     const params = [address]
 
-    const id = await sendTx(
-      t('delegate'),
-      DelegateableERC20ABI,
-      CONTRACT_ADDRESSES[chainId].GovernanceToken,
-      'delegate',
+    const id = await sendTx({
+      name: t('delegate'),
+      contractAbi: DelegateableERC20ABI,
+      contractAddress: CONTRACT_ADDRESSES[chainId].GovernanceToken,
+      method: 'delegate',
       params,
-      {
+      callbacks: {
         refetch: refetchTokenHolderData
       }
-    )
+    })
     setTxId(id)
   }
 
