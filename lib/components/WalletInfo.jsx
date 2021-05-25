@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Link from 'next/link'
 
 import { useTranslation } from 'lib/../i18n'
-import { useOnboard } from '@pooltogether/hooks'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { shorten } from 'lib/utils/shorten'
@@ -11,7 +11,7 @@ export function WalletInfo(props) {
   const { t } = useTranslation()
   const { closeTransactions } = props
 
-  const { address: usersAddress, network: chainId, disconnectWallet, walletName } = useOnboard()
+  const { usersAddress, chainId, signOut, walletName } = useContext(AuthControllerContext)
 
   let content = null
   let networkName = null
@@ -62,7 +62,7 @@ export function WalletInfo(props) {
                     e.preventDefault()
 
                     closeTransactions()
-                    disconnectWallet()
+                    signOut()
                   }}
                   className='inline-block text-xxs bg-body rounded-full border-2 border-accent-4 px-2 trans trans-fastest font-bold'
                 >

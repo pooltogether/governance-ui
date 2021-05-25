@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
@@ -6,8 +6,10 @@ import Link from 'next/link'
 import DelegateableERC20ABI from 'abis/DelegateableERC20ABI'
 import { Trans, useTranslation } from 'lib/../i18n'
 import { CONTRACT_ADDRESSES, POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from 'lib/constants'
-import { useOnboard } from '@pooltogether/hooks'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
+import { WalletContext } from 'lib/components/contextProviders/WalletContextProvider'
 import { Banner } from 'lib/components/Banner'
+import { Button } from 'lib/components/Button'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { PTHint } from 'lib/components/PTHint'
 import { TxText } from 'lib/components/TxText'
@@ -22,7 +24,7 @@ import { usePoolPoolBalance } from 'lib/hooks/usePoolPoolBalance'
 export const UsersPoolVotesCard = (props) => {
   const { blockNumber, snapshotBlockNumber, className } = props
   const { t } = useTranslation()
-  const { address: usersAddress, connectWallet } = useOnboard()
+  const { usersAddress, connectWallet } = useContext(AuthControllerContext)
 
   const {
     data: tokenHolder,
@@ -211,7 +213,7 @@ const DelegatedVotesBottom = (props) => {
   } = props
 
   const { t } = useTranslation()
-  const { usersAddress, chainId } = useOnboard()
+  const { usersAddress, chainId } = useContext(AuthControllerContext)
   const {
     data: tokenHolderCurrentData,
     isFetched: tokenHolderCurrentDataIsFetched,
@@ -420,6 +422,12 @@ const UsersPoolVotesCardNoPool = (props) => {
 }
 
 const UsersPoolVotesCardConnectWallet = (props) => {
+  const { handleLoadOnboard } = useContext(WalletContext)
+
+  useEffect(() => {
+    handleLoadOnboard()
+  }, [])
+
   const { connectWallet, className } = props
 
   const { t } = useTranslation()

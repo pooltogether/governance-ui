@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 import { useTranslation } from 'lib/../i18n'
 import { SUPPORTED_CHAIN_IDS } from 'lib/constants'
-import { useOnboard, useIsWalletOnSupportedNetwork } from '@pooltogether/hooks'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Modal } from 'lib/components/Modal'
 import { chainIdToNetworkName } from 'lib/utils/chainIdToNetworkName'
 import { networkBgColorClassname } from 'lib/utils/networkColorClassnames'
@@ -17,9 +17,7 @@ export function WrongNetworkModal(props) {
 
   const [bypassed, setBypassed] = useState(false)
 
-  const { network } = useOnboard()
-  const isWalletOnSupportedNetwork = useIsWalletOnSupportedNetwork(SUPPORTED_CHAIN_IDS)
-  const networkName = chainIdToNetworkName(network)
+  const { networkName, supportedNetwork } = useContext(AuthControllerContext)
 
   let supportedNetworkNames = SUPPORTED_CHAIN_IDS.map((_chainId) => chainIdToNetworkName(_chainId))
   supportedNetworkNames = supportedNetworkNames
@@ -32,7 +30,7 @@ export function WrongNetworkModal(props) {
     setBypassed(true)
   }
 
-  if (isWalletOnSupportedNetwork) {
+  if (supportedNetwork) {
     return null
   }
 
@@ -53,7 +51,7 @@ export function WrongNetworkModal(props) {
 
       <Modal
         handleClose={handleClose}
-        visible={!isWalletOnSupportedNetwork && !bypassed}
+        visible={!supportedNetwork && !bypassed}
         header={t('ethereumNetworkMismatch')}
       >
         {t('yourEthereumNetworkIsUnsupported')}{' '}
@@ -64,7 +62,7 @@ export function WrongNetworkModal(props) {
                 key={`network-${name}`}
                 className={`inline-block bg-${networkBgColorClassname(
                   networkNameToChainId(name)
-                )} px-2 py-1 w-24 rounded-full mr-2 mt-2`}
+                )} px-2 py-1 w-24 rounded-full mr-2 mt-2 mr-2`}
               >
                 {name}
               </div>

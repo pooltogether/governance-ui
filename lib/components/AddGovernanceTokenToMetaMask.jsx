@@ -1,13 +1,13 @@
-import React from 'react'
-import { useOnboard } from '@pooltogether/hooks'
+import React, { useContext } from 'react'
 
 import { useTranslation } from 'lib/../i18n'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { Button } from 'lib/components/Button'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 
 export function AddGovernanceTokenToMetaMask(props) {
   const { t } = useTranslation()
-  const { network: chainId, walletName } = useOnboard()
+  const { chainId, walletName } = useContext(AuthControllerContext)
 
   const handleAddTokenToMetaMask = (e) => {
     e.preventDefault()

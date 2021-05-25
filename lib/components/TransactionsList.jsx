@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useAtom } from 'jotai'
 
 import { useTranslation } from 'lib/../i18n'
 import { transactionsAtom } from 'lib/atoms/transactionsAtom'
-import { useOnboard } from '@pooltogether/hooks'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { TransactionsListItem } from 'lib/components/TransactionsListItem'
 import { clearPreviousTransactions } from 'lib/services/clearPreviousTransactions'
 
@@ -12,7 +12,7 @@ export function TransactionsList(props) {
 
   const [transactions, setTransactions] = useAtom(transactionsAtom)
 
-  const { network: chainId, address: usersAddress } = useOnboard()
+  const { chainId, usersAddress } = useContext(AuthControllerContext)
 
   const notCancelledTransactions = transactions.filter((t) => !t.cancelled).reverse()
 

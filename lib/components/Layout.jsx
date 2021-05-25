@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import classnames from 'classnames'
 import { useRouter } from 'next/router'
-import { motion, useViewportScroll } from 'framer-motion'
+import { AnimatePresence, motion, useViewportScroll } from 'framer-motion'
 
 import { SUPPORTED_CHAIN_IDS } from 'lib/constants'
-import { useOnboard } from '@pooltogether/hooks'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { NavAccount } from 'lib/components/NavAccount'
 import { HeaderLogo } from 'lib/components/HeaderLogo'
 import { NavMobile } from 'lib/components/NavMobile'
@@ -26,7 +26,7 @@ const onlyUnique = (value, index, self) => {
 export function Layout(props) {
   const { children } = props
 
-  const { address: usersAddress, network: chainId, connectWallet } = useOnboard()
+  const { usersAddress, chainId, walletName, connectWallet } = useContext(AuthControllerContext)
 
   const [yScrollPosition, setYScrollPosition] = useState()
   const { scrollY } = useViewportScroll()

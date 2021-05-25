@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { Dialog } from '@reach/dialog'
 
 import { useTranslation } from 'lib/../i18n'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
-import { useOnboard } from '@pooltogether/hooks'
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { useCoingeckoTokenInfoQuery } from 'lib/hooks/useCoingeckoTokenInfoQuery'
 import { usePoolTokenData } from 'lib/hooks/usePoolTokenData'
@@ -15,11 +15,13 @@ import Squiggle from 'assets/images/squiggle.svg'
 import PoolIcon from 'assets/images/pool-icon.svg'
 
 export const NavPoolBalance = () => {
+  const { usersAddress } = useContext(AuthControllerContext)
+
   const [isOpen, setIsOpen] = useState(false)
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
 
-  const { data: tokenData, isFetched } = usePoolTokenData()
+  const { data: tokenData, isFetched } = usePoolTokenData(usersAddress)
 
   if (!isFetched || !tokenData) {
     return null
@@ -47,9 +49,9 @@ const PoolBalanceModal = (props) => {
   const { isOpen, closeModal, tokenData } = props
   const { usersBalance, totalSupply } = tokenData
 
-  const { network: chainId } = useOnboard()
+  const { chainId, usersAddress } = useContext(AuthControllerContext)
 
-  const { total: totalClaimablePool } = useTotalClaimablePool()
+  const { total: totalClaimablePool } = useTotalClaimablePool(usersAddress)
 
   const totalClaimablePoolFormatted = numberWithCommas(totalClaimablePool)
   const formattedBalance = numberWithCommas(usersBalance)

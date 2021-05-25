@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import classnames from 'classnames'
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
-import { useUsersAddress } from '@pooltogether/hooks'
+
+import { AuthControllerContext } from 'lib/components/contextProviders/AuthControllerContextProvider'
 
 const { getProfile } = require('3box/lib/api')
 
@@ -18,7 +19,7 @@ export function ProfileAvatar(props) {
 
   const [profile, setProfile] = useState()
 
-  const usersAddress = useUsersAddress()
+  const { usersAddress } = useContext(AuthControllerContext)
 
   const diameter = 16
 
