@@ -23,36 +23,10 @@ import '@reach/menu-button/styles.css'
 import '@reach/tooltip/styles.css'
 import 'react-toastify/dist/ReactToastify.css'
 
-import 'assets/styles/utils.css'
 import 'assets/styles/index.css'
-import 'assets/styles/toast-blur.css'
-import 'assets/styles/layout.css'
-import 'assets/styles/loader.css'
-import 'assets/styles/themes.css'
-
-import 'assets/styles/typography.css'
-import 'assets/styles/tables.css'
-import 'assets/styles/pool.css'
-import 'assets/styles/pool-toast.css'
-import 'assets/styles/animations.css'
-import 'assets/styles/transitions.css'
-
-import 'assets/styles/interactable-cards.css'
-import 'assets/styles/forms.css'
-import 'assets/styles/tabs.css'
-import 'assets/styles/tickets.css'
-
+import '@pooltogether/pooltogether-react-tailwind-ui/dist/index.css'
+import { useInitializeOnboard } from '@pooltogether/hooks'
 import '../i18n'
-
-import 'assets/styles/bnc-onboard--custom.css'
-import 'assets/styles/reach--custom.css'
-import 'assets/styles/vx--custom.css'
-import {
-  useInitCookieOptions,
-  useInitializeOnboard,
-  useInitInfuraId,
-  useInitReducedMotion
-} from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
 
 const queryClient = new QueryClient()
@@ -70,6 +44,7 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 }
 
 function MyApp({ Component, pageProps, router }) {
+  useInitializeOnboard()
   const { i18n } = useTranslation()
 
   // ChunkLoadErrors happen when someone has the app loaded, then we deploy a
@@ -129,55 +104,49 @@ function MyApp({ Component, pageProps, router }) {
     }
   }, [])
 
-  if (!i18n.isInitialized) {
-    return <LoadingScreen initialized={false} />
-  }
+  if (!i18n.isInitialized) return <LoadingScreen initialized={false} />
 
   return (
     <>
       <Provider>
-        <QueryClientProvider client={queryClient}>
-          <InitPoolTogetherHooks>
-            <BodyClasses />
+        <ReactQueryCacheProvider queryCache={queryCache}>
+          <BodyClasses />
 
-            {/* <GraphErrorModal /> */}
+          <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
 
-            <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
+          <SocialDataFetcher />
 
-            <SocialDataFetcher />
+          <AllContextProviders>
+            <CustomErrorBoundary>
+              <TransactionStatusChecker />
 
-            <AllContextProviders>
-              <CustomErrorBoundary>
-                <TransactionStatusChecker />
+              <TxRefetchListener />
 
-                <TxRefetchListener />
+              <Layout props={pageProps}>
+                <AnimatePresence exitBeforeEnter>
+                  <motion.div
+                    id='content-animation-wrapper'
+                    key={router.route}
+                    transition={{ duration: 0.3, ease: 'easeIn' }}
+                    initial={{
+                      opacity: 0
+                    }}
+                    exit={{
+                      opacity: 0
+                    }}
+                    animate={{
+                      opacity: 1
+                    }}
+                  >
+                    <Component {...pageProps} />
+                  </motion.div>
+                </AnimatePresence>
+              </Layout>
 
-                <Layout props={pageProps}>
-                  <AnimatePresence exitBeforeEnter>
-                    <motion.div
-                      id='content-animation-wrapper'
-                      key={router.route}
-                      transition={{ duration: 0.3, ease: 'easeIn' }}
-                      initial={{
-                        opacity: 0
-                      }}
-                      exit={{
-                        opacity: 0
-                      }}
-                      animate={{
-                        opacity: 1
-                      }}
-                    >
-                      <Component {...pageProps} />
-                    </motion.div>
-                  </AnimatePresence>
-                </Layout>
-
-                <ReactQueryDevtools />
-              </CustomErrorBoundary>
-            </AllContextProviders>
-          </InitPoolTogetherHooks>
-        </QueryClientProvider>
+              <ReactQueryDevtools />
+            </CustomErrorBoundary>
+          </AllContextProviders>
+        </ReactQueryCacheProvider>
       </Provider>
     </>
   )

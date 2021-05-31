@@ -13,6 +13,7 @@ import { numberWithCommas } from 'lib/utils/numberWithCommas'
 
 import Squiggle from 'assets/images/squiggle.svg'
 import PoolIcon from 'assets/images/pool-icon.svg'
+import { useGovernanceChainId } from 'lib/hooks/useGovernanceChainId'
 
 export const NavPoolBalance = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -47,7 +48,7 @@ const PoolBalanceModal = (props) => {
   const { isOpen, closeModal, tokenData } = props
   const { usersBalance, totalSupply } = tokenData
 
-  const { network: chainId } = useOnboard()
+  const chainId = useGovernanceChainId()
 
   const { total: totalClaimablePool } = useTotalClaimablePool()
 
