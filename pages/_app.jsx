@@ -8,11 +8,11 @@ import { ReactQueryDevtools } from 'react-query-devtools'
 import { motion, AnimatePresence } from 'framer-motion'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider } from 'jotai'
+import { Layout } from '@pooltogether/react-components'
 
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
 import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
-import { Layout } from 'lib/components/Layout'
 import { LoadingScreen } from 'lib/components/LoadingScreen'
 import { TransactionStatusChecker } from 'lib/components/TransactionStatusChecker'
 import { TxRefetchListener } from 'lib/components/TxRefetchListener'
@@ -24,7 +24,7 @@ import '@reach/tooltip/styles.css'
 import 'react-toastify/dist/ReactToastify.css'
 
 import 'assets/styles/index.css'
-import '@pooltogether/pooltogether-react-tailwind-ui/dist/index.css'
+import '@pooltogether/react-components/dist/index.css'
 import { useInitializeOnboard } from '@pooltogether/hooks'
 import '../i18n'
 import { useTranslation } from 'react-i18next'
@@ -44,7 +44,6 @@ if (process.env.NEXT_JS_SENTRY_DSN) {
 }
 
 function MyApp({ Component, pageProps, router }) {
-  useInitializeOnboard()
   const { i18n } = useTranslation()
 
   // ChunkLoadErrors happen when someone has the app loaded, then we deploy a
@@ -107,9 +106,9 @@ function MyApp({ Component, pageProps, router }) {
   if (!i18n.isInitialized) return <LoadingScreen initialized={false} />
 
   return (
-    <>
-      <Provider>
-        <ReactQueryCacheProvider queryCache={queryCache}>
+    <Provider>
+      <QueryClientProvider client={queryClient}>
+        <InitializeOnboard>
           <BodyClasses />
 
           <ToastContainer className='pool-toast' position='top-center' autoClose={7000} />
@@ -121,48 +120,20 @@ function MyApp({ Component, pageProps, router }) {
               <TransactionStatusChecker />
 
               <TxRefetchListener />
-
-              <Layout props={pageProps}>
-                <AnimatePresence exitBeforeEnter>
-                  <motion.div
-                    id='content-animation-wrapper'
-                    key={router.route}
-                    transition={{ duration: 0.3, ease: 'easeIn' }}
-                    initial={{
-                      opacity: 0
-                    }}
-                    exit={{
-                      opacity: 0
-                    }}
-                    animate={{
-                      opacity: 1
-                    }}
-                  >
-                    <Component {...pageProps} />
-                  </motion.div>
-                </AnimatePresence>
-              </Layout>
+              <Layout pageProps={pageProps} Component={<h1>TEST</h1>} router={router} />
 
               <ReactQueryDevtools />
             </CustomErrorBoundary>
           </AllContextProviders>
-        </ReactQueryCacheProvider>
-      </Provider>
-    </>
+        </InitializeOnboard>
+      </QueryClientProvider>
+    </Provider>
   )
 }
 
-const InitPoolTogetherHooks = ({ children }) => {
-  useInitInfuraId(process.env.NEXT_JS_INFURA_ID)
-  useInitReducedMotion(Boolean(process.env.NEXT_JS_REDUCE_MOTION))
-  useInitCookieOptions(process.env.NEXT_JS_DOMAIN_NAME)
-  useInitializeOnboard({
-    infuraId: process.env.NEXT_JS_INFURA_ID,
-    fortmaticKey: process.env.NEXT_JS_FORTMATIC_API_KEY,
-    portisKey: process.env.NEXT_JS_PORTIS_API_KEY,
-    defaultNetworkName: process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
-  })
-  return children
+const InitializeOnboard = (props) => {
+  useInitializeOnboard()
+  return props.children
 }
 
 export default MyApp
