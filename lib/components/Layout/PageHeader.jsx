@@ -4,29 +4,31 @@ import {
   LanguagePickerDropdown,
   PageHeaderContainer,
   SettingsContainer,
-  TestnetToggle,
-  ThemeToggle,
-  Account
+  TestnetSettingsItem,
+  ThemeSettingsItem,
+  Account,
+  NetworkSelector,
+  SettingsItem
 } from '@pooltogether/react-components'
+import { useOnboard } from '@pooltogether/hooks'
 import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 
 import { NavPoolBalance } from 'lib/components/Layout/NavPoolBalance'
-import { NetworkText } from 'lib/components/Layout/NetworkText'
-import { useOnboard } from '@pooltogether/hooks'
+import { useSupportedNetworks } from 'lib/hooks/useSupportedNetworks'
 
 export const PageHeader = (props) => (
   <PageHeaderContainer Link={Link} as='/' href='/'>
     <UsersAccount />
-    <LanguagePicker />
     <Settings />
   </PageHeaderContainer>
 )
 
 const Settings = () => (
-  <SettingsContainer>
-    <ThemeToggle />
-    <TestnetToggle />
+  <SettingsContainer className='ml-1 my-auto' title='Settings'>
+    <LanguagePicker />
+    <ThemeSettingsItem />
+    <TestnetSettingsItem />
   </SettingsContainer>
 )
 
@@ -34,24 +36,32 @@ const LanguagePicker = () => {
   const { i18n: i18next } = useTranslation()
   const [currentLang, setCurrentLang] = useState(i18next.language)
   return (
-    <LanguagePickerDropdown
-      currentLang={currentLang}
-      changeLang={(newLang) => {
-        setCurrentLang(newLang)
-        i18next.changeLanguage(newLang)
-      }}
-    />
+    <SettingsItem label='Language'>
+      <LanguagePickerDropdown
+        currentLang={currentLang}
+        changeLang={(newLang) => {
+          setCurrentLang(newLang)
+          i18next.changeLanguage(newLang)
+        }}
+      />
+    </SettingsItem>
   )
 }
 
 const UsersAccount = () => {
   const { isWalletConnected, connectWallet, isOnboardReady } = useOnboard()
+  const supportedNetworks = useSupportedNetworks()
 
   if (!isOnboardReady) return null
 
   if (!isWalletConnected) {
     return (
-      <Button padding='px-4 sm:px-6 py-1' onClick={() => connectWallet()} textSize='xxxs'>
+      <Button
+        padding='px-4 sm:px-6 py-1'
+        onClick={() => connectWallet()}
+        textSize='xxxs'
+        className='mx-1 my-auto'
+      >
         Connect wallet
       </Button>
     )
@@ -59,9 +69,9 @@ const UsersAccount = () => {
 
   return (
     <>
-      <NetworkText />
-      <NavPoolBalance />
-      <Account />
+      <NetworkSelector supportedNetworks={supportedNetworks} className='mx-1 my-auto' />
+      <NavPoolBalance className='mx-1 my-auto' />
+      <Account className='mx-1 my-auto' />
     </>
   )
 }

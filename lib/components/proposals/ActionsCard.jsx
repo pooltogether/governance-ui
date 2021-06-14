@@ -2,8 +2,7 @@ import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
 import { useTranslation } from 'react-i18next'
-import { Button } from '@pooltogether/react-components'
-import { Card } from 'lib/components/Card'
+import { Button, Card } from '@pooltogether/react-components'
 import { Action } from 'lib/components/proposals/Action'
 import { useGovernorAlpha } from 'lib/hooks/useGovernorAlpha'
 import { usePrizePools } from 'lib/hooks/usePrizePools'
@@ -31,7 +30,7 @@ export const ActionsCard = (props) => {
   const { proposalMaxOperations } = governorAlpha
 
   return (
-    <Card>
+    <Card className='mb-6'>
       <h4 className='mb-6'>{t('actions')}</h4>
       <p className='mb-4'>{t('actionCardDescription')}</p>
       {actions.map((action, index) => {

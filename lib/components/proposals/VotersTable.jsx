@@ -2,16 +2,14 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import { useTable } from 'react-table'
 
-import { VOTERS_PER_PAGE } from 'lib/constants'
 import { useTranslation } from 'react-i18next'
-import { BasicTable } from 'lib/components/BasicTable'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { DefaultPaginationButtons, PaginationUI } from 'lib/components/PaginationUI'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { useProposalVotes } from 'lib/hooks/useProposalVotes'
 import { formatVotes } from 'lib/utils/formatVotes'
 import { DelegateAddress } from 'lib/components/UsersPoolVotesCard'
 import { useProposalVotesTotalPages } from 'lib/hooks/useProposalVotesTotalPages'
+import { BasicTable, LoadingDots } from '@pooltogether/react-components'
 
 export const VotersTable = (props) => {
   const { id } = props
@@ -72,7 +70,7 @@ export const VotersTable = (props) => {
         <>
           <div className='basic-table-min-height'>
             {isFetching && !isFetched ? (
-              <V3LoadingDots />
+              <LoadingDots />
             ) : (
               <BasicTable tableInstance={tableInstance} />
             )}

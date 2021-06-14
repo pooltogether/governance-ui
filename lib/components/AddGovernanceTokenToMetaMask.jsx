@@ -1,10 +1,9 @@
 import React from 'react'
-import { useOnboard } from '@pooltogether/hooks'
+import { useOnboard, useGovernanceChainId } from '@pooltogether/hooks'
 
 import { useTranslation } from 'react-i18next'
 import { Button } from '@pooltogether/react-components'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
-import { useGovernanceChainId } from 'lib/hooks/useGovernanceChainId'
 
 export function AddGovernanceTokenToMetaMask(props) {
   const { t } = useTranslation()

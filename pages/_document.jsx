@@ -58,8 +58,6 @@ class MyDocument extends Document {
           </>
         </Head>
         <body className='bg-body'>
-          <Meta />
-
           <Main />
           <NextScript />
           <script src='/confetti.js'></script>

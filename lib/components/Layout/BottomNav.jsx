@@ -3,12 +3,13 @@ import {
   BottomNavContainer,
   BottomNavLink,
   BottomPoolsIcon,
-  BottomVoteIcon
+  BottomVoteIcon,
+  CountBadge
 } from '@pooltogether/react-components'
+import { useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 
 export const BottomNav = (props) => {
   return (
@@ -32,8 +33,22 @@ export const BottomNav = (props) => {
         <BottomAccountIcon />
       </BottomNavLink>
       <BottomNavLink href='/' as='/' label={'Vote'} Link={Link} useRouter={useRouter} match='/'>
-        <BottomVoteIcon />
+        <VoteIcon />
       </BottomNavLink>
     </BottomNavContainer>
+  )
+}
+
+const VoteIcon = () => {
+  const { sortedProposals } = useAllProposalsSorted()
+  const activeCount = sortedProposals?.active?.length
+
+  return (
+    <div className='relative'>
+      {activeCount > 0 && (
+        <CountBadge className='z-10 absolute -top-2 -right-2' count={activeCount} />
+      )}
+      <BottomVoteIcon />
+    </div>
   )
 }

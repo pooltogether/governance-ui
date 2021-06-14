@@ -2,18 +2,19 @@ import React, { useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
 import { DateTime } from 'luxon'
-
+import { Card, ButtonLink, ExternalLink } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
+
 import { PROPOSAL_STATUS } from 'lib/constants'
-import { Card, InnerCard } from 'lib/components/Card'
+import { InnerCard } from 'lib/components/CardTitle'
 import { CountBadge } from 'lib/components/CountBadge'
 import { CountDown } from 'lib/components/CountDown'
-import { ButtonLink } from '@pooltogether/react-components'
 import { useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
 import { useProposalData } from 'lib/hooks/useProposalData'
 import { msToSeconds } from 'lib/utils/msToSeconds'
 
 import ChatBubble from 'assets/images/chat-bubble.svg'
+import Link from 'next/link'
 
 export const ProposalsList = (props) => {
   const { t } = useTranslation()
@@ -103,7 +104,7 @@ const ProposalItem = (props) => {
 
   return (
     <li className='mb-6 last:mb-0'>
-      <Card noMargin>
+      <Card>
         <div className='flex justify-between flex-col-reverse sm:flex-row'>
           <div>
             <h6 className='leading-none mb-2 mt-2 sm:mt-0'>{title}</h6>
@@ -202,6 +203,7 @@ const ViewProposalButton = (props) => {
   if (status === PROPOSAL_STATUS.active) {
     return (
       <ButtonLink
+        Link={Link}
         href={'/proposals/[id]/'}
         as={`/proposals/${id}/`}
         border='green'
@@ -217,7 +219,7 @@ const ViewProposalButton = (props) => {
   }
 
   return (
-    <ButtonLink textSize='xxs' href={'/proposals/[id]/'} as={`/proposals/${id}/`}>
+    <ButtonLink Link={Link} textSize='xxs' href={'/proposals/[id]/'} as={`/proposals/${id}/`}>
       {t('viewProposal')}
     </ButtonLink>
   )
@@ -227,32 +229,32 @@ const EmptyProposalsList = () => {
   const { t } = useTranslation()
 
   return (
-    <Card>
-      <InnerCard className='flex flex-col text-center py-8 text-inverse'>
+    <Card className='mb-6'>
+      <div className='mx-auto py-4 px-8 sm:py-8 sm:px-10 bg-body rounded-xl flex flex-col text-center text-inverse'>
         <img src={ChatBubble} className='mx-auto w-16 h-16 sm:w-auto sm:h-auto mb-4 sm:mb-6' />
         <h4 className='mb-2'>{t('noActiveProposalsAtTheMoment')}</h4>
         <p>
           {t('weEncourageYouToDiscussAnyIdeasYouHaveOn')}{' '}
-          <a
-            className='text-inverse underline'
+          <ExternalLink
+            underline
+            className='text-inverse'
             href='https://discord.gg/hxPhPDW'
-            rel='noreferrer noopener'
-            target='_blank'
+            title='Discord'
           >
             Discord
-          </a>{' '}
+          </ExternalLink>{' '}
           {t('and')}{' '}
-          <a
-            className='text-inverse underline'
+          <ExternalLink
+            underline
+            className='text-inverse'
             href='https://gov.pooltogether.com/'
-            target='_blank'
-            rel='noreferrer noopener'
+            title='Discourse'
           >
             Discourse
-          </a>
+          </ExternalLink>
           .
         </p>
-      </InnerCard>
+      </div>
     </Card>
   )
 }

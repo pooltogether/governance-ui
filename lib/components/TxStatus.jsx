@@ -1,8 +1,8 @@
 import FeatherIcon from 'feather-icons-react'
 import React, { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner'
+import { useGovernanceChainId } from '@pooltogether/hooks'
 
-import { useGovernanceChainId } from 'lib/hooks/useGovernanceChainId'
 import { Banner } from 'lib/components/Banner'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { shorten } from 'lib/utils/shorten'

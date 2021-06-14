@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import GovernorAlphaABI from 'abis/GovernorAlphaABI'
+import { useOnboard, useUsersAddress, useGovernanceChainId } from '@pooltogether/hooks'
+import { Card, Button, Tooltip } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
-import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 import { useTokenHolder } from 'lib/hooks/useTokenHolder'
 import { useVoteData } from 'lib/hooks/useVoteData'
 import { CONTRACT_ADDRESSES, PROPOSAL_STATUS } from 'lib/constants'
-import { Card } from 'lib/components/Card'
 import classnames from 'classnames'
 import { ProposalStatus } from 'lib/components/proposals/ProposalsList'
 import { useRouter } from 'next/router'
@@ -16,13 +16,10 @@ import { useProposalVotes } from 'lib/hooks/useProposalVotes'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { TxText } from 'lib/components/TxText'
-import { Button } from '@pooltogether/react-components'
-import { PTHint } from 'lib/components/PTHint'
 import { getSecondsSinceEpoch } from 'lib/utils/getCurrentSecondsSinceEpoch'
 import { useInterval } from 'lib/hooks/useInterval'
 import { ethers } from 'ethers'
 import { TimeCountDown } from 'lib/components/TimeCountDown'
-import { useGovernanceChainId } from 'lib/hooks/useGovernanceChainId'
 import { useIsWalletOnProperNetwork } from 'lib/hooks/useIsWalletOnProperNetwork'
 
 export const ProposalVoteCard = (props) => {
@@ -51,7 +48,7 @@ export const ProposalVoteCard = (props) => {
       status === PROPOSAL_STATUS.queued)
 
   return (
-    <Card>
+    <Card className='mb-6'>
       <div className='flex justify-between flex-col-reverse sm:flex-row'>
         <h4 className={classnames('mr-2', { 'mb-2 sm:mb-8': showButtons })}>{title}</h4>
         <ProposalStatus proposal={proposal} />
@@ -268,7 +265,8 @@ const QueueButton = (props) => {
   return (
     <div className='flex mt-2 justify-end'>
       {tx?.error && (
-        <PTHint
+        <Tooltip
+          id={`tx-error-${tx?.hash || ''}`}
           tip={
             <div className='flex'>
               <p>{t('errorWithTxPleaseTryAgain')}</p>
@@ -279,7 +277,7 @@ const QueueButton = (props) => {
             icon='alert-triangle'
             className='h-4 w-4 text-red stroke-current my-auto mr-2'
           />
-        </PTHint>
+        </Tooltip>
       )}
       <Button onClick={handleQueueProposal} disabled={!isWalletOnProperNetwork}>
         {t('queueProposal')}
@@ -361,7 +359,8 @@ const ExecuteButton = (props) => {
       )}
       <div className='flex mt-2 justify-end'>
         {tx?.error && (
-          <PTHint
+          <Tooltip
+            id={`tx-error-${tx?.hash || ''}`}
             tip={
               <div className='flex'>
                 <p>{t('errorWithTxPleaseTryAgain')}</p>
@@ -372,10 +371,11 @@ const ExecuteButton = (props) => {
               icon='alert-triangle'
               className='h-4 w-4 text-red stroke-current my-auto mr-2'
             />
-          </PTHint>
+          </Tooltip>
         )}
         {!payableAmountInWei.isZero() && (
-          <PTHint
+          <Tooltip
+            id='wei-tooltip'
             tip={
               <div className='flex'>
                 <p>{t('executionCostInEth', { amount: payableAmountInEther.toString() })}</p>
@@ -386,7 +386,7 @@ const ExecuteButton = (props) => {
               icon='alert-circle'
               className='h-4 w-4 text-inverse stroke-current my-auto mr-2'
             />
-          </PTHint>
+          </Tooltip>
         )}
         <Button
           border='green'
