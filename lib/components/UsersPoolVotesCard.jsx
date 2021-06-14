@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
-import { ExternalLink, Tooltip } from '@pooltogether/react-components'
+import { BlockExplorerLink, ExternalLink, Tooltip } from '@pooltogether/react-components'
 import { Trans, useTranslation } from 'react-i18next'
 import { useOnboard } from '@pooltogether/hooks'
 
 import DelegateableERC20ABI from 'abis/DelegateableERC20ABI'
 import { CONTRACT_ADDRESSES, POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from 'lib/constants'
 import { Banner } from 'lib/components/Banner'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { TxText } from 'lib/components/TxText'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useSocialIdentity } from 'lib/hooks/useTwitterProfile'
@@ -386,25 +385,25 @@ export const DelegateAddress = (props) => {
           <FeatherIcon icon='external-link' className='inline w-4 h-4 mb-1 ml-1' />
         </a>
         (
-        <EtherscanAddressLink
+        <BlockExplorerLink
           className={classnames('text-inverse hover:text-accent-1 trans', className)}
           address={address}
         >
           {shorten(address)}
-        </EtherscanAddressLink>
+        </BlockExplorerLink>
         )
       </>
     )
   }
 
   return (
-    <EtherscanAddressLink
+    <BlockExplorerLink
       className={classnames('text-inverse hover:text-accent-1 mr-2 trans', className)}
       address={address}
     >
       <span className='hidden sm:inline'>{address}</span>
       <span className='inline sm:hidden'>{shorten(address)}</span>
-    </EtherscanAddressLink>
+    </BlockExplorerLink>
   )
 }
 

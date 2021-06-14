@@ -7,13 +7,12 @@ import gfm from 'remark-gfm'
 import { Dialog } from '@reach/dialog'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
-import { Card, ButtonLink, TextInputGroup } from '@pooltogether/react-components'
+import { Card, ButtonLink, TextInputGroup, BlockExplorerLink } from '@pooltogether/react-components'
 import { useOnboard, useGovernanceChainId } from '@pooltogether/hooks'
 
 import { ActionsCard } from 'lib/components/proposals/ActionsCard'
 import { useUserCanCreateProposal } from 'lib/hooks/useUserCanCreateProposal'
 import { Button } from '@pooltogether/react-components'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { shorten } from 'lib/utils/shorten'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
@@ -391,10 +390,10 @@ const ActionSummary = (props) => {
         <span className='ml-2'>
           <b>{contractName}</b>
         </span>
-        <EtherscanAddressLink className='ml-2 text-inverse hover:text-accent-1' address={address}>
+        <BlockExplorerLink className='ml-2 text-inverse hover:text-accent-1' address={address}>
           (<span className='hidden sm:inline'>{address}</span>
           <span className='inline sm:hidden'>{shorten(address)}</span>)
-        </EtherscanAddressLink>
+        </BlockExplorerLink>
       </span>
       <span className='ml-4 xs:ml-8 mb-2'>
         <b>{fnName}</b>(
@@ -440,10 +439,10 @@ const FormattedInputValue = (props) => {
 
   if (type === 'address') {
     return (
-      <EtherscanAddressLink className='text-inverse hover:text-accent-1' address={value}>
+      <BlockExplorerLink className='text-inverse hover:text-accent-1' address={value}>
         <span className='hidden sm:inline'>{value || getEmptySolidityDataTypeValue(type)}</span>
         <span className='inline sm:hidden'>{shorten(value)}</span>
-      </EtherscanAddressLink>
+      </BlockExplorerLink>
     )
   }
 
