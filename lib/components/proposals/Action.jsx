@@ -4,13 +4,13 @@ import React, { useState, useMemo, useEffect } from 'react'
 import { useController, useForm, useFormContext, useWatch } from 'react-hook-form'
 import { ClipLoader } from 'react-spinners'
 import { isBrowser } from 'react-device-detect'
+import { useGovernanceChainId } from '@pooltogether/hooks'
+import { DropdownList } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
 import { isValidAddress } from 'lib/utils/isValidAddress'
 import { usePrizePools } from 'lib/hooks/usePrizePools'
-import { DropdownList } from 'lib/components/DropdownList'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
-import { useOnboard } from '@pooltogether/hooks'
 import { useEtherscanAbi } from 'lib/hooks/useEtherscanAbi'
 import { EMPTY_CONTRACT, EMPTY_FN } from 'lib/components/proposals/ProposalCreationForm'
 import { isValidSolidityData } from 'lib/utils/isValidSolidityData'
@@ -21,7 +21,6 @@ import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
 import ReserveAbi from '@pooltogether/pooltogether-contracts/abis/Reserve'
 import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import MultipleWinnersPrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/MultipleWinners'
-import { useGovernanceChainId } from 'lib/hooks/useGovernanceChainId'
 
 export const Action = (props) => {
   const { deleteAction, actionPath, index, hideRemoveButton } = props

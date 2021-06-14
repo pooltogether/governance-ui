@@ -4,11 +4,13 @@ import {
   SideNavLink,
   SideAccountIcon,
   SideVoteIcon,
-  SidePoolsIcon
+  SidePoolsIcon,
+  CountBadge
 } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
 
 export const SideNav = (props) => {
   const { t } = useTranslation()
@@ -42,8 +44,22 @@ export const SideNav = (props) => {
         useRouter={useRouter}
         match='/'
       >
-        <SideVoteIcon />
+        <VoteIcon />
       </SideNavLink>
     </SideNavContainer>
+  )
+}
+
+const VoteIcon = () => {
+  const { sortedProposals } = useAllProposalsSorted()
+  const activeCount = sortedProposals?.active?.length
+
+  return (
+    <div className='relative'>
+      {activeCount > 0 && (
+        <CountBadge className='z-10 absolute -top-2 -right-2' count={activeCount} />
+      )}
+      <SideVoteIcon />
+    </div>
   )
 }

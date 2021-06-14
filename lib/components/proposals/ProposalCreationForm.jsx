@@ -7,10 +7,10 @@ import gfm from 'remark-gfm'
 import { Dialog } from '@reach/dialog'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
+import { Card, ButtonLink, TextInputGroup } from '@pooltogether/react-components'
+import { useOnboard, useGovernanceChainId } from '@pooltogether/hooks'
 
-import { Card } from 'lib/components/Card'
 import { ActionsCard } from 'lib/components/proposals/ActionsCard'
-import { TextInputGroup } from 'lib/components/TextInputGroup'
 import { useUserCanCreateProposal } from 'lib/hooks/useUserCanCreateProposal'
 import { Button } from '@pooltogether/react-components'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
@@ -18,19 +18,17 @@ import { shorten } from 'lib/utils/shorten'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION } from 'lib/constants'
-import { useOnboard } from '@pooltogether/hooks'
 import { TxStatus } from 'lib/components/TxStatus'
 import { Banner } from 'lib/components/Banner'
 import { poolToast } from 'lib/utils/poolToast'
 import { useAllProposals } from 'lib/hooks/useAllProposals'
-import { ButtonLink } from '@pooltogether/react-components'
 import { getEmptySolidityDataTypeValue } from 'lib/utils/getEmptySolidityDataTypeValue'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
 import { useGovernorAlpha } from 'lib/hooks/useGovernorAlpha'
 import { arrayRegex, dataArrayRegex, fixedArrayRegex } from 'lib/utils/isValidSolidityData'
-import { useGovernanceChainId } from 'lib/hooks/useGovernanceChainId'
 import GovernorAlphaABI from 'abis/GovernorAlphaABI'
 import { useIsWalletOnProperNetwork } from 'lib/hooks/useIsWalletOnProperNetwork'
+import Link from 'next/link'
 
 export const EMPTY_INPUT = {
   type: null,
@@ -190,7 +188,7 @@ const TitleCard = (props) => {
   const { register } = useFormContext()
 
   return (
-    <Card>
+    <Card className='mb-6'>
       <h4 className='mb-2'>{t('title')}</h4>
       <p className='mb-6'>{t('theTitleIsDescription')}</p>
       <TextInputGroup
@@ -215,7 +213,7 @@ const DescriptionCard = (props) => {
   const text = useWatch({ control, name, defaultValue: '' })
 
   return (
-    <Card>
+    <Card className='mb-6'>
       <h4 className='mb-2'>{t('description')}</h4>
       <p className='mb-8'>{t('theDescriptionShouldPresentInFullDescription')}</p>
       <MarkdownInputArea name={name} text={text} register={register} />
@@ -342,7 +340,7 @@ const ProposalSummary = (props) => {
   return (
     <>
       <h4 className='mb-8'>{t('proposalReview')}</h4>
-      <Card>
+      <Card className='mb-6'>
         <h5 className=''>{t('title')}:</h5>
         <h6 className='text-accent-1 p-4 xs:p-8'>{title}</h6>
         <h5 className=''>{t('description')}:</h5>
@@ -502,7 +500,12 @@ const ProposalTransactionModal = (props) => {
         )}
         <TxStatus tx={tx} />
         {showNavigateToProposal && (
-          <ButtonLink className='mt-8' href='/proposals/[id]' as={`/proposals/${proposalId}`}>
+          <ButtonLink
+            Link={Link}
+            className='mt-8'
+            href='/proposals/[id]'
+            as={`/proposals/${proposalId}`}
+          >
             {t('viewProposal')}
           </ButtonLink>
         )}

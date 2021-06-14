@@ -1,17 +1,17 @@
 import React from 'react'
 import { ethers } from 'ethers'
 import classnames from 'classnames'
-
 import { useTranslation } from 'react-i18next'
+import { Button, ExternalLink, PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
+import { useOnboard } from '@pooltogether/hooks'
+
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { Banner } from 'lib/components/Banner'
-import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'
 import { ProposalCreationForm } from 'lib/components/proposals/ProposalCreationForm'
 import { useGovernorAlpha } from 'lib/hooks/useGovernorAlpha'
 import { useUserCanCreateProposal } from 'lib/hooks/useUserCanCreateProposal'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
-import { useOnboard } from '@pooltogether/hooks'
-import { Button } from '@pooltogether/react-components'
+import Link from 'next/link'
 
 export const ProposalCreationUI = (props) => {
   const { t } = useTranslation()
@@ -22,6 +22,7 @@ export const ProposalCreationUI = (props) => {
 
       <div className={classnames('trans mb-12')}>
         <PageTitleAndBreadcrumbs
+          Link={Link}
           title={t('createANewProposal')}
           breadcrumbs={[
             {
@@ -66,14 +67,13 @@ const ProposalCreationMinimumRequirementBanner = () => {
       >
         <h2>🗳</h2>
         <h6>{t('connectAWalletToCreateAProposal')}</h6>
-        <a
+        <ExternalLink
+          underline
           href='https://medium.com/pooltogether/governance-101-fca9ab8b8ba2'
-          target='_blank'
-          rel='noopener noreferrer'
           title='Governance 101'
         >
           {t('learnMore')}
-        </a>
+        </ExternalLink>
         <Button
           tertiary
           type='button'
@@ -98,14 +98,13 @@ const ProposalCreationMinimumRequirementBanner = () => {
     <Banner theme='purplePinkBorder' outerClassName='mb-8' innerClassName='text-center'>
       <h2>🗳</h2>
       <h6>{t('inOrderToSubmitAProposalYouNeedDelegatedThreshold', { proposalThreshold })} </h6>
-      <a
+      <ExternalLink
+        underline
         href='https://medium.com/pooltogether/governance-101-fca9ab8b8ba2'
-        target='_blank'
-        rel='noopener noreferrer'
         title='Governance 101'
       >
         {t('learnMore')}
-      </a>
+      </ExternalLink>
     </Banner>
   )
 }

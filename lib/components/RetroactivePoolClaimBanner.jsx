@@ -7,6 +7,7 @@ import { ButtonLink } from '@pooltogether/react-components'
 import { useRetroactivePoolClaimData } from 'lib/hooks/useRetroactivePoolClaimData'
 
 import Bell from 'assets/images/bell@2x.png'
+import Link from 'next/link'
 
 export const RetroactivePoolClaimBanner = () => {
   const { t } = useTranslation()
@@ -30,6 +31,7 @@ export const RetroactivePoolClaimBanner = () => {
             {t('retroactivePoolBannerDescription')}
           </p>
           <ButtonLink
+            Link={Link}
             as={`https://app.pooltogether.com?claim=1&address=${usersAddress}`}
             href={`https://app.pooltogether.com?claim=1&address=${usersAddress}`}
             type='button'

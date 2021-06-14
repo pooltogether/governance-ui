@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
+import { ExternalLink, Tooltip } from '@pooltogether/react-components'
+import { Trans, useTranslation } from 'react-i18next'
+import { useOnboard } from '@pooltogether/hooks'
 
 import DelegateableERC20ABI from 'abis/DelegateableERC20ABI'
-import { Trans, useTranslation } from 'react-i18next'
 import { CONTRACT_ADDRESSES, POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from 'lib/constants'
-import { useOnboard } from '@pooltogether/hooks'
 import { Banner } from 'lib/components/Banner'
 import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
-import { PTHint } from 'lib/components/PTHint'
 import { TxText } from 'lib/components/TxText'
 import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useSocialIdentity } from 'lib/hooks/useTwitterProfile'
@@ -96,12 +96,12 @@ const VotingPowerItem = (props) => (
       {props.title}
       {props.tooltip && (
         <div className='inline-block mt-auto ml-2'>
-          <PTHint tip={props.tooltip}>
+          <Tooltip id={`votingpower-item-${props.id}`} tip={props.tooltip}>
             <FeatherIcon
               icon={props.icon ? props.icon : 'info'}
               className={classnames('w-4 h-4', props.iconClassName)}
             />
-          </PTHint>
+          </Tooltip>
         </div>
       )}
     </h5>
@@ -121,6 +121,7 @@ const UsersVotes = (props) => {
 
   return (
     <VotingPowerItem
+      id={`users-votes`}
       inactive={!tokenHolder.isDelegating}
       votingPower={usersPoolBalance}
       title={t('myPool')}
@@ -144,6 +145,7 @@ const UsersTotalVotes = (props) => {
 
   return (
     <VotingPowerItem
+      id={'users-total-votes'}
       votingPower={votingPower}
       title={t('myVotingPower')}
       tooltip={t('votingPowerInfo', { address: usersAddress })}
@@ -166,6 +168,7 @@ const UsersDelegatesVotes = (props) => {
 
   return (
     <VotingPowerItem
+      id='users-delegates-votes'
       votingPower={votingPower}
       title={t('myDelegatesVotes')}
       tooltip={t('delegateVotesInfo', { address: tokenHolder.delegate.id })}
@@ -189,6 +192,7 @@ const UsersPOOLPoolVotes = (props) => {
 
   return (
     <VotingPowerItem
+      id='users-pool-pool-votes'
       votingPower={votingPower}
       title={t('myPoolPoolVotes')}
       tooltip={
@@ -313,13 +317,14 @@ const DelegatedVotesBottom = (props) => {
               i18nKey='orDelegateOnSybil'
               components={{
                 a: (
-                  <a
-                    href='https://sybil.org/#/delegates/pool'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    title='Sybil'
-                    className='hover:opacity-70 text-highlight-9 hover:text-highlight-9 underline trans font-bold ml-1'
-                  />
+                  <ExternalLink title='Sybil' href='https://sybil.org/#/delegates/pool' />
+                  // <a
+                  //   href='https://sybil.org/#/delegates/pool'
+                  //   target='_blank'
+                  //   rel='noopener noreferrer'
+                  //   title='Sybil'
+                  //   className='hover:opacity-70 text-highlight-9 hover:text-highlight-9 underline trans font-bold ml-1'
+                  // />
                 ),
                 link: (
                   <a
@@ -349,7 +354,8 @@ const NotDelegatedWarning = (props) => {
 
   return (
     <div className='inline-block mb-1 mt-auto mr-2'>
-      <PTHint
+      <Tooltip
+        id='not-delegated'
         tip={
           <div className='my-2 text-xs sm:text-sm break-words max-w-full'>
             {t('proposalCreatedPriorToDelegationDescription')}
@@ -357,7 +363,7 @@ const NotDelegatedWarning = (props) => {
         }
       >
         <FeatherIcon icon='alert-circle' className='text-orange w-4 h-4' />
-      </PTHint>
+      </Tooltip>
     </div>
   )
 }

@@ -1,22 +1,19 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
+import { useOnboard, useGovernanceChainId } from '@pooltogether/hooks'
+import { ButtonLink, Card, LoadingDots, Tooltip } from '@pooltogether/react-components'
 
-import { Card } from 'lib/components/Card'
 import { useTranslation } from 'react-i18next'
 import { usePoolPoolBalance } from 'lib/hooks/usePoolPoolBalance'
 import { getPoolPoolSnapshotId } from 'lib/utils/getPoolPoolSnapshotId'
 import { usePoolPoolProposal } from 'lib/hooks/usePoolPoolProposal'
-import { useOnboard } from '@pooltogether/hooks'
-import { ButtonLink } from '@pooltogether/react-components'
 import { POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from 'lib/constants'
 import PoolIcon from 'assets/images/pool-icon.svg'
 import { useTimeCountdown } from 'lib/hooks/useTimeCountdown'
 import { getSecondsSinceEpoch } from 'lib/utils/getCurrentSecondsSinceEpoch'
 import { TimeCountDown } from 'lib/components/TimeCountDown'
-import { Tooltip } from 'lib/components/Tooltip'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
 import { getPrecision, numberWithCommas } from 'lib/utils/numberWithCommas'
-import { useGovernanceChainId } from 'lib/hooks/useGovernanceChainId'
+import Link from 'next/link'
 
 const POOLPOOL_PROPOSAL_STATES = Object.freeze({
   active: 'active',
@@ -40,8 +37,8 @@ export const PoolPoolProposalCard = (props) => {
     return null
   } else if (!isFetched || !poolPoolDataIsFetched) {
     return (
-      <Card>
-        <V3LoadingDots />
+      <Card className='mb-6'>
+        <LoadingDots />
       </Card>
     )
   }
@@ -53,7 +50,7 @@ export const PoolPoolProposalCard = (props) => {
   })
 
   return (
-    <Card className='flex flex-col xs:flex-row xs:justify-between'>
+    <Card className='flex flex-col xs:flex-row xs:justify-between mb-6'>
       <div className='flex flex-col'>
         <span className='flex'>
           <img src={PoolIcon} className='rounded-full w-4 h-4 xs:w-6 xs:h-6 my-auto mr-2' />
@@ -77,6 +74,7 @@ export const PoolPoolProposalCard = (props) => {
         <div className='flex flex-row xs:flex-col'>
           <PoolPoolSnapshotLinkButton state={state} snapShotId={poolPoolSnapShotId} />
           <ButtonLink
+            Link={Link}
             target='_blank'
             rel='noopener noreferrer'
             border='transparent'
@@ -130,6 +128,7 @@ const PoolPoolSnapshotLinkButton = (props) => {
 
   return (
     <ButtonLink
+      Link={Link}
       target='_blank'
       rel='noopener noreferrer'
       border='transparent'

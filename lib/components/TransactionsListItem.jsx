@@ -3,8 +3,8 @@ import FeatherIcon from 'feather-icons-react'
 
 import { useTranslation } from 'react-i18next'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
-import { PTHint } from 'lib/components/PTHint'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
+import { Tooltip } from '@pooltogether/react-components'
 
 export function TransactionsListItem(props) {
   const { t } = useTranslation()
@@ -57,7 +57,9 @@ export function TransactionsListItem(props) {
 
           {tx.reason && (
             <>
-              <PTHint tip={tx.reason}>{errorIcon}</PTHint>
+              <Tooltip id={tx.hash} tip={tx.reason}>
+                {errorIcon}
+              </Tooltip>
             </>
           )}
 

@@ -3,10 +3,9 @@ import { useAtom } from 'jotai'
 
 import { useTranslation } from 'react-i18next'
 import { transactionsAtom } from '@pooltogether/react-components'
-import { useOnboard } from '@pooltogether/hooks'
+import { useOnboard, useGovernanceChainId } from '@pooltogether/hooks'
 import { TransactionsListItem } from 'lib/components/TransactionsListItem'
 import { clearPreviousTransactions } from 'lib/services/clearPreviousTransactions'
-import { useGovernanceChainId } from 'lib/hooks/useGovernanceChainId'
 
 export function TransactionsList(props) {
   const { t } = useTranslation()

@@ -1,34 +1,5 @@
 import React from 'react'
 import classnames from 'classnames'
-// const navLinkClasses = 'capitalize text-center leading-none rounded-full hover:bg-accent-grey-1 flex justify-start items-center text-lg lg:text-xl py-3 px-6 lg:px-8 trans tracking-wider outline-none focus:outline-none active:outline-none font-bold'
-
-//   return <>
-//     <nav
-//       className='justify-end items-center hidden sm:flex w-2/3'
-//     >
-//       <Link
-//         href='/developers'
-//         as='/developers'
-//         shallow
-//       >
-//         {/* <div
-//           className='flex items-center justify-center'
-//           style={{ width: 28 }}
-//         >
-//         </div> */}
-//         <a
-//           className={classnames(
-//             'mr-3',
-//             navLinkClasses,
-//             {
-//               'text-accent-2 hover:text-highlight-2': !developersPage,
-//               'text-highlight-2 hover:text-highlight-2 bg-accent-grey-1': developersPage
-//             }
-//           )}
-//         >
-//           {t('developers')}
-//         </a>
-//       </Link>
 
 export const Tabs = ({ children }) => {
   return <nav className='flex items-center justify-center mb-2 mx-auto text-center'>{children}</nav>
