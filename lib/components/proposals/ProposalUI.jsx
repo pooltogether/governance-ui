@@ -4,7 +4,12 @@ import ReactMarkdown from 'react-markdown'
 import classnames from 'classnames'
 import gfm from 'remark-gfm'
 import { useRouter } from 'next/router'
-import { Card, PageTitleAndBreadcrumbs, Tooltip } from '@pooltogether/react-components'
+import {
+  BlockExplorerLink,
+  Card,
+  PageTitleAndBreadcrumbs,
+  Tooltip
+} from '@pooltogether/react-components'
 import { useGovernanceChainId } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
 import { ethers } from 'ethers'
@@ -17,7 +22,6 @@ import { VotersTable } from 'lib/components/proposals/VotersTable'
 import { useProposalData } from 'lib/hooks/useProposalData'
 import { calculateVotePercentage, formatVotes } from 'lib/utils/formatVotes'
 import { useEtherscanAbi } from 'lib/hooks/useEtherscanAbi'
-import { EtherscanAddressLink } from 'lib/components/EtherscanAddressLink'
 import { shorten } from 'lib/utils/shorten'
 import { useGovernorAlpha } from 'lib/hooks/useGovernorAlpha'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'
@@ -229,9 +233,9 @@ const ProposalActionRow = (props) => {
       <div className='flex flex-col pl-2 text-accent-1'>
         <div className='w-full flex'>
           <span className='mr-2'>{t('contract')}:</span>
-          <EtherscanAddressLink className='text-inverse hover:text-accent-1' address={target}>
+          <BlockExplorerLink className='text-inverse hover:text-accent-1' address={target}>
             {shorten(target)}
-          </EtherscanAddressLink>
+          </BlockExplorerLink>
         </div>
 
         <div className='w-full'>

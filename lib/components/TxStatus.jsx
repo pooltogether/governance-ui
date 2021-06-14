@@ -4,9 +4,9 @@ import Loader from 'react-loader-spinner'
 import { useGovernanceChainId } from '@pooltogether/hooks'
 
 import { Banner } from 'lib/components/Banner'
-import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { shorten } from 'lib/utils/shorten'
 import { useTranslation } from 'react-i18next'
+import { BlockExplorerLink } from '@pooltogether/react-components'
 
 export const TxStatus = (props) => {
   const { tx } = props
@@ -88,13 +88,13 @@ export const TxStatus = (props) => {
       {tx.hash && (
         <div className='text-xxs sm:text-sm text-accent-1 opacity-80 mt-2'>
           {t('transactionHash')}
-          <EtherscanTxLink
+          <BlockExplorerLink
             chainId={chainId}
             hash={tx.hash}
             className='underline text-accent-1 opacity-80'
           >
             {shorten(tx.hash)}
-          </EtherscanTxLink>
+          </BlockExplorerLink>
         </div>
       )}
 
