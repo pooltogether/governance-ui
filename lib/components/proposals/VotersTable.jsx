@@ -1,15 +1,15 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { useTable } from 'react-table'
+import { BasicTable, LoadingDots } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
-import { DefaultPaginationButtons, PaginationUI } from 'lib/components/PaginationUI'
+import { DefaultPaginationButtons } from 'lib/components/PaginationUI'
 import { useProposalVotes } from 'lib/hooks/useProposalVotes'
 import { formatVotes } from 'lib/utils/formatVotes'
 import { DelegateAddress } from 'lib/components/UsersPoolVotesCard'
 import { useProposalVotesTotalPages } from 'lib/hooks/useProposalVotesTotalPages'
-import { BasicTable, LoadingDots } from '@pooltogether/react-components'
 
 export const VotersTable = (props) => {
   const { id } = props

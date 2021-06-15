@@ -386,15 +386,12 @@ export const DelegateAddress = (props) => {
           {twitterHandle}
           <FeatherIcon icon='external-link' className='inline w-4 h-4 mb-1 ml-1' />
         </a>
-        (
         <BlockExplorerLink
           chainId={chainId}
           className={classnames('text-inverse hover:text-accent-1 trans', className)}
           address={address}
-        >
-          {shorten(address)}
-        </BlockExplorerLink>
-        )
+          shorten
+        />
       </>
     )
   }
@@ -404,10 +401,8 @@ export const DelegateAddress = (props) => {
       chainId={chainId}
       className={classnames('text-inverse hover:text-accent-1 mr-2 trans', className)}
       address={address}
-    >
-      <span className='hidden sm:inline'>{address}</span>
-      <span className='inline sm:hidden'>{shorten(address)}</span>
-    </BlockExplorerLink>
+      shorten
+    />
   )
 }
 
