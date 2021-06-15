@@ -4,7 +4,7 @@ import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
 import { BlockExplorerLink, ExternalLink, Tooltip } from '@pooltogether/react-components'
 import { Trans, useTranslation } from 'react-i18next'
-import { useOnboard } from '@pooltogether/hooks'
+import { useGovernanceChainId, useOnboard } from '@pooltogether/hooks'
 
 import DelegateableERC20ABI from 'abis/DelegateableERC20ABI'
 import { CONTRACT_ADDRESSES, POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from 'lib/constants'
@@ -372,6 +372,8 @@ export const DelegateAddress = (props) => {
   const delegateIdentity = useSocialIdentity(address)
   const twitterHandle = delegateIdentity?.twitter?.handle
 
+  const chainId = useGovernanceChainId()
+
   if (twitterHandle) {
     return (
       <>
@@ -386,6 +388,7 @@ export const DelegateAddress = (props) => {
         </a>
         (
         <BlockExplorerLink
+          chainId={chainId}
           className={classnames('text-inverse hover:text-accent-1 trans', className)}
           address={address}
         >
@@ -398,6 +401,7 @@ export const DelegateAddress = (props) => {
 
   return (
     <BlockExplorerLink
+      chainId={chainId}
       className={classnames('text-inverse hover:text-accent-1 mr-2 trans', className)}
       address={address}
     >

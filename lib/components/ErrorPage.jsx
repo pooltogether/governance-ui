@@ -1,8 +1,7 @@
 import React from 'react'
 
 import { useTranslation } from 'react-i18next'
-import { HeaderLogo } from 'lib/components/HeaderLogo'
-import { PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
+import { HeaderLogo, PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
 import Link from 'next/link'
 
 export function ErrorPage() {
@@ -24,7 +23,12 @@ export function ErrorPage() {
 
         <div className='content mx-auto' style={{ maxWidth: 700 }}>
           <div className='my-0 text-inverse pt-32 px-6 xs:pt-32 xs:px-20'>
-            <PageTitleAndBreadcrumbs Link={Link} title={`${t('error')}`} breadcrumbs={[]} />
+            <PageTitleAndBreadcrumbs
+              Link={Link}
+              title={`${t('error')}`}
+              breadcrumbs={[]}
+              className='mb-10'
+            />
 
             <h4>{t('anErrorOccurredAndWeveBeenNotified')}</h4>
             <h6>{t('pleaseTryAgainSoon')}</h6>

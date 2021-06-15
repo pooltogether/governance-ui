@@ -17,14 +17,11 @@ import {
   POOLTOGETHER_SNAPSHOT_URL
 } from 'lib/constants'
 import Link from 'next/link'
-import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
 
 export const ProposalsUI = (props) => {
   const { t } = useTranslation()
 
-  const screenSize = useScreenSize()
-
-  const { error, isFetched, sortedProposals } = useAllProposalsSorted()
+  const { isFetched } = useAllProposalsSorted()
 
   if (!isFetched) {
     return (
@@ -54,18 +51,6 @@ export const ProposalsUI = (props) => {
             </p>
           </div>
           <div className='mx-4 sm:ml-4 sm:w-1/3 flex flex-col justify-center'>
-            {Boolean(sortedProposals.active.length) && screenSize <= ScreenSize.sm && (
-              <ButtonLink
-                Link={Link}
-                primary
-                href='#_viewActiveProposals'
-                textSize='xxs'
-                type='button'
-                className='w-full mb-4'
-              >
-                {t('viewActiveProposals')}
-              </ButtonLink>
-            )}
             <ButtonLink
               Link={Link}
               as={`/proposals/create`}
