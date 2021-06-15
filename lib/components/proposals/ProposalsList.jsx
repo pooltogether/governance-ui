@@ -2,12 +2,10 @@ import React, { useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
 import { DateTime } from 'luxon'
-import { Card, ButtonLink, ExternalLink } from '@pooltogether/react-components'
+import { Card, ButtonLink, ExternalLink, CountBadge } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
 
 import { PROPOSAL_STATUS } from 'lib/constants'
-import { InnerCard } from 'lib/components/CardTitle'
-import { CountBadge } from 'lib/components/CountBadge'
 import { CountDown } from 'lib/components/CountDown'
 import { useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
 import { useProposalData } from 'lib/hooks/useProposalData'
@@ -39,8 +37,8 @@ export const ProposalsList = (props) => {
           <h5 className='text-inverse mb-4 flex items-center'>
             {t('activeProposals')}{' '}
             <CountBadge
-              backgroundClass='bg-red'
-              sizeClasses='w-4 h-4 sm:w-5 sm:h-5 text-xxs sm:text-xs'
+              bgClassName='bg-red'
+              sizeClassName='w-4 h-4 sm:w-5 sm:h-5 text-xxs sm:text-xs'
               count={active.length}
             />
           </h5>

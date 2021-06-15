@@ -7,7 +7,7 @@ import gfm from 'remark-gfm'
 import { Dialog } from '@reach/dialog'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
-import { Card, ButtonLink, TextInputGroup, BlockExplorerLink } from '@pooltogether/react-components'
+import { Card, ButtonLink, BlockExplorerLink } from '@pooltogether/react-components'
 import { useOnboard, useGovernanceChainId } from '@pooltogether/hooks'
 
 import { ActionsCard } from 'lib/components/proposals/ActionsCard'
@@ -28,6 +28,7 @@ import { arrayRegex, dataArrayRegex, fixedArrayRegex } from 'lib/utils/isValidSo
 import GovernorAlphaABI from 'abis/GovernorAlphaABI'
 import { useIsWalletOnProperNetwork } from 'lib/hooks/useIsWalletOnProperNetwork'
 import Link from 'next/link'
+import { TextInputGroup } from 'lib/components/TextInputGroup'
 
 export const EMPTY_INPUT = {
   type: null,
@@ -335,6 +336,7 @@ const ProposalSummary = (props) => {
 
   const isWalletOnProperNetwork = useIsWalletOnProperNetwork()
   const { actions, title, description } = getValues()
+  const chainId = useGovernanceChainId()
 
   return (
     <>
@@ -346,7 +348,7 @@ const ProposalSummary = (props) => {
         <MarkdownPreview className='text-accent-1' text={description} />
         <h5 className='my-4'>{t('actions')}:</h5>
         {actions.map((action, index) => (
-          <ActionSummary key={index} action={action} index={index} />
+          <ActionSummary key={index} action={action} index={index} chainId={chainId} />
         ))}
       </Card>
       <Button
@@ -376,7 +378,7 @@ const ProposalSummary = (props) => {
 }
 
 const ActionSummary = (props) => {
-  const { action, index } = props
+  const { action, index, chainId } = props
   const { contract } = action
   const { name: contractName, address, fn } = contract
   const { inputs, name: fnName, values, payableAmount, payable } = fn
@@ -390,7 +392,11 @@ const ActionSummary = (props) => {
         <span className='ml-2'>
           <b>{contractName}</b>
         </span>
-        <BlockExplorerLink className='ml-2 text-inverse hover:text-accent-1' address={address}>
+        <BlockExplorerLink
+          chainId={chainId}
+          className='ml-2 text-inverse hover:text-accent-1'
+          address={address}
+        >
           (<span className='hidden sm:inline'>{address}</span>
           <span className='inline sm:hidden'>{shorten(address)}</span>)
         </BlockExplorerLink>
@@ -413,7 +419,7 @@ const ActionSummary = (props) => {
           </div>
           <div className='xs:w-3/4'>
             <span className='text-inverse'>
-              <FormattedInputValue {...input} value={values[input.name]} />
+              <FormattedInputValue {...input} chainId={chainId} value={values[input.name]} />
             </span>
           </div>
         </div>
@@ -435,11 +441,15 @@ const ActionSummary = (props) => {
 }
 
 const FormattedInputValue = (props) => {
-  const { type, value } = props
+  const { type, value, chainId } = props
 
   if (type === 'address') {
     return (
-      <BlockExplorerLink className='text-inverse hover:text-accent-1' address={value}>
+      <BlockExplorerLink
+        chainId={chainId}
+        className='text-inverse hover:text-accent-1'
+        address={value}
+      >
         <span className='hidden sm:inline'>{value || getEmptySolidityDataTypeValue(type)}</span>
         <span className='inline sm:hidden'>{shorten(value)}</span>
       </BlockExplorerLink>

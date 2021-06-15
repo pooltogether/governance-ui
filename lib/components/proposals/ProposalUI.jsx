@@ -58,6 +58,7 @@ export const ProposalUI = (props) => {
   return (
     <>
       <PageTitleAndBreadcrumbs
+        className='mb-10'
         Link={Link}
         title={t('proposals')}
         breadcrumbs={[
@@ -192,6 +193,7 @@ const ProposalActionRow = (props) => {
   const [fnParameters, setFnParameters] = useState(null)
   const { t } = useTranslation()
   const { data } = useEtherscanAbi(target)
+  const chainId = useGovernanceChainId()
 
   const fnName = signature.slice(0, signature.indexOf('('))
 
@@ -233,7 +235,11 @@ const ProposalActionRow = (props) => {
       <div className='flex flex-col pl-2 text-accent-1'>
         <div className='w-full flex'>
           <span className='mr-2'>{t('contract')}:</span>
-          <BlockExplorerLink className='text-inverse hover:text-accent-1' address={target}>
+          <BlockExplorerLink
+            chainId={chainId}
+            className='text-inverse hover:text-accent-1'
+            address={target}
+          >
             {shorten(target)}
           </BlockExplorerLink>
         </div>

@@ -20,7 +20,7 @@ export function TransactionsListItem(props) {
         <div className='pr-2'>
           {tx.hash ? (
             <>
-              <BlockExplorerLink chainId={tx.ethersTx.chainId} hash={tx.hash}>
+              <BlockExplorerLink chainId={tx.ethersTx.chainId} txHash={tx.hash}>
                 {tx.name}
               </BlockExplorerLink>
             </>
@@ -45,7 +45,7 @@ export function TransactionsListItem(props) {
 
           {tx.completed && !tx.error && (
             <>
-              <BlockExplorerLink noIcon chainId={tx.ethersTx.chainId} hash={tx.hash}>
+              <BlockExplorerLink noIcon chainId={tx.ethersTx.chainId} txHash={tx.hash}>
                 <FeatherIcon
                   icon='check-circle'
                   className='list-item--icon relative w-5 h-5 text-green'
@@ -64,7 +64,7 @@ export function TransactionsListItem(props) {
 
           {tx.error && !tx.reason && (
             <>
-              <BlockExplorerLink noIcon chainId={tx.ethersTx.chainId} hash={tx.hash}>
+              <BlockExplorerLink noIcon chainId={tx.ethersTx.chainId} txHash={tx.hash}>
                 {errorIcon}
               </BlockExplorerLink>
             </>

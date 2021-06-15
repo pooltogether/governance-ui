@@ -24,6 +24,7 @@ export const ProposalCreationUI = (props) => {
         <PageTitleAndBreadcrumbs
           Link={Link}
           title={t('createANewProposal')}
+          className='mb-10'
           breadcrumbs={[
             {
               href: '/',
