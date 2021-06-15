@@ -19,6 +19,7 @@ import '@reach/tooltip/styles.css'
 
 import 'assets/styles/index.css'
 import '@pooltogether/react-components/dist/index.css'
+
 import {
   useInitCookieOptions,
   useInitializeOnboard,

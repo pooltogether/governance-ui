@@ -3986,10 +3986,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-rng-contracts/-/pooltogether-rng-contracts-1.0.0.tgz#191d155dc960559cce06b7ec3b0f9ed2caed0f46"
   integrity sha512-jQub/+qPLQwTFtbBCvvyIEqxJDEBEV/hgLKnuocBg2/GySWtHLz67WCy17bNn1hZw8nWIt8Ih8h+7iT2UJhtmQ==
 
-"@pooltogether/react-components@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-0.0.10.tgz#d3d96d71265aa75af4c7fa014cf16278bbbb57cd"
-  integrity sha512-NhH2wavlesDFrh2GPHOiizD1+yJT68MPzoRjYb+AcNDmaV9k07+1qhtgpM6leAgmxq9lHWpNQzEO5OtPg7IV1g==
+"@pooltogether/react-components@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-0.0.11.tgz#76e2e345c96d987ada076889413e43501d181051"
+  integrity sha512-DaEHYIVR137zeqxPVyZcTSScGmON4cSM/hYiNVPQ0MR86FAVlCvibeW9m6qhQTzobTrQMB8mbs04umWIzdHsbw==
   dependencies:
     "3box" "^1.19.1"
     "@pooltogether/evm-chains-extended" "^0.4.3"
