@@ -55,7 +55,6 @@ export const ProposalsUI = (props) => {
               Link={Link}
               as={`/proposals/create`}
               href={`/proposals/create`}
-              disabled
               textSize='xxs'
               className='w-full mb-4'
               tertiary

@@ -20,7 +20,8 @@ export function Input(props) {
     isError,
     required,
     register,
-    validate
+    validate,
+    disabled
   } = props
 
   const defaultTextClasses = 'text-xxs xs:text-sm sm:text-xl lg:text-2xl'
@@ -55,8 +56,14 @@ export function Input(props) {
     }
   }
 
+  let opacity = ''
+  if (disabled) {
+    opacity = 'border-transparent opacity-60'
+  }
+
   const className = classnames(
     DEFAULT_INPUT_CLASSES,
+    opacity,
     marginClasses,
     paddingClasses,
     borderClasses,
