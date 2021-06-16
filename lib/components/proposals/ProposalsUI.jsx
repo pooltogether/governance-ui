@@ -8,7 +8,13 @@ import { ProposalsList } from 'lib/components/proposals/ProposalsList'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { UsersPoolVotesCard } from 'lib/components/UsersPoolVotesCard'
 import { useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
-import { ButtonLink, Card, ExternalLink, LoadingDots } from '@pooltogether/react-components'
+import {
+  ButtonLink,
+  Card,
+  ExternalLink,
+  LoadingDots,
+  PageTitleAndBreadcrumbs
+} from '@pooltogether/react-components'
 import {
   DISCORD_INVITE_URL,
   POOLPOOL_SNAPSHOT_URL,
@@ -21,18 +27,21 @@ import Link from 'next/link'
 export const ProposalsUI = (props) => {
   const { t } = useTranslation()
 
-  const { isFetched } = useAllProposalsSorted()
-
-  if (!isFetched) {
-    return (
-      <div className='flex flex-grow'>
-        <LoadingDots className='m-auto' />
-      </div>
-    )
-  }
-
   return (
     <>
+      <div className='flex flex-col sm:flex-row mb-10 sm:justify-between'>
+        <PageTitleAndBreadcrumbs
+          Link={Link}
+          title={t('governance')}
+          breadcrumbs={[]}
+          sizeClassName=''
+          className='mb-4 sm:mb-0'
+        />
+        <ButtonLink Link={Link} href='/proposals' as='/proposals' className='w-full'>
+          Create a new proposal
+        </ButtonLink>
+      </div>
+
       <RetroactivePoolClaimBanner />
 
       <UsersPoolVotesCard />
