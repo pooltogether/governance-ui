@@ -2,6 +2,7 @@
 // Event handlers like onClick can't be added to this file
 
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import React from 'react'
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -10,7 +11,7 @@ class MyDocument extends Document {
   }
 
   render() {
-    const title = 'PoolTogether Vote'
+    const title = 'PoolTogether Governance'
     const url = `https://vote.pooltogether.com`
     const description = `Direct the future of the PoolTogether protocol.`
     const keywords = 'ethereum'
@@ -18,9 +19,10 @@ class MyDocument extends Document {
 
     return (
       <Html>
-        <Head />
         <Head>
           <>
+            <title>{title}</title>
+
             <link rel='icon' href='/favicon.png' type='image/x-icon' />
 
             <meta name='theme-color' content='#1e0b43' />
