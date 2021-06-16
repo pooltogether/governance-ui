@@ -47,7 +47,6 @@ export const ProposalsUI = (props) => {
               <ExternalLink underline className='ml-1' href='https://medium.com/p/23b09f36db48'>
                 {t('readMoreAboutPoolTogetherGovernance')}
               </ExternalLink>
-              .
             </p>
           </div>
           <div className='mx-4 sm:ml-4 sm:w-1/3 flex flex-col justify-center'>
