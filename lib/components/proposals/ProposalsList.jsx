@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
 import { DateTime } from 'luxon'
-import { Card, ButtonLink, ExternalLink, CountBadge } from '@pooltogether/react-components'
+import { Card, ButtonLink, ExternalLink, LoadingDots } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
 
 import { PROPOSAL_STATUS } from 'lib/constants'
 import { CountDown } from 'lib/components/CountDown'
-import { useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
+import { SORTED_STATES, useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
 import { useProposalData } from 'lib/hooks/useProposalData'
 import { msToSeconds } from 'lib/utils/msToSeconds'
 
@@ -15,85 +15,57 @@ import ChatBubble from 'assets/images/chat-bubble.svg'
 import Link from 'next/link'
 
 export const ProposalsList = (props) => {
-  const { t } = useTranslation()
+  const { proposalStates } = props
+  const { isFetched, sortedProposals, error } = useAllProposalsSorted()
 
-  const { data: proposals, sortedProposals } = useAllProposalsSorted()
-
-  if (!proposals || Object.keys(proposals)?.length === 0) {
-    return (
-      <>
-        <h6 className='text-inverse mb-4'>{t('proposals')}</h6>
-        <EmptyProposalsList />
-      </>
-    )
+  if (error) {
+    return <ErrorLoadingProposalsList />
   }
 
-  const { executable, approved, active, pending, past } = sortedProposals
+  if (!isFetched) {
+    return <LoadingProposalsList />
+  }
+
+  const proposals = []
+  proposalStates.forEach((proposalState) => {
+    proposals.push(...sortedProposals[proposalState])
+  })
+
+  if (proposals.length === 0) {
+    return <EmptyProposalsList />
+  }
 
   return (
-    <>
-      {active.length > 0 && (
-        <>
-          <h5 className='text-inverse mb-4 flex items-center'>
-            {t('activeProposals')}{' '}
-            <CountBadge
-              bgClassName='bg-red'
-              sizeClassName='w-4 h-4 sm:w-5 sm:h-5 text-xxs sm:text-xs'
-              count={active.length}
-            />
-          </h5>
-          <ol className='mb-8 sm:mb-16'>
-            {active.map((p) => (
-              <ProposalItem key={p.id} proposal={p} />
-            ))}
-          </ol>
-        </>
-      )}
-      {executable.length > 0 && (
-        <>
-          <h5 className='text-inverse mb-4'>{t('executableProposals')}</h5>
-          <ol className='mb-8 sm:mb-16'>
-            {executable.map((p) => (
-              <ProposalItem key={p.id} proposal={p} />
-            ))}
-          </ol>
-        </>
-      )}
-      {approved.length > 0 && (
-        <>
-          <h5 className='text-inverse mb-4'>{t('approvedProposals')}</h5>
-          <ol className='mb-8 sm:mb-16'>
-            {approved.map((p) => (
-              <ProposalItem key={p.id} proposal={p} />
-            ))}
-          </ol>
-        </>
-      )}
-      {pending.length > 0 && (
-        <>
-          <h5 className='text-inverse mb-4'>{t('pendingProposals')}</h5>
-          <ol className='mb-8 sm:mb-16'>
-            {pending.map((p) => (
-              <ProposalItem key={p.id} proposal={p} />
-            ))}
-          </ol>
-        </>
-      )}
-      {past.length > 0 && (
-        <>
-          <h5 className='text-inverse mb-4'>{t('pastProposals')}</h5>
-          <ol className='mb-8 sm:mb-16'>
-            {past.map((p) => (
-              <ProposalItem key={p.id} proposal={p} />
-            ))}
-          </ol>
-        </>
-      )}
-    </>
+    <ProposalListContainer>
+      {proposals.map((p) => (
+        <ProposalItem key={p.id} proposal={p} />
+      ))}
+    </ProposalListContainer>
   )
 }
 
-const ProposalItem = (props) => {
+export const ProposalListContainer = (props) => <ol className='mb-8 sm:mb-16'>{props.children}</ol>
+
+export const LoadingProposalsList = () => (
+  <div className='w-full flex flex-col justify-center p-12 sm:p-24 '>
+    <LoadingDots className='mx-auto' />
+  </div>
+)
+
+export const ErrorLoadingProposalsList = () => (
+  <div className='w-full flex flex-col justify-center p-12 sm:p-24 text-center'>
+    <FeatherIcon icon='alert-triangle' className='w-12 h-12 mb-4 text-orange mx-auto' />
+    <p>There was an error loading proposals, please try again later.</p>
+  </div>
+)
+
+export const ProposalItemContainer = (props) => (
+  <li className='mb-6 last:mb-0'>
+    <Card>{props.children}</Card>
+  </li>
+)
+
+export const ProposalItem = (props) => {
   const { proposal } = props
 
   const { t } = useTranslation()
@@ -101,18 +73,16 @@ const ProposalItem = (props) => {
   const { title, id } = proposal
 
   return (
-    <li className='mb-6 last:mb-0'>
-      <Card>
-        <div className='flex justify-between flex-col-reverse sm:flex-row'>
-          <div>
-            <h6 className='leading-none mb-2 mt-2 sm:mt-0'>{title}</h6>
-            <p className='mb-4'>{t('proposalId', { id })}</p>
-          </div>
-          <ProposalStatus proposal={proposal} />
+    <ProposalItemContainer>
+      <div className='flex justify-between flex-col-reverse sm:flex-row'>
+        <div>
+          <h6 className='leading-none mb-2 mt-2 sm:mt-0'>{title}</h6>
+          <p className='mb-4'>{t('proposalId', { id })}</p>
         </div>
-        <ViewProposalButton proposal={proposal} />
-      </Card>
-    </li>
+        <ProposalStatus proposal={proposal} />
+      </div>
+      <ViewProposalButton proposal={proposal} />
+    </ProposalItemContainer>
   )
 }
 
@@ -223,7 +193,7 @@ const ViewProposalButton = (props) => {
   )
 }
 
-const EmptyProposalsList = () => {
+export const EmptyProposalsList = () => {
   const { t } = useTranslation()
 
   return (

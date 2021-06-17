@@ -27,7 +27,7 @@ export const LandingPage = (props) => {
           sizeClassName=''
           className='mb-4 sm:mb-0'
         />
-        <ButtonLink Link={Link} href='/proposals' as='/proposals' className='w-full'>
+        <ButtonLink Link={Link} href='/proposals' as='/proposals' className='w-full sm:w-max'>
           Go to Governance Dashboard
         </ButtonLink>
       </div>
@@ -74,7 +74,7 @@ export const LandingPage = (props) => {
           }
           className='mb-4 sm:mb-0 sm:mr-4'
           links={
-            <CardLink as='/proposals' href='/proposals'>
+            <CardLink as='/proposals?view=active' href='/proposals?view=active'>
               View on-chain proposals
             </CardLink>
           }
@@ -88,7 +88,7 @@ export const LandingPage = (props) => {
           }
           className='sm:ml-4'
           links={
-            <CardLink as='/proposals' href='/proposals'>
+            <CardLink as='/proposals?view=snapshot' href='/proposals?view=snapshot'>
               View off-chain proposals
             </CardLink>
           }
@@ -119,11 +119,11 @@ const CardHeader = (props) => <h5 className='mb-4 mx-auto'>{props.children}</h5>
 const CardDescription = (props) => <p className='mb-2 text-sm mx-auto'>{props.children}</p>
 const CardLink = ({ children, as, href }) => (
   <Link as={as} href={href}>
-    <a className='text-highlight-1'>{children}</a>
+    <a className='text-highlight-1 hover:text-accent-1'>{children}</a>
   </Link>
 )
 const CardExternalLink = ({ children, href, title }) => (
-  <ExternalLink href={href} title={title} className='text-highlight-1'>
+  <ExternalLink href={href} title={title} colorClassName='text-highlight-1 hover:text-accent-1'>
     {children}
   </ExternalLink>
 )

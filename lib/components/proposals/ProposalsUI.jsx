@@ -1,31 +1,43 @@
-import React, { useLayoutEffect } from 'react'
-import FeatherIcon from 'feather-icons-react'
+import React, { useState } from 'react'
 import classnames from 'classnames'
 
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { AddGovernanceTokenToMetaMask } from 'lib/components/AddGovernanceTokenToMetaMask'
-import { ProposalsList } from 'lib/components/proposals/ProposalsList'
+import { ProposalsList } from 'lib/components/Proposals/ProposalsList'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { UsersPoolVotesCard } from 'lib/components/UsersPoolVotesCard'
-import { useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
+import { SORTED_STATES, useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
 import {
   ButtonLink,
-  Card,
-  ExternalLink,
-  LoadingDots,
-  PageTitleAndBreadcrumbs
+  ContentPane,
+  CountBadge,
+  PageTitleAndBreadcrumbs,
+  Tab,
+  Tabs
 } from '@pooltogether/react-components'
-import {
-  DISCORD_INVITE_URL,
-  POOLPOOL_SNAPSHOT_URL,
-  POOLPOOL_URL,
-  POOLTOGETHER_GOV_FORUM_URL,
-  POOLTOGETHER_SNAPSHOT_URL
-} from 'lib/constants'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { SnapshotProposals } from 'lib/components/Proposals/SnapshotProposals'
+import { queryParamUpdater } from '@pooltogether/utilities'
+import { ScreenSize, useScreenSize } from '@pooltogether/hooks'
+import { useSnapshotProposals } from 'lib/hooks/useSnapshotProposals'
 
 export const ProposalsUI = (props) => {
   const { t } = useTranslation()
+
+  const router = useRouter()
+  const routerView = String(router?.query?.view)
+  let defaultView = TABS[0].id
+  if (routerView && TABS.find((tab) => tab.id === routerView)) {
+    defaultView = routerView
+  }
+
+  const [currentTab, setCurrentTab] = useState(defaultView)
+
+  const setTab = (tab) => {
+    setCurrentTab(tab)
+    queryParamUpdater.add(router, { view: tab })
+  }
 
   return (
     <>
@@ -33,11 +45,25 @@ export const ProposalsUI = (props) => {
         <PageTitleAndBreadcrumbs
           Link={Link}
           title={t('governance')}
-          breadcrumbs={[]}
+          breadcrumbs={[
+            {
+              href: '/',
+              as: '/',
+              name: t('governance')
+            },
+            {
+              name: t('proposals')
+            }
+          ]}
           sizeClassName=''
           className='mb-4 sm:mb-0'
         />
-        <ButtonLink Link={Link} href='/proposals' as='/proposals' className='w-full'>
+        <ButtonLink
+          Link={Link}
+          href='/proposals'
+          as='/proposals'
+          className='w-full sm:w-max h-fit-content'
+        >
           Create a new proposal
         </ButtonLink>
       </div>
@@ -46,67 +72,104 @@ export const ProposalsUI = (props) => {
 
       <UsersPoolVotesCard />
 
-      <div className='my-12'>
-        <div className='flex flex-col sm:flex-row mb-8'>
-          <div className='sm:w-2/3'>
-            <h3 className='text-inverse'>{t('pooltogetherGovernance')}</h3>
+      <Tabs className='justify-between sticky bg-body top-20 pt-8 mb-8 z-10 pb-4'>
+        {TABS.map((tab) => (
+          <tab.tabView key={tab.id} tab={tab} currentTab={currentTab} setTab={setTab} />
+        ))}
+      </Tabs>
 
-            <p className='text-inverse mb-8 sm:mb-0'>
-              {t('theProtocolIsControlledByDecentralizedGovernance')}
-              <ExternalLink underline className='ml-1' href='https://medium.com/p/23b09f36db48'>
-                {t('readMoreAboutPoolTogetherGovernance')}
-              </ExternalLink>
-            </p>
-          </div>
-          <div className='mx-4 sm:ml-4 sm:w-1/3 flex flex-col justify-center'>
-            <ButtonLink
-              Link={Link}
-              as={`/proposals/create`}
-              href={`/proposals/create`}
-              textSize='xxs'
-              className='w-full mb-4'
-              tertiary
-            >
-              {t('createAProposal')}
-            </ButtonLink>
-          </div>
-        </div>
-
-        <h3 className='mb-4 text-lg'>{t('lookingToGetInvolved')}</h3>
-
-        <div className='flex flex-col sm:flex-row mb-8 sm:mb-16'>
-          <Card className='w-full sm:w-1/2 mb-4 sm:mb-0 sm:mr-4'>
-            <h6 className='mb-2'>{t('joinTheDiscussion')}</h6>
-            <p>
-              <Trans
-                i18nKey='checkoutTheForumAndDiscord'
-                defaults='Check out our <linkToForum>forum</linkToForum> and our <linkToDiscord>Discord</linkToDiscord> to stay up to date.'
-                components={{
-                  linkToForum: <ExternalLink underline href={POOLTOGETHER_GOV_FORUM_URL} />,
-                  linkToDiscord: <ExternalLink underline href={DISCORD_INVITE_URL} />
-                }}
-              />
-            </p>
-          </Card>
-          <Card className='w-full sm:w-1/2 sm:ml-4'>
-            <h6 className='mb-2'>{t('wantToVoteGasFree')}</h6>
-            <p>
-              <Trans
-                i18nKey='depositIntoPoolPoolToVoteGasFree'
-                defaults='Deposit into the <poolPoolLink>POOL Pool</poolPoolLink> to vote without transaction fees on <snapshotLink>Snapshot</snapshotLink>.'
-                components={{
-                  poolPoolLink: <ExternalLink underline href={POOLPOOL_URL} />,
-                  snapshotLink: <ExternalLink underline href={POOLPOOL_SNAPSHOT_URL} />
-                }}
-              />
-            </p>
-          </Card>
-        </div>
-      </div>
-
-      <ProposalsList />
+      {TABS.map((tab) => (
+        <ContentPane key={tab.id} isSelected={tab.id === currentTab}>
+          <tab.view tab={tab} />
+        </ContentPane>
+      ))}
 
       <AddGovernanceTokenToMetaMask />
     </>
   )
 }
+
+const CommonTabView = (props) => {
+  const { tab } = props
+
+  const { isFetched, sortedProposals } = useAllProposalsSorted()
+
+  let count = 0
+  if (isFetched) {
+    const proposals = []
+    tab.proposalStates.forEach((proposalState) => {
+      proposals.push(...sortedProposals[proposalState])
+    })
+    count = proposals.length
+  }
+
+  return <TabView {...props} count={count} />
+}
+
+const SnapshotTabView = (props) => {
+  const { data: proposals, isFetched, error } = useSnapshotProposals()
+
+  console.log('error', error)
+
+  let count = 0
+  if (isFetched && !error) {
+    count = proposals.length
+  }
+
+  return <TabView {...props} count={count} />
+}
+
+const TabView = (props) => {
+  const { tab, count, currentTab, setTab } = props
+  const screenSize = useScreenSize()
+  const isSelected = tab.id === currentTab
+
+  return (
+    <div className='flex'>
+      <Tab
+        key={tab.id}
+        isSelected={isSelected}
+        className='flex mx-2'
+        textClassName='text-xs lg:text-lg'
+        onClick={() => setTab(tab.id)}
+      >
+        {tab.id}
+        <span className='hidden sm:block sm:ml-2'>proposals</span>
+      </Tab>
+      {count > 0 && screenSize > ScreenSize.sm && (
+        <CountBadge
+          count={count}
+          bgClassName='bg-highlight-1'
+          className={classnames('ml-1 lg:ml-2 lg:mt-1', {
+            'opacity-50': !isSelected
+          })}
+          textClassName={isSelected ? 'text-darkened' : 'text-white'}
+        />
+      )}
+    </div>
+  )
+}
+
+const CommonProposalsList = (props) => <ProposalsList proposalStates={props.tab.proposalStates} />
+
+const TABS = [
+  {
+    id: 'active',
+    view: CommonProposalsList,
+    tabView: CommonTabView,
+    proposalStates: [SORTED_STATES.active, SORTED_STATES.pending]
+  },
+  { id: 'snapshot', view: SnapshotProposals, tabView: SnapshotTabView },
+  {
+    id: 'executable',
+    view: CommonProposalsList,
+    tabView: CommonTabView,
+    proposalStates: [SORTED_STATES.executable, SORTED_STATES.pending]
+  },
+  {
+    id: 'past',
+    view: CommonProposalsList,
+    tabView: CommonTabView,
+    proposalStates: [SORTED_STATES.past]
+  }
+]

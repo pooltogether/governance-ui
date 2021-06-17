@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { Card, ButtonLink, BlockExplorerLink } from '@pooltogether/react-components'
 import { useOnboard, useGovernanceChainId } from '@pooltogether/hooks'
 
-import { ActionsCard } from 'lib/components/proposals/ActionsCard'
+import { ActionsCard } from 'lib/components/ProposalCreation/ActionsCard'
 import { useUserCanCreateProposal } from 'lib/hooks/useUserCanCreateProposal'
 import { Button } from '@pooltogether/react-components'
 import { shorten } from 'lib/utils/shorten'
