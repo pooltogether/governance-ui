@@ -73,6 +73,17 @@ export function Nav(props) {
           </a>
         </Link>
 
+        <Link href='https://app.pooltogether.com/rewards' as='https://app.pooltogether.com/rewards'>
+          <a
+            id='_navRewardsButton'
+            className={classnames(navParentClasses, 'text-accent-4 hover:text-highlight-2')}
+          >
+            <RewardsIcon />
+
+            <span className='pl-3 capitalize'>{t('rewards')}</span>
+          </a>
+        </Link>
+
         <Link href='/' as='/' shallow>
           <a
             className={classnames(navParentClasses, {
@@ -118,3 +129,21 @@ export function Nav(props) {
     </>
   )
 }
+
+const RewardsIcon = () => (
+  <div className='flex items-center justify-center'>
+    <svg
+      className='stroke-current fill-current mr-auto relative'
+      width='22'
+      height='17'
+      viewBox='0 0 22 17'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M11.2857 15.6798L21 4.44828L18.441 1.34483L18.4658 1.3202L18.3168 1.17241L18.1677 1H3.8323L1 4.44828L10.7143 15.6798L10.9876 16L11.2857 15.6798ZM7.75776 4.25123L11.0124 1.78818L14.2671 4.25123H7.75776ZM11.3354 1.44335H17.6957L14.913 4.17734L11.3354 1.44335ZM7.13665 4.15271L4.5528 1.44335H10.7143L7.13665 4.15271ZM6.59006 4.25123H1.77019L3.98137 1.54187L6.59006 4.25123ZM14.6149 4.69458L11.0124 15.0887L7.40994 4.69458H14.6149ZM15.087 4.69458H20.205L11.6832 14.5222L15.087 4.69458ZM20.2547 4.25123H15.4845L18.118 1.66502L20.2547 4.25123ZM1.81988 4.69458H6.93789L10.3416 14.5222L1.81988 4.69458Z'
+        strokeWidth='0.6'
+      />
+    </svg>
+  </div>
+)

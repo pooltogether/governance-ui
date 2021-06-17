@@ -2,6 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { isIOS } from 'react-device-detect'
 
 import { useTranslation } from 'lib/../i18n'
 import { CountBadge } from 'lib/components/CountBadge'
@@ -24,9 +25,15 @@ export function NavMobile(props) {
   return (
     <>
       <nav
-        className='w-screen flex justify-center items-center fixed b-0 l-0 r-0 bg-card-purple sm:hidden z-20'
+        className={classnames(
+          `w-screen flex justify-center items-center fixed b-0 l-0 r-0 bg-card-purple sm:hidden z-20`,
+          {
+            'pb-4': isIOS,
+            'pb-1': !isIOS
+          }
+        )}
         style={{
-          height: 76
+          height: isIOS ? 90 : 76
         }}
       >
         <a
@@ -74,6 +81,18 @@ export function NavMobile(props) {
           {t('account')}
         </a>
 
+        <Link href='/rewards' as='/rewards' shallow>
+          <a
+            id='_navRewardsButton'
+            className={classnames(mobileNavClasses, 'text-accent-4 hover:text-highlight-9')}
+          >
+            <RewardsIcon />
+            <span className='relative' style={{ top: 4 }}>
+              <span className='capitalize'>{t('rewards')}</span>
+            </span>
+          </a>
+        </Link>
+
         <Link href='/' as='/' shallow>
           <a
             className={classnames(mobileNavClasses, {
@@ -109,3 +128,19 @@ export function NavMobile(props) {
     </>
   )
 }
+
+const RewardsIcon = () => (
+  <svg
+    className='stroke-current fill-current relative'
+    width='22'
+    height='17'
+    viewBox='0 0 22 17'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <path
+      d='M11.2857 15.6798L21 4.44828L18.441 1.34483L18.4658 1.3202L18.3168 1.17241L18.1677 1H3.8323L1 4.44828L10.7143 15.6798L10.9876 16L11.2857 15.6798ZM7.75776 4.25123L11.0124 1.78818L14.2671 4.25123H7.75776ZM11.3354 1.44335H17.6957L14.913 4.17734L11.3354 1.44335ZM7.13665 4.15271L4.5528 1.44335H10.7143L7.13665 4.15271ZM6.59006 4.25123H1.77019L3.98137 1.54187L6.59006 4.25123ZM14.6149 4.69458L11.0124 15.0887L7.40994 4.69458H14.6149ZM15.087 4.69458H20.205L11.6832 14.5222L15.087 4.69458ZM20.2547 4.25123H15.4845L18.118 1.66502L20.2547 4.25123ZM1.81988 4.69458H6.93789L10.3416 14.5222L1.81988 4.69458Z'
+      strokeWidth='0.6'
+    />
+  </svg>
+)
