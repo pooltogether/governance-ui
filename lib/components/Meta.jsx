@@ -16,6 +16,8 @@ export const Meta = ({ title }) => {
     <>
       <Head>
         <>
+          <meta name='google' content='notranslate' />
+
           <title>{title}</title>
 
           <meta name='description' content={description} />

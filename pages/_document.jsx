@@ -19,10 +19,12 @@ class MyDocument extends Document {
     const twitterHandle = '@PoolTogether_'
 
     return (
-      <Html>
+      <Html translate='no'>
         <Head />
         <Head>
           <>
+            <meta name='google' content='notranslate' />
+
             <link rel='icon' href='/favicon.png' type='image/x-icon' />
 
             <meta name='theme-color' content='#1e0b43' />
