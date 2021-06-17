@@ -81,7 +81,7 @@ export function NavMobile(props) {
           {t('account')}
         </a>
 
-        <Link href='/rewards' as='/rewards' shallow>
+        <Link href='https://app.pooltogether.com/rewards' as='https://app.pooltogether.com/rewards'>
           <a
             id='_navRewardsButton'
             className={classnames(mobileNavClasses, 'text-accent-4 hover:text-highlight-9')}
