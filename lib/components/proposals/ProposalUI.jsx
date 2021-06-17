@@ -5,7 +5,7 @@ import classnames from 'classnames'
 import gfm from 'remark-gfm'
 import { useRouter } from 'next/router'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'react-i18next'
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { AddGovernanceTokenToMetaMask } from 'lib/components/AddGovernanceTokenToMetaMask'
 import { PageTitleAndBreadcrumbs } from 'lib/components/PageTitleAndBreadcrumbs'

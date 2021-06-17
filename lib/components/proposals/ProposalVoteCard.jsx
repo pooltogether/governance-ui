@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import GovernorAlphaABI from 'abis/GovernorAlphaABI'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'react-i18next'
 import { useOnboard, useUsersAddress } from '@pooltogether/hooks'
 import { useTokenHolder } from 'lib/hooks/useTokenHolder'
 import { useVoteData } from 'lib/hooks/useVoteData'

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import { Dialog } from '@reach/dialog'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'react-i18next'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { useOnboard } from '@pooltogether/hooks'
 import { ButtonLink } from 'lib/components/ButtonLink'

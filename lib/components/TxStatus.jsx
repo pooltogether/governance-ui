@@ -6,7 +6,7 @@ import { useOnboard } from '@pooltogether/hooks'
 import { Banner } from 'lib/components/Banner'
 import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { shorten } from 'lib/utils/shorten'
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'react-i18next'
 
 export const TxStatus = (props) => {
   const { tx } = props
