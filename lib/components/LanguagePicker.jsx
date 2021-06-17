@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import classnames from 'classnames'
+import { useTranslation } from 'react-i18next'
+
 import { DropdownList } from 'lib/components/DropdownList'
 
 // TODO: Switch this back to being dynamically generated based on locize
@@ -43,7 +45,14 @@ export function LanguagePicker(props) {
     }
   }
 
-  const { currentLang, changeLang, className } = props
+  const { i18n: i18next } = useTranslation()
+
+  const [currentLang, setCurrentLang] = useState(i18next.language)
+
+  const changeLang = (newLang) => {
+    setCurrentLang(newLang)
+    i18next.changeLanguage(newLang)
+  }
 
   const formatValue = (key) => {
     const lang = langs[key]
@@ -59,7 +68,8 @@ export function LanguagePicker(props) {
   return (
     <DropdownList
       id='language-picker-dropdown'
-      className={classnames('text-xxs sm:text-sm', className)}
+      className={classnames('text-xxs sm:text-sm ml-4 mr-1')}
+      // className={classnames('text-xxs sm:text-sm', className)}
       label={currentLang?.toUpperCase()}
       formatValue={formatValue}
       onValueSet={changeLang}
