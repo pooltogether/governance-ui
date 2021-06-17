@@ -76,7 +76,7 @@ export const ProposalItem = (props) => {
     <ProposalItemContainer>
       <div className='flex justify-between flex-col-reverse sm:flex-row'>
         <div>
-          <h6 className='leading-none mb-2 mt-2 sm:mt-0'>{title}</h6>
+          <h6 className='leading-none mb-2 mt-2 sm:mt-0 break-words'>{title}</h6>
           <p className='mb-4'>{t('proposalId', { id })}</p>
         </div>
         <ProposalStatus proposal={proposal} />
