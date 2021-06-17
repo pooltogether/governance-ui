@@ -103,7 +103,7 @@ export function Layout(props) {
 
               <PendingTxButton openTransactions={openTransactions} />
 
-              <LanguagePicker />
+              {/* <LanguagePicker /> */}
 
               <Settings />
             </div>

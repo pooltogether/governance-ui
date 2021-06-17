@@ -2,7 +2,7 @@ import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 
 import { Card } from 'lib/components/Card'
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'react-i18next'
 import { usePoolPoolBalance } from 'lib/hooks/usePoolPoolBalance'
 import { getPoolPoolSnapshotId } from 'lib/utils/getPoolPoolSnapshotId'
 import { usePoolPoolProposal } from 'lib/hooks/usePoolPoolProposal'

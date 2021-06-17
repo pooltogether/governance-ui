@@ -1,7 +1,7 @@
 import React from 'react'
 import { useOnboard } from '@pooltogether/hooks'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'react-i18next'
 import { Button } from 'lib/components/Button'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 

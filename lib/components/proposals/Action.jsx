@@ -5,7 +5,7 @@ import { useController, useForm, useFormContext, useWatch } from 'react-hook-for
 import { ClipLoader } from 'react-spinners'
 import { isBrowser } from 'react-device-detect'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'react-i18next'
 import { isValidAddress } from 'lib/utils/isValidAddress'
 import { usePrizePools } from 'lib/hooks/usePrizePools'
 import { DropdownList } from 'lib/components/DropdownList'

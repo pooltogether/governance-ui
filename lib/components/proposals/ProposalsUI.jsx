@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
 
-import { Trans, useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'react-i18next'
 import { AddGovernanceTokenToMetaMask } from 'lib/components/AddGovernanceTokenToMetaMask'
 import { Button } from 'lib/components/Button'
 import { ProposalsList } from 'lib/components/proposals/ProposalsList'
@@ -49,7 +49,7 @@ export const ProposalsUI = (props) => {
       <div className='my-12'>
         <div className='flex flex-col sm:flex-row mb-8'>
           <div className='sm:w-2/3'>
-            <h1 className='text-inverse'>{t('pooltogetherGovernance')}</h1>
+            <h3 className='text-inverse'>{t('pooltogetherGovernance')}</h3>
 
             <p className='text-inverse mb-8 sm:mb-0'>
               {t('theProtocolIsControlledByDecentralizedGovernance')}
