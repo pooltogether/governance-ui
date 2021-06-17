@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { isIOS } from 'react-device-detect'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'react-i18next'
 import { CountBadge } from 'lib/components/CountBadge'
 import { useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
 

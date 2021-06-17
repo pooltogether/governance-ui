@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { i18n } from 'lib/../i18n'
+import { i18n } from 'react-i18next'
 import { DropdownList } from 'lib/components/DropdownList'
 
 {
@@ -32,14 +32,6 @@ export function LanguagePicker(props) {
     setCurrentLang(newLang)
     i18n.changeLanguage(newLang)
   }
-
-  // set lang to whatever i18n thinks it should be (based
-  // on lang detection or stored cookies)
-  useEffect(() => {
-    if (i18n.language) {
-      setCurrentLang(i18n.language)
-    }
-  }, [])
 
   useEffect(() => {
     const runGetLangs = async () => {

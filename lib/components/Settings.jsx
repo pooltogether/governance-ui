@@ -5,7 +5,7 @@ import FeatherIcon from 'feather-icons-react'
 import VisuallyHidden from '@reach/visually-hidden'
 import { motion } from 'framer-motion'
 
-import { useTranslation } from 'lib/../i18n'
+import { useTranslation } from 'react-i18next'
 import { COOKIE_OPTIONS, SHOW_MANAGE_LINKS } from 'lib/constants'
 import { ButtonLink } from 'lib/components/ButtonLink'
 import { CheckboxInputGroup } from 'lib/components/CheckboxInputGroup'
