@@ -72,7 +72,7 @@ export const ProposalsUI = (props) => {
 
       <UsersPoolVotesCard />
 
-      <Tabs className='justify-between sticky bg-body top-20 pt-8 mb-8 z-10 pb-4'>
+      <Tabs className='justify-between sm:justify-start sticky bg-body top-20 pt-8 mb-8 z-10 pb-4'>
         {TABS.map((tab) => (
           <tab.tabView key={tab.id} tab={tab} currentTab={currentTab} setTab={setTab} />
         ))}
@@ -109,8 +109,6 @@ const CommonTabView = (props) => {
 const SnapshotTabView = (props) => {
   const { data: proposals, isFetched, error } = useSnapshotProposals()
 
-  console.log('error', error)
-
   let count = 0
   if (isFetched && !error) {
     count = proposals.length
@@ -125,27 +123,27 @@ const TabView = (props) => {
   const isSelected = tab.id === currentTab
 
   return (
-    <div className='flex'>
+    <div className='flex sm:mr-6 lg:mr-8 last:mr-0'>
       <Tab
         key={tab.id}
         isSelected={isSelected}
         className='flex mx-2'
-        textClassName='text-xs lg:text-lg'
         onClick={() => setTab(tab.id)}
       >
-        {tab.id}
-        <span className='hidden sm:block sm:ml-2'>proposals</span>
+        <div className='flex'>
+          {tab.id}
+          {count > 0 && (
+            <CountBadge
+              count={count}
+              bgClassName='bg-highlight-1'
+              className={classnames('ml-2 my-auto', {
+                'opacity-50': !isSelected
+              })}
+              textClassName={isSelected ? 'text-darkened' : 'text-white'}
+            />
+          )}
+        </div>
       </Tab>
-      {count > 0 && screenSize > ScreenSize.sm && (
-        <CountBadge
-          count={count}
-          bgClassName='bg-highlight-1'
-          className={classnames('ml-1 lg:ml-2 lg:mt-1', {
-            'opacity-50': !isSelected
-          })}
-          textClassName={isSelected ? 'text-darkened' : 'text-white'}
-        />
-      )}
     </div>
   )
 }
@@ -159,7 +157,7 @@ const TABS = [
     tabView: CommonTabView,
     proposalStates: [SORTED_STATES.active, SORTED_STATES.pending]
   },
-  { id: 'snapshot', view: SnapshotProposals, tabView: SnapshotTabView },
+  { id: 'off-chain', view: SnapshotProposals, tabView: SnapshotTabView },
   {
     id: 'executable',
     view: CommonProposalsList,

@@ -1,6 +1,7 @@
 import { ButtonLink, Card, LoadingDots } from '@pooltogether/react-components'
 import { CountDown } from 'lib/components/CountDown'
 import {
+  EmptyProposalsList,
   ErrorLoadingProposalsList,
   LoadingProposalsList,
   ProposalItemContainer,
@@ -24,6 +25,10 @@ export const SnapshotProposalsList = (props) => {
     return <LoadingProposalsList />
   }
 
+  if (proposals.length === 0) {
+    return <EmptyProposalsList />
+  }
+
   return (
     <ProposalListContainer>
       {proposals.map((p) => (
@@ -42,7 +47,7 @@ const SnapshotProposalItem = (props) => {
     <ProposalItemContainer>
       <div className='flex justify-between flex-col-reverse sm:flex-row'>
         <div>
-          <h6 className='leading-none mb-2 mt-2 sm:mt-0'>{title}</h6>
+          <h6 className='leading-none mb-2 mt-2 sm:mt-0 break-words'>{title}</h6>
         </div>
         <SnapshotProposalCountDown end={end} />
       </div>

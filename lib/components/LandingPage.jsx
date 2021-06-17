@@ -2,6 +2,8 @@ import {
   ButtonLink,
   Card,
   ExternalLink,
+  InternalLink,
+  LinkTheme,
   PageTitleAndBreadcrumbs
 } from '@pooltogether/react-components'
 import Link from 'next/link'
@@ -74,9 +76,15 @@ export const LandingPage = (props) => {
           }
           className='mb-4 sm:mb-0 sm:mr-4'
           links={
-            <CardLink as='/proposals?view=active' href='/proposals?view=active'>
+            <InternalLink
+              Link={Link}
+              as='/proposals?view=active'
+              href='/proposals?view=active'
+              theme={LinkTheme.accent}
+              className='text-sm'
+            >
               View on-chain proposals
-            </CardLink>
+            </InternalLink>
           }
         />
 
@@ -88,9 +96,15 @@ export const LandingPage = (props) => {
           }
           className='sm:ml-4'
           links={
-            <CardLink as='/proposals?view=snapshot' href='/proposals?view=snapshot'>
+            <InternalLink
+              Link={Link}
+              as='/proposals?view=off-chain'
+              href='/proposals?view=off-chain'
+              theme={LinkTheme.accent}
+              className='text-sm'
+            >
               View off-chain proposals
-            </CardLink>
+            </InternalLink>
           }
         />
       </div>
@@ -119,11 +133,11 @@ const CardHeader = (props) => <h5 className='mb-4 mx-auto'>{props.children}</h5>
 const CardDescription = (props) => <p className='mb-2 text-sm mx-auto'>{props.children}</p>
 const CardLink = ({ children, as, href }) => (
   <Link as={as} href={href}>
-    <a className='text-highlight-1 hover:text-accent-1'>{children}</a>
+    <a className='text-highlight-1 hover:text-accent-1 text-sm'>{children}</a>
   </Link>
 )
 const CardExternalLink = ({ children, href, title }) => (
-  <ExternalLink href={href} title={title} colorClassName='text-highlight-1 hover:text-accent-1'>
+  <ExternalLink href={href} title={title} theme={LinkTheme.accent} className='text-sm'>
     {children}
   </ExternalLink>
 )
