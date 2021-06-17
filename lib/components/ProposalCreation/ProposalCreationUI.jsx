@@ -7,7 +7,7 @@ import { useOnboard } from '@pooltogether/hooks'
 
 import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { Banner } from 'lib/components/Banner'
-import { ProposalCreationForm } from 'lib/components/proposals/ProposalCreationForm'
+import { ProposalCreationForm } from 'lib/components/ProposalCreation/ProposalCreationForm'
 import { useGovernorAlpha } from 'lib/hooks/useGovernorAlpha'
 import { useUserCanCreateProposal } from 'lib/hooks/useUserCanCreateProposal'
 import { numberWithCommas } from 'lib/utils/numberWithCommas'

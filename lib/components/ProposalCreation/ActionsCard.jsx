@@ -6,7 +6,7 @@ import { Button, Card } from '@pooltogether/react-components'
 import { Action } from 'lib/components/proposals/Action'
 import { useGovernorAlpha } from 'lib/hooks/useGovernorAlpha'
 import { usePrizePools } from 'lib/hooks/usePrizePools'
-import { EMPTY_ACTION } from 'lib/components/proposals/ProposalCreationForm'
+import { EMPTY_ACTION } from 'lib/components/ProposalCreation/ProposalCreationForm'
 
 export const ActionsCard = (props) => {
   const { t } = useTranslation()
