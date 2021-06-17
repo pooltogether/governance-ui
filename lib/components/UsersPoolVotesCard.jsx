@@ -4,7 +4,7 @@ import FeatherIcon from 'feather-icons-react'
 import Link from 'next/link'
 
 import DelegateableERC20ABI from 'abis/DelegateableERC20ABI'
-import { Trans, useTranslation } from 'lib/../i18n'
+import { Trans, useTranslation } from 'react-i18next'
 import { CONTRACT_ADDRESSES, POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from 'lib/constants'
 import { useOnboard } from '@pooltogether/hooks'
 import { Banner } from 'lib/components/Banner'
