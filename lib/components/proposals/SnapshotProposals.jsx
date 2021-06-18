@@ -2,6 +2,7 @@ import { SnapshotProposalsList } from 'lib/components/Proposals/SnapshotProposal
 import { PoolIcon, TipBanner, ExternalLink, LinkTheme } from '@pooltogether/react-components'
 import React from 'react'
 import { POOLPOOL_SNAPSHOT_URL } from 'lib/constants'
+import { Trans, useTranslation } from 'react-i18next'
 
 export const SnapshotProposals = (props) => {
   return (
@@ -13,10 +14,11 @@ export const SnapshotProposals = (props) => {
 }
 
 const SnapshotTip = () => {
+  const { t } = useTranslation()
   return (
     <TipBanner
       className='mb-6'
-      title='Vote gas-free + earn rewards'
+      title={t('voteGasFreeAndEarnRewards')}
       links={[
         <ExternalLink
           key='snapshot_link'
@@ -24,7 +26,7 @@ const SnapshotTip = () => {
           theme={LinkTheme.accent}
           className='mr-4 text-sm'
         >
-          Go to SnapShot
+          {t('goToSnapshot')}
         </ExternalLink>,
         <ExternalLink
           key='knowledge_base_link'
@@ -32,22 +34,24 @@ const SnapshotTip = () => {
           href='https://www.notion.so/PoolTogether-Knowledge-Base-fa721ccefa3242eaabd125a8415acd27'
           theme={LinkTheme.accent}
         >
-          Learn more
+          {t('learnMore')}
         </ExternalLink>
       ]}
     >
       <p className='text-sm'>
-        In order to vote on SnapShot, you need to have ptPOOL tokens. You can obtain them by
-        depositing your <PoolIcon /> POOL into the{' '}
-        <ExternalLink
-          className='text-sm'
-          href='https://app.pooltogether.com/pools/mainnet/PT-stPOOL'
-          theme={LinkTheme.accent}
-        >
-          POOL Pool
-        </ExternalLink>
-        . By doing so, you will be eligible to vote gas-free amd jave a chance to win a weekly
-        prize.
+        <Trans
+          i18nKey='snapshotTip'
+          components={{
+            PoolIcon: <PoolIcon />,
+            PoolPoolLink: (
+              <ExternalLink
+                className='text-sm'
+                href='https://app.pooltogether.com/pools/mainnet/PT-stPOOL'
+                theme={LinkTheme.accent}
+              />
+            )
+          }}
+        />
       </p>
     </TipBanner>
   )

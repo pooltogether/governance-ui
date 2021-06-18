@@ -3,7 +3,7 @@ import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
 import { DateTime } from 'luxon'
 import { Card, ButtonLink, ExternalLink, LoadingDots } from '@pooltogether/react-components'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 import { PROPOSAL_STATUS } from 'lib/constants'
 import { CountDown } from 'lib/components/CountDown'
@@ -55,7 +55,9 @@ export const LoadingProposalsList = () => (
 export const ErrorLoadingProposalsList = () => (
   <div className='w-full flex flex-col justify-center p-12 sm:p-24 text-center'>
     <FeatherIcon icon='alert-triangle' className='w-12 h-12 mb-4 text-orange mx-auto' />
-    <p>There was an error loading proposals, please try again later.</p>
+    <p>
+      <Trans i18nKey='errorLoadingProposals' />
+    </p>
   </div>
 )
 
