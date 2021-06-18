@@ -1,15 +1,22 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { useTable } from 'react-table'
-import { BasicTable, LoadingDots } from '@pooltogether/react-components'
+import {
+  BasicTable,
+  BlockExplorerLink,
+  LinkTheme,
+  LoadingDots,
+  PoolIcon
+} from '@pooltogether/react-components'
+import { useGovernanceChainId } from '@pooltogether/hooks'
 
 import { useTranslation } from 'react-i18next'
 import { BlankStateMessage } from 'lib/components/BlankStateMessage'
 import { DefaultPaginationButtons } from 'lib/components/PaginationUI'
 import { useProposalVotes } from 'lib/hooks/useProposalVotes'
 import { formatVotes } from 'lib/utils/formatVotes'
-import { DelegateAddress } from 'lib/components/UsersPoolVotesCard'
 import { useProposalVotesTotalPages } from 'lib/hooks/useProposalVotesTotalPages'
+import { DelegateAddress } from 'lib/components/DelegateAddress'
 
 export const VotersTable = (props) => {
   const { id } = props
@@ -29,16 +36,22 @@ export const VotersTable = (props) => {
       {
         Header: t('voter'),
         accessor: 'voter',
-        Cell: VoterCell
+        Cell: VoterCell,
+        className: 'text-sm text-accent-1',
+        headerClassName: 'text-xs text-accent-1 font-light pb-2'
       },
       {
         Header: t('votingWeight'),
-        accessor: 'votes'
+        accessor: 'votes',
+        className: 'text-sm text-accent-1',
+        headerClassName: 'text-xs text-accent-1 font-light pb-2'
       },
       {
         Header: t('decision'),
         accessor: 'support',
-        Cell: SupportCell
+        Cell: SupportCell,
+        className: 'text-sm text-accent-1',
+        headerClassName: 'text-xs text-accent-1 font-light pb-2'
       }
     ]
   }, [])
@@ -92,9 +105,27 @@ const SupportCell = (props) => {
   const { t } = useTranslation()
 
   if (props.value) {
-    return t('accepted')
+    return <span className='text-sm text-accent-1'>{t('accepted')}</span>
   }
-  return t('rejected')
+  return <span className='text-sm text-accent-1'>{t('rejected')}</span>
 }
 
-const VoterCell = (props) => <DelegateAddress address={props.value} />
+const VoterCell = (props) => {
+  const chainId = useGovernanceChainId()
+
+  if (props.value.toLowerCase() === '0x070a96fe4ad5155ea91d409e8afec6b2f3c729c0') {
+    return (
+      <BlockExplorerLink
+        address={props.value}
+        theme={LinkTheme.light}
+        className='text-sm'
+        chainId={chainId}
+      >
+        <PoolIcon className='mr-2 my-auto' />
+        <span>POOL Pool Multisig</span>
+      </BlockExplorerLink>
+    )
+  }
+
+  return <DelegateAddress theme={LinkTheme.light} className='text-sm' address={props.value} />
+}
