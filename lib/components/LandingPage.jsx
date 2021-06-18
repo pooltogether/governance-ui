@@ -54,8 +54,8 @@ export const LandingPage = (props) => {
 
       <InfoCard
         src={ChatBubble}
-        header={'Join the discussion'}
-        description={'Stay up to date and share thoughts with the community.'}
+        header={t('joinTheDiscussion')}
+        description={t('stayUpToDate')}
         className='sm:mr-4 mb-8'
         links={
           <span className='text-sm text-accent-1'>
@@ -92,10 +92,8 @@ export const LandingPage = (props) => {
       <div className='w-full flex flex-col sm:flex-row'>
         <InfoCard
           src={VoteIcon}
-          header={'Vote on active proposals'}
-          description={
-            'POOL holders make real change and voice opinions on the protocol through on-chain voting.'
-          }
+          header={t('voteOnActiveProposals')}
+          description={t('poolHolderMakeRealChanges')}
           className='mb-4 sm:mb-0 sm:mr-4'
           links={
             <InternalLink
@@ -112,10 +110,8 @@ export const LandingPage = (props) => {
 
         <InfoCard
           src={DollarBill}
-          header={'Vote gas-free + earn rewards'}
-          description={
-            'ptPOOL holder can vote gas-free on SnapShot and earn extra rewards. Deposit in POOL Pool to get ptPOOL token.'
-          }
+          header={t('voteGasFreeAndEarnRewards')}
+          description={t('ppoolHoldersCanVoteGasFree')}
           className='sm:ml-4'
           links={
             <InternalLink

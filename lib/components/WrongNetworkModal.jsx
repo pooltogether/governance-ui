@@ -57,6 +57,7 @@ export function WrongNetworkModal(props) {
         handleClose={handleClose}
         visible={!isWalletOnSupportedNetwork && !bypassed}
         header={t('ethereumNetworkMismatch')}
+        label='wrong network modal'
       >
         {t('yourEthereumNetworkIsUnsupported')}{' '}
         <div className='inline-flex items-start justify-start font-bold text-white text-center mt-2'>
