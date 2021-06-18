@@ -14,10 +14,9 @@ import { useGovernanceChainId } from '@pooltogether/hooks'
 import { useTranslation } from 'react-i18next'
 import { ethers } from 'ethers'
 
-import { DEFAULT_TOKEN_PRECISION } from 'lib/constants'
+import { DEFAULT_TOKEN_PRECISION, PROPOSAL_STATUS } from 'lib/constants'
 import { AddGovernanceTokenToMetaMask } from 'lib/components/AddGovernanceTokenToMetaMask'
 import { CardTitle } from 'lib/components/CardTitle'
-import { DelegateAddress, UsersPoolVotesCard } from 'lib/components/UsersPoolVotesCard'
 import { VotersTable } from 'lib/components/Proposal/VotersTable'
 import { useProposalData } from 'lib/hooks/useProposalData'
 import { calculateVotePercentage, formatVotes } from 'lib/utils/formatVotes'
@@ -29,6 +28,7 @@ import { ProposalVoteCard } from 'lib/components/Proposal/ProposalVoteCard'
 import { PoolPoolProposalCard } from 'lib/components/Proposal/PoolPoolProposalCard'
 import { usePoolPoolProposal } from 'lib/hooks/usePoolPoolProposal'
 import Link from 'next/link'
+import { VotingPowerCard } from 'lib/components/VotingPowerCard'
 
 const SMALL_DESCRIPTION_LENGTH = 500
 
@@ -65,6 +65,11 @@ export const ProposalUI = (props) => {
           {
             href: '/',
             as: '/',
+            name: t('governance')
+          },
+          {
+            href: '/proposals',
+            as: '/proposals',
             name: t('proposals')
           },
           {
@@ -72,10 +77,10 @@ export const ProposalUI = (props) => {
           }
         ]}
       />
-      <UsersPoolVotesCard
+      <VotingPowerCard
         blockNumber={blockNumber}
         snapshotBlockNumber={snapshotBlockNumber}
-        className='mb-8'
+        className='mb-10'
       />
       <ProposalVoteCard
         blockNumber={blockNumber}
@@ -87,27 +92,12 @@ export const ProposalUI = (props) => {
         blockNumber={blockNumber}
         snapshotBlockNumber={snapshotBlockNumber}
       />
+      <VotesCard proposal={proposal} isFetched={isFetched} id={id} />
       <ProposalDescriptionCard proposal={proposal} />
       <ProposalActionsCard proposal={proposal} />
-      <ProposalAuthorCard proposal={proposal} />
-      <VotesCard proposal={proposal} isFetched={isFetched} id={id} />
 
       <AddGovernanceTokenToMetaMask />
     </>
-  )
-}
-
-const ProposalAuthorCard = (props) => {
-  const { t } = useTranslation()
-  const { proposal } = props
-  const { proposer } = proposal
-  const { id } = proposer
-
-  return (
-    <Card className='mb-6'>
-      <CardTitle>{t('author')}</CardTitle>
-      <DelegateAddress address={id} />
-    </Card>
   )
 }
 
@@ -120,68 +110,101 @@ const ProposalDescriptionCard = (props) => {
   const [showMore, setShowMore] = useState(smallDescription)
 
   return (
-    <Card className='mb-6'>
+    <>
       <CardTitle>{t('description')}</CardTitle>
-      <div
-        className={classnames('proposal-details overflow-hidden text-inverse relative')}
-        style={{ maxHeight: showMore ? 'unset' : '300px' }}
-      >
-        {!showMore && (
-          <div
-            className='w-full h-full absolute'
-            style={{
-              backgroundImage: showMore
-                ? 'unset'
-                : 'linear-gradient(0deg, var(--color-bg-default) 5%, transparent 100%)'
-            }}
+      <Card className='mb-6'>
+        <div
+          className={classnames('proposal-details overflow-hidden text-inverse relative')}
+          style={{ maxHeight: showMore ? 'unset' : '300px' }}
+        >
+          {!showMore && (
+            <div
+              className='w-full h-full absolute'
+              style={{
+                backgroundImage: showMore
+                  ? 'unset'
+                  : 'linear-gradient(0deg, var(--color-bg-default) 5%, transparent 100%)'
+              }}
+            />
+          )}
+          <ReactMarkdown
+            plugins={[gfm]}
+            className='description whitespace-pre-wrap break-word'
+            children={description}
           />
-        )}
-        <ReactMarkdown
-          plugins={[gfm]}
-          className='description whitespace-pre-wrap break-word'
-          children={description}
-        />
-      </div>
-      {!smallDescription && (
-        <div className='flex mt-8'>
-          <button
-            className='mx-auto text-accent-1'
-            type='button'
-            onClick={(e) => {
-              e.preventDefault
-              setShowMore(!showMore)
-            }}
-          >
-            {showMore ? t('showLess') : t('showMore')}
-          </button>
         </div>
-      )}
-    </Card>
+        <ShowMoreButton
+          isVisible={!smallDescription}
+          showMore={showMore}
+          setShowMore={setShowMore}
+        />
+      </Card>
+    </>
   )
 }
 
 const ProposalActionsCard = (props) => {
   const { t } = useTranslation()
   const { proposal } = props
+  const allowExpansion = proposal.signatures.length >= 4
+  const [showMore, setShowMore] = useState(false)
 
   return (
-    <Card className='mb-6'>
+    <>
       <CardTitle>{t('actions')}</CardTitle>
-      <ul>
-        {proposal.signatures.map((signature, index) => {
-          return (
-            <ProposalActionRow
-              key={index}
-              actionIndex={index + 1}
-              value={proposal.values[index]}
-              target={proposal.targets[index]}
-              calldata={proposal.calldatas[index]}
-              signature={signature}
+      <Card className='mb-6'>
+        <ul
+          className='overflow-hidden relative'
+          style={{ maxHeight: allowExpansion ? (showMore ? 'unset' : '300px') : 'unset' }}
+        >
+          {proposal.signatures.map((signature, index) => {
+            return (
+              <ProposalActionRow
+                key={index}
+                actionIndex={index + 1}
+                value={proposal.values[index]}
+                target={proposal.targets[index]}
+                calldata={proposal.calldatas[index]}
+                signature={signature}
+              />
+            )
+          })}
+          {!showMore && allowExpansion && (
+            <div
+              className='w-full h-full absolute top-0 left-0'
+              style={{
+                backgroundImage: showMore
+                  ? 'unset'
+                  : 'linear-gradient(0deg, var(--color-bg-default) 5%, transparent 100%)'
+              }}
             />
-          )
-        })}
-      </ul>
-    </Card>
+          )}
+        </ul>
+        <ShowMoreButton isVisible={allowExpansion} showMore={showMore} setShowMore={setShowMore} />
+      </Card>
+    </>
+  )
+}
+
+const ShowMoreButton = (props) => {
+  const { isVisible, showMore, setShowMore } = props
+  const { t } = useTranslation()
+
+  if (!isVisible) return null
+
+  return (
+    <div className='flex mt-8'>
+      <button
+        className='trans text-inverse hover:text-highlight-1 underline'
+        type='button'
+        onClick={(e) => {
+          e.preventDefault
+          setShowMore(!showMore)
+        }}
+      >
+        {showMore ? t('showLess') : t('showMore')}
+      </button>
+    </div>
   )
 }
 
@@ -230,16 +253,12 @@ const ProposalActionRow = (props) => {
   const payableAmount = ethers.utils.formatEther(value)
 
   return (
-    <li className='flex break-all'>
+    <li className='flex break-all mb-4'>
       <b>{`${actionIndex}.`}</b>
       <div className='flex flex-col pl-2 text-accent-1'>
         <div className='w-full flex'>
           <span className='mr-2'>{t('contract')}:</span>
-          <BlockExplorerLink
-            chainId={chainId}
-            className='text-inverse hover:text-accent-1'
-            address={target}
-          >
+          <BlockExplorerLink chainId={chainId} className='text-sm' address={target}>
             {shorten(target)}
           </BlockExplorerLink>
         </div>
@@ -300,74 +319,64 @@ const VotesCard = (props) => {
   )
 
   return (
-    <Card className='mb-6'>
+    <>
       <CardTitle>{t('votes')}</CardTitle>
-      {!quorumHasBeenMet && (
-        <div className='flex text-accent-1 bg-light-purple-10 py-1 px-2 rounded-sm w-fit-content ml-auto mb-6'>
-          <span className='mr-2'>
-            {t('numVotesNeeded', {
-              num: numberWithCommas(remainingVotesForQuorum, { precision: 0 })
-            })}
-          </span>
-          <Tooltip
-            id='votes-card'
-            tip={t('forAProposalToSucceedMinNumOfVotes', {
-              num: numberWithCommas(quorumFormatted, {
-                precision: 0
-              })
-            })}
-          >
-            <FeatherIcon className='my-auto w-4 h-4 stroke-current' icon='info' />
-          </Tooltip>
-        </div>
-      )}
-
-      <div
-        className={classnames('w-full h-2 flex flex-row rounded-full overflow-hidden my-4', {
-          'opacity-50': !quorumHasBeenMet
-        })}
-      >
-        {!noVotes && (
-          <>
-            <div className='bg-green' style={{ width: `${forPercentage}%` }} />
-            <div className='bg-red' style={{ width: `${againstPercentage}%` }} />
-          </>
+      <Card className='mb-6'>
+        {!quorumHasBeenMet && status === PROPOSAL_STATUS.active && (
+          <div className='flex text-accent-1 bg-light-purple-10 py-1 px-2 rounded-sm w-fit-content ml-auto mb-6'>
+            <span className='mr-2'>
+              {t('numVotesNeeded', {
+                num: numberWithCommas(remainingVotesForQuorum, { precision: 0 })
+              })}
+            </span>
+            <Tooltip
+              id='votes-card'
+              tip={t('forAProposalToSucceedMinNumOfVotes', {
+                num: numberWithCommas(quorumFormatted, {
+                  precision: 0
+                })
+              })}
+            >
+              <FeatherIcon className='my-auto w-4 h-4 stroke-current' icon='info' />
+            </Tooltip>
+          </div>
         )}
-        {noVotes && <div className='bg-tertiary w-full' />}
-      </div>
 
-      <div
-        className={classnames('flex justify-between mb-4 sm:mb-8', {
-          'opacity-50': !quorumHasBeenMet
-        })}
-      >
-        <div className='flex text-green'>
-          <FeatherIcon
-            className='mr-2 my-auto w-8 h-8 sm:w-10 sm:h-10 stroke-current'
-            icon='check-circle'
-          />
-          <div className='flex flex-col'>
-            <h5>{t('accept')}</h5>
-            <h6 className='font-normal text-xxs sm:text-xs'>{`${formatVotes(
-              forVotes
-            )} (${forPercentage}%)`}</h6>
+        <div
+          className={classnames('w-full h-2 flex flex-row rounded-full overflow-hidden my-4', {
+            'opacity-50': !quorumHasBeenMet
+          })}
+        >
+          {!noVotes && (
+            <>
+              <div className='bg-green' style={{ width: `${forPercentage}%` }} />
+              <div className='bg-warning-red' style={{ width: `${againstPercentage}%` }} />
+            </>
+          )}
+          {noVotes && <div className='bg-tertiary w-full' />}
+        </div>
+
+        <div className={classnames('flex justify-between mb-4 sm:mb-8')}>
+          <div className='flex text-green'>
+            <div className='flex flex-col'>
+              <h5 className='font-normal'>{t('accepted')}</h5>
+              <h6 className='font-normal text-xxs sm:text-xs'>{`${formatVotes(
+                forVotes
+              )} (${forPercentage}%)`}</h6>
+            </div>
+          </div>
+          <div className='flex text-functional-red text-right'>
+            <div className='flex flex-col'>
+              <h5 className='font-normal'>{t('rejected')}</h5>
+              <h6 className='font-normal text-xxs sm:text-xs'>{`${formatVotes(
+                againstVotes
+              )} (${againstPercentage}%)`}</h6>
+            </div>
           </div>
         </div>
-        <div className='flex text-red'>
-          <div className='flex flex-col'>
-            <h5>{t('reject')}</h5>
-            <h6 className='font-normal text-xxs sm:text-xs'>{`${formatVotes(
-              againstVotes
-            )} (${againstPercentage}%)`}</h6>
-          </div>
-          <FeatherIcon
-            className='ml-2 my-auto w-8 h-8 sm:w-10 sm:h-10 stroke-current'
-            icon='x-circle'
-          />
-        </div>
-      </div>
 
-      <VotersTable id={id} />
-    </Card>
+        <VotersTable id={id} />
+      </Card>
+    </>
   )
 }

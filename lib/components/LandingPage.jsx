@@ -9,7 +9,7 @@ import {
 import Link from 'next/link'
 import classnames from 'classnames'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 import ChatBubble from 'assets/images/LandingPage/chat-bubble.png'
 import DollarBill from 'assets/images/LandingPage/dollar-bill.png'
@@ -29,15 +29,27 @@ export const LandingPage = (props) => {
           sizeClassName=''
           className='mb-4 sm:mb-0'
         />
-        <ButtonLink Link={Link} href='/proposals' as='/proposals' className='w-full sm:w-max'>
-          Go to Governance Dashboard
+        <ButtonLink
+          Link={Link}
+          href='/proposals'
+          as='/proposals'
+          className='w-full sm:w-max'
+          border='transparent'
+          text='primary'
+          bg='green'
+        >
+          <Trans i18nKey='goToGovernanceDashboard'>Go to Governance Dashboard</Trans>
         </ButtonLink>
       </div>
 
-      <Header>New to PoolTogether?</Header>
+      <Header>
+        <Trans i18nKey='newToPoolTogether'>New to PoolTogether?</Trans>
+      </Header>
       <Description>
-        The best and fastest way to get yourself up to date with the current governance debates is
-        to join the discussion with the community.
+        <Trans i18nKey='newToPoolTogetherDescription'>
+          The best and fastest way to get yourself up to date with the current governance debates is
+          to join the discussion with the community.
+        </Trans>
       </Description>
 
       <InfoCard
@@ -46,25 +58,35 @@ export const LandingPage = (props) => {
         description={'Stay up to date and share thoughts with the community.'}
         className='sm:mr-4 mb-8'
         links={
-          <span className='text-sm'>
-            Visit our{' '}
-            <CardExternalLink
-              href={POOLTOGETHER_GOV_FORUM_URL}
-              title='PoolTogether Governance Forum'
-            >
-              forum
-            </CardExternalLink>{' '}
-            or{' '}
-            <CardExternalLink href={DISCORD_INVITE_URL} title='PoolTogether Community Discord'>
-              Discord
-            </CardExternalLink>
+          <span className='text-sm text-accent-1'>
+            <Trans
+              i18nKey='visitOurForumOrGovernance'
+              components={{
+                LinkToForum: (
+                  <CardExternalLink
+                    href={POOLTOGETHER_GOV_FORUM_URL}
+                    title='PoolTogether Governance Forum'
+                  />
+                ),
+                LinkToDiscord: (
+                  <CardExternalLink
+                    href={DISCORD_INVITE_URL}
+                    title='PoolTogether Community Discord'
+                  />
+                )
+              }}
+            />
           </span>
         }
       />
 
-      <Header>I’m ready to vote!</Header>
+      <Header>
+        <Trans i18nKey='imReadyToVote'>I’m ready to vote!</Trans>
+      </Header>
       <Description>
-        Got an idea how to improve the protocol? We are keen to hear your thoughts.
+        <Trans i18nKey='imReadyToVoteDescription'>
+          Got an idea how to improve the protocol? We are keen to hear your thoughts.
+        </Trans>
       </Description>
 
       <div className='w-full flex flex-col sm:flex-row'>
@@ -83,7 +105,7 @@ export const LandingPage = (props) => {
               theme={LinkTheme.accent}
               className='text-sm'
             >
-              View on-chain proposals
+              <Trans i18nKey='viewOnChainProposals'>View on-chain proposals</Trans>
             </InternalLink>
           }
         />
@@ -103,7 +125,7 @@ export const LandingPage = (props) => {
               theme={LinkTheme.accent}
               className='text-sm'
             >
-              View off-chain proposals
+              <Trans i18nKey='viewOffChainProposals'>View off-chain proposals</Trans>
             </InternalLink>
           }
         />
@@ -129,16 +151,13 @@ const Description = (props) => (
   <p className='text-accent-1 mb-6 text-sm sm:max-w-3/4'>{props.children}</p>
 )
 
-const CardHeader = (props) => <h5 className='mb-4 mx-auto'>{props.children}</h5>
-const CardDescription = (props) => <p className='mb-2 text-sm mx-auto'>{props.children}</p>
-const CardLink = ({ children, as, href }) => (
-  <Link as={as} href={href}>
-    <a className='text-highlight-1 hover:text-accent-1 text-sm'>{children}</a>
-  </Link>
+const CardHeader = (props) => <h5 className='mx-auto'>{props.children}</h5>
+const CardDescription = (props) => (
+  <p className='mt-4 mb-6 text-sm mx-auto text-accent-1'>{props.children}</p>
 )
-const CardExternalLink = ({ children, href, title }) => (
-  <ExternalLink href={href} title={title} theme={LinkTheme.accent} className='text-sm'>
-    {children}
+const CardExternalLink = (props) => (
+  <ExternalLink href={props.href} title={props.title} theme={LinkTheme.accent} className='text-sm'>
+    {props.children}
   </ExternalLink>
 )
 

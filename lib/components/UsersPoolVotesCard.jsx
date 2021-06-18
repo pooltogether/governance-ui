@@ -18,6 +18,7 @@ import { shorten } from 'lib/utils/shorten'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { usePoolPoolBalance } from 'lib/hooks/usePoolPoolBalance'
 import { useIsWalletOnProperNetwork } from 'lib/hooks/useIsWalletOnProperNetwork'
+import { DelegateAddress } from 'lib/components/DelegateAddress'
 
 export const UsersPoolVotesCard = (props) => {
   const { blockNumber, snapshotBlockNumber, className } = props
@@ -364,45 +365,6 @@ const NotDelegatedWarning = (props) => {
         <FeatherIcon icon='alert-circle' className='text-orange w-4 h-4' />
       </Tooltip>
     </div>
-  )
-}
-
-export const DelegateAddress = (props) => {
-  const { address, className } = props
-  const delegateIdentity = useSocialIdentity(address)
-  const twitterHandle = delegateIdentity?.twitter?.handle
-
-  const chainId = useGovernanceChainId()
-
-  if (twitterHandle) {
-    return (
-      <>
-        <a
-          className={classnames('text-inverse hover:text-accent-1 mr-2 trans', className)}
-          href={`https://twitter.com/${twitterHandle}`}
-          target='_blank'
-          rel='noopener'
-        >
-          {twitterHandle}
-          <FeatherIcon icon='external-link' className='inline w-4 h-4 mb-1 ml-1' />
-        </a>
-        <BlockExplorerLink
-          chainId={chainId}
-          className={classnames('text-inverse hover:text-accent-1 trans', className)}
-          address={address}
-          shorten
-        />
-      </>
-    )
-  }
-
-  return (
-    <BlockExplorerLink
-      chainId={chainId}
-      className={classnames('text-inverse hover:text-accent-1 mr-2 trans', className)}
-      address={address}
-      shorten
-    />
   )
 }
 

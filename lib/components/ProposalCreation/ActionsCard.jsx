@@ -3,10 +3,10 @@ import { useFieldArray, useFormContext } from 'react-hook-form'
 
 import { useTranslation } from 'react-i18next'
 import { Button, Card } from '@pooltogether/react-components'
-import { Action } from 'lib/components/proposals/Action'
 import { useGovernorAlpha } from 'lib/hooks/useGovernorAlpha'
 import { usePrizePools } from 'lib/hooks/usePrizePools'
 import { EMPTY_ACTION } from 'lib/components/ProposalCreation/ProposalCreationForm'
+import { Action } from 'lib/components/ProposalCreation/Action'
 
 export const ActionsCard = (props) => {
   const { t } = useTranslation()

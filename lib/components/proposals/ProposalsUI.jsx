@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
 
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { AddGovernanceTokenToMetaMask } from 'lib/components/AddGovernanceTokenToMetaMask'
 import { ProposalsList } from 'lib/components/Proposals/ProposalsList'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
@@ -21,6 +21,7 @@ import { SnapshotProposals } from 'lib/components/Proposals/SnapshotProposals'
 import { queryParamUpdater } from '@pooltogether/utilities'
 import { ScreenSize, useScreenSize } from '@pooltogether/hooks'
 import { useSnapshotProposals } from 'lib/hooks/useSnapshotProposals'
+import { VotingPowerCard } from 'lib/components/VotingPowerCard'
 
 export const ProposalsUI = (props) => {
   const { t } = useTranslation()
@@ -60,19 +61,22 @@ export const ProposalsUI = (props) => {
         />
         <ButtonLink
           Link={Link}
-          href='/proposals'
-          as='/proposals'
+          href='/proposals/create'
+          as='/proposals/create'
           className='w-full sm:w-max h-fit-content'
+          border='transparent'
+          text='primary'
+          bg='green'
         >
-          Create a new proposal
+          <Trans i18nKey='createANewProposal' />
         </ButtonLink>
       </div>
 
       <RetroactivePoolClaimBanner />
 
-      <UsersPoolVotesCard />
+      <VotingPowerCard className='mb-4' />
 
-      <Tabs className='justify-between sm:justify-start sticky bg-body top-20 pt-8 mb-8 z-10 pb-4'>
+      <Tabs className='justify-between sm:justify-start sticky bg-body top-20 pt-8 mb-8 pb-4'>
         {TABS.map((tab) => (
           <tab.tabView key={tab.id} tab={tab} currentTab={currentTab} setTab={setTab} />
         ))}
@@ -83,8 +87,6 @@ export const ProposalsUI = (props) => {
           <tab.view tab={tab} />
         </ContentPane>
       ))}
-
-      <AddGovernanceTokenToMetaMask />
     </>
   )
 }
@@ -119,7 +121,6 @@ const SnapshotTabView = (props) => {
 
 const TabView = (props) => {
   const { tab, count, currentTab, setTab } = props
-  const screenSize = useScreenSize()
   const isSelected = tab.id === currentTab
 
   return (
@@ -131,7 +132,7 @@ const TabView = (props) => {
         onClick={() => setTab(tab.id)}
       >
         <div className='flex'>
-          {tab.id}
+          {tab.title}
           {count > 0 && (
             <CountBadge
               count={count}
@@ -153,19 +154,27 @@ const CommonProposalsList = (props) => <ProposalsList proposalStates={props.tab.
 const TABS = [
   {
     id: 'active',
+    title: <Trans i18nKey='active'>Active</Trans>,
     view: CommonProposalsList,
     tabView: CommonTabView,
     proposalStates: [SORTED_STATES.active, SORTED_STATES.pending]
   },
-  { id: 'off-chain', view: SnapshotProposals, tabView: SnapshotTabView },
+  {
+    id: 'off-chain',
+    title: <Trans i18nKey='offChain'>Off-chain</Trans>,
+    view: SnapshotProposals,
+    tabView: SnapshotTabView
+  },
   {
     id: 'executable',
+    title: <Trans i18nKey='executable'>Executable</Trans>,
     view: CommonProposalsList,
     tabView: CommonTabView,
     proposalStates: [SORTED_STATES.executable, SORTED_STATES.pending]
   },
   {
     id: 'past',
+    title: <Trans i18nKey='past'>Past</Trans>,
     view: CommonProposalsList,
     tabView: CommonTabView,
     proposalStates: [SORTED_STATES.past]

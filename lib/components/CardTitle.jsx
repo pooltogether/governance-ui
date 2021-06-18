@@ -1,5 +1,5 @@
 import React from 'react'
 
 export const CardTitle = (props) => (
-  <h6 className='mb-4 text-accent-2 capitalize'>{props.children}</h6>
+  <h5 className='mb-4 text-accent-2 font-light'>{props.children}</h5>
 )
