@@ -5,7 +5,6 @@ import { Trans, useTranslation } from 'react-i18next'
 import { AddGovernanceTokenToMetaMask } from 'lib/components/AddGovernanceTokenToMetaMask'
 import { ProposalsList } from 'lib/components/Proposals/ProposalsList'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
-import { UsersPoolVotesCard } from 'lib/components/UsersPoolVotesCard'
 import { SORTED_STATES, useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
 import {
   ButtonLink,
