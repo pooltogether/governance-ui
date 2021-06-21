@@ -54,7 +54,7 @@ export const VotingPowerCard = (props) => {
   }
 
   return (
-    <Card theme={CardTheme.purple} className={classnames(className, 'relative')}>
+    <Card theme={CardTheme.secondary} className={classnames(className, 'relative sm:pb-5')}>
       {blockNumber && (
         <div className='mb-4 flex rounded px-4 py-1 w-fit-content h-fit-content bg-tertiary font-bold'>
           <FeatherIcon icon='alert-circle' className='mr-2 my-auto w-4 h-4' />
@@ -116,7 +116,7 @@ const LeftTop = (props) => {
   }
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col leading-tight'>
       <TopText>
         <Trans
           i18nKey='onChainVotesTitle'
@@ -150,7 +150,7 @@ const RightTop = (props) => {
   }
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col leading-tight pt-4 sm:pt-0 border-t sm:border-0 border-primary'>
       <TopText>
         <Trans i18nKey='offChainVotesTitle' />
       </TopText>
