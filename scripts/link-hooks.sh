@@ -9,4 +9,4 @@ cd ../jotai && yarn link
 # Back to root
 cd ../..
 # Link components
-yarn link @pooltogether/react-hooks
+yarn link @pooltogether/hooks

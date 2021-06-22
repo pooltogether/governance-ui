@@ -9,5 +9,5 @@ cd ../jotai && yarn unlink
 # Back to root
 cd ../..
 # Link components
-yarn unlink @pooltogether/react-hooks
+yarn unlink @pooltogether/hooks
 yarn install --force
