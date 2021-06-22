@@ -1,6 +1,6 @@
 cd node_modules
 # Link packages
-cd /react && yarn unlink
+cd react && yarn unlink
 cd ../react-query && yarn unlink
 cd ../react-dom && yarn unlink
 cd ../feather-icons-react && yarn unlink
