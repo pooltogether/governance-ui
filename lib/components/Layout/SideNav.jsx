@@ -5,7 +5,8 @@ import {
   SideAccountIcon,
   SideVoteIcon,
   SidePoolsIcon,
-  CountBadge
+  CountBadge,
+  SideRewardsIcon
 } from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
 import Link from 'next/link'
@@ -34,6 +35,17 @@ export const SideNav = (props) => {
         useRouter={useRouter}
       >
         <SideAccountIcon />
+      </SideNavLink>
+      <SideNavLink
+        shallow
+        href='https://app.pooltogether.com/rewards'
+        as='https://app.pooltogether.com/rewards'
+        label={t('rewards')}
+        Link={Link}
+        useRouter={useRouter}
+        match='/rewards'
+      >
+        <SideRewardsIcon />
       </SideNavLink>
       <SideNavLink
         href='/'

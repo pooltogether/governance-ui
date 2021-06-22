@@ -1,9 +1,9 @@
-import { useGovernanceChainId } from '@pooltogether/hooks'
-import FeatherIcon from 'feather-icons-react'
-import classnames from 'classnames'
-import { useSocialIdentity } from 'lib/hooks/useTwitterProfile'
 import React from 'react'
-import { BlockExplorerLink, ExternalLink, LinkTheme } from '@pooltogether/react-components'
+import classnames from 'classnames'
+import { useGovernanceChainId } from '@pooltogether/hooks'
+import { BlockExplorerLink, ExternalLink } from '@pooltogether/react-components'
+
+import { useSocialIdentity } from 'lib/hooks/useTwitterProfile'
 
 export const DelegateAddress = (props) => {
   const { address, className, theme } = props
