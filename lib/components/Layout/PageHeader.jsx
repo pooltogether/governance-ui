@@ -38,6 +38,7 @@ const LanguagePicker = () => {
   return (
     <SettingsItem label='Language'>
       <LanguagePickerDropdown
+        className='text-white'
         currentLang={currentLang}
         changeLang={(newLang) => {
           setCurrentLang(newLang)

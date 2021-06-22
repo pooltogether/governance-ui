@@ -3,6 +3,7 @@ import {
   BottomNavContainer,
   BottomNavLink,
   BottomPoolsIcon,
+  BottomRewardsIcon,
   BottomVoteIcon,
   CountBadge
 } from '@pooltogether/react-components'
@@ -31,6 +32,15 @@ export const BottomNav = (props) => {
         useRouter={useRouter}
       >
         <BottomAccountIcon />
+      </BottomNavLink>
+      <BottomNavLink
+        href='https://app.pooltogether.com/rewards'
+        as='https://app.pooltogether.com/rewards'
+        label={'Rewards'}
+        Link={Link}
+        useRouter={useRouter}
+      >
+        <BottomRewardsIcon />
       </BottomNavLink>
       <BottomNavLink href='/' as='/' label={'Vote'} Link={Link} useRouter={useRouter} match='/'>
         <VoteIcon />

@@ -105,28 +105,6 @@ const PoolBalanceModal = (props) => {
           <span className='font-bold'>{formattedTotalSupply}</span>
         </div>
       </div>
-
-      <ButtonLink
-        Link={Link}
-        textSize='xxxs'
-        onClick={openClaimRewards}
-        href='https://app.pooltogether.com/account#governance-claims'
-        as='https://app.pooltogether.com/account#governance-claims'
-        width='w-full'
-        className='mt-4'
-      >
-        {t('claimPool')}
-      </ButtonLink>
-      <ButtonLink
-        Link={Link}
-        textSize='xxxs'
-        as='https://sybil.org/#/delegates/pool'
-        href='https://sybil.org/#/delegates/pool'
-        width='w-full'
-        className='mt-4'
-      >
-        {t('activateVotingPower')}
-      </ButtonLink>
     </Modal>
   )
 }

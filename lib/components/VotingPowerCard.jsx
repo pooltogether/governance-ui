@@ -54,7 +54,7 @@ export const VotingPowerCard = (props) => {
   }
 
   return (
-    <Card theme={CardTheme.secondary} className={classnames(className, 'relative')}>
+    <Card theme={CardTheme.purple} className={classnames(className, 'relative')}>
       {blockNumber && (
         <div className='mb-4 flex rounded px-4 py-1 w-fit-content h-fit-content bg-tertiary font-bold'>
           <FeatherIcon icon='alert-circle' className='mr-2 my-auto w-4 h-4' />
@@ -118,7 +118,10 @@ const LeftTop = (props) => {
   return (
     <div className='flex flex-col'>
       <TopText>
-        <Trans i18nKey='onChainVotesTitle' components={{ PoolIcon: <PoolIcon /> }} />
+        <Trans
+          i18nKey='onChainVotesTitle'
+          components={{ PoolIcon: <PoolIcon className='my-auto mx-1' /> }}
+        />
       </TopText>
       <TopVotes votes={votes} disabled={disabled} />
     </div>
@@ -288,7 +291,7 @@ const RightBottom = (props) => {
               <ExternalLink
                 href={POOLPOOL_SNAPSHOT_URL}
                 theme={LinkTheme.light}
-                className='text-xs mx-1'
+                className='text-xs'
               />
             )
           }}
@@ -303,7 +306,7 @@ const RightBottom = (props) => {
         i18nKey='depositIntoPoolPoolLink'
         components={{
           LinkToPoolPool: (
-            <ExternalLink href={POOLPOOL_URL} theme={LinkTheme.light} className='text-xs mx-1' />
+            <ExternalLink href={POOLPOOL_URL} theme={LinkTheme.light} className='text-xs' />
           )
         }}
       />
@@ -313,7 +316,7 @@ const RightBottom = (props) => {
 
 // View Components
 
-const TopText = (props) => <span className='text-xs text-accent-1'>{props.children}</span>
+const TopText = (props) => <span className='text-xs text-accent-1 flex'>{props.children}</span>
 const TopVotes = (props) => {
   const { t } = useTranslation()
   const { votes, disabled, tip } = props
@@ -342,7 +345,7 @@ const ZeroBalanceVotingPowerCard = (props) => {
   const { t } = useTranslation()
 
   return (
-    <Card theme={CardTheme.secondary} className={className}>
+    <Card theme={CardTheme.purple} className={className}>
       {blockNumber && (
         <div className='mb-4 flex rounded px-4 py-1 w-fit-content h-fit-content bg-tertiary font-bold'>
           <FeatherIcon icon='alert-circle' className='mr-2 my-auto w-4 h-4' />

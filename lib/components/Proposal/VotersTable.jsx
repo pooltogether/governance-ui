@@ -37,20 +37,19 @@ export const VotersTable = (props) => {
         Header: t('voter'),
         accessor: 'voter',
         Cell: VoterCell,
-        className: 'text-sm text-accent-1',
         headerClassName: 'text-xs text-accent-1 font-light pb-2'
       },
       {
         Header: t('votingWeight'),
         accessor: 'votes',
-        className: 'text-sm text-accent-1',
+        className: 'text-xxs xs:text-sm text-accent-1 pb-auto',
         headerClassName: 'text-xs text-accent-1 font-light pb-2'
       },
       {
         Header: t('decision'),
         accessor: 'support',
         Cell: SupportCell,
-        className: 'text-sm text-accent-1',
+        className: 'text-xxs xs:text-sm text-accent-1 pb-auto',
         headerClassName: 'text-xs text-accent-1 font-light pb-2'
       }
     ]
@@ -105,9 +104,9 @@ const SupportCell = (props) => {
   const { t } = useTranslation()
 
   if (props.value) {
-    return <span className='text-sm text-accent-1'>{t('accepted')}</span>
+    return t('accepted')
   }
-  return <span className='text-sm text-accent-1'>{t('rejected')}</span>
+  return t('rejected')
 }
 
 const VoterCell = (props) => {
@@ -118,7 +117,7 @@ const VoterCell = (props) => {
       <BlockExplorerLink
         address={props.value}
         theme={LinkTheme.light}
-        className='text-sm'
+        className='text-xxs xs:text-sm'
         chainId={chainId}
       >
         <PoolIcon className='mr-2 my-auto' />
@@ -127,5 +126,11 @@ const VoterCell = (props) => {
     )
   }
 
-  return <DelegateAddress theme={LinkTheme.light} className='text-sm' address={props.value} />
+  return (
+    <DelegateAddress
+      theme={LinkTheme.light}
+      className='text-xxxs xs:text-sm'
+      address={props.value}
+    />
+  )
 }

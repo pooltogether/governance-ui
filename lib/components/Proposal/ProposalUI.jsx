@@ -123,7 +123,7 @@ const ProposalDescriptionCard = (props) => {
               style={{
                 backgroundImage: showMore
                   ? 'unset'
-                  : 'linear-gradient(0deg, var(--color-bg-default) 5%, transparent 100%)'
+                  : 'linear-gradient(0deg, var(--color-bg-card) 5%, transparent 100%)'
               }}
             />
           )}
@@ -175,7 +175,7 @@ const ProposalActionsCard = (props) => {
               style={{
                 backgroundImage: showMore
                   ? 'unset'
-                  : 'linear-gradient(0deg, var(--color-bg-default) 5%, transparent 100%)'
+                  : 'linear-gradient(0deg, var(--color-bg-card) 5%, transparent 100%)'
               }}
             />
           )}
