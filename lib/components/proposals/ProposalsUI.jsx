@@ -75,7 +75,7 @@ export const ProposalsUI = (props) => {
 
       <VotingPowerCard className='mb-4' />
 
-      <Tabs className='justify-between sm:justify-start sticky bg-body top-20 pt-8 mb-8 pb-4'>
+      <Tabs className='justify-between sm:justify-start sticky bg-body top-20 pt-10 sm:pt-16 mb-2 pb-4'>
         {TABS.map((tab) => (
           <tab.tabView key={tab.id} tab={tab} currentTab={currentTab} setTab={setTab} />
         ))}
@@ -135,7 +135,10 @@ const TabView = (props) => {
           {count > 0 && (
             <CountBadge
               count={count}
-              bgClassName='bg-highlight-1'
+              bgClassName={classnames({
+                'bg-blue': !isSelected,
+                'bg-highlight-1': isSelected
+              })}
               className={classnames('hidden xs:flex ml-2 my-auto', {
                 'opacity-50': !isSelected
               })}

@@ -132,7 +132,7 @@ export const ProposalStatus = (props) => {
   return (
     <div
       className={classnames(
-        'ml-auto text-white sm:ml-0 mb-2 sm:mb-0 flex rounded px-2 py-1 w-fit-content h-fit-content bg-tertiary whitespace-no-wrap',
+        'sm:ml-auto text-white sm:ml-0 mb-2 sm:mb-0 flex items-center rounded px-2 py-1 w-fit-content h-fit-content bg-tertiary whitespace-no-wrap',
         {
           'text-orange': statusValue < 0,
           'text-highlight-9': statusValue > 0,
@@ -141,14 +141,14 @@ export const ProposalStatus = (props) => {
       )}
     >
       {proposal.endDate && (
-        <div className='pl-2 sm:pl-4 mr-2 sm:mr-4 text-right' style={{ minWidth: 104 }}>
+        <div className='sm:pl-4 mr-2 sm:mr-4 sm:text-right' style={{ minWidth: 104 }}>
           {proposal.endDate.toLocaleString(DateTime.DATE_MED)}
         </div>
       )}
       {icon && showIcon && (
-        <FeatherIcon icon={icon} className='my-auto mr-2 stroke-current w-4 h-4' />
+        <FeatherIcon icon={icon} className='mr-2 stroke-current w-3 h-3 sm:w-4 sm:h-4' />
       )}
-      <div className='pr-2 sm:pr-4 font-bold capitalized'>{t(status)}</div>
+      <div className='sm:pr-4 font-bold capitalized'>{t(status)}</div>
     </div>
   )
 }
