@@ -18,7 +18,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { SnapshotProposals } from 'lib/components/Proposals/SnapshotProposals'
 import { queryParamUpdater } from '@pooltogether/utilities'
-import { ScreenSize, useScreenSize } from '@pooltogether/hooks'
 import { useSnapshotProposals } from 'lib/hooks/useSnapshotProposals'
 import { VotingPowerCard } from 'lib/components/VotingPowerCard'
 
