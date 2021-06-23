@@ -1,6 +1,11 @@
-import { ProposalsUI } from 'lib/components/proposals/ProposalsUI'
+import { LandingPage } from 'lib/components/LandingPage'
+import Layout from 'lib/components/Layout'
 import React from 'react'
 
 export default function IndexPage(props) {
-  return <ProposalsUI />
+  return (
+    <Layout>
+      <LandingPage />
+    </Layout>
+  )
 }

@@ -1,6 +1,5 @@
+import { ThemeContext } from '@pooltogether/react-components'
 import React, { useContext } from 'react'
-
-import { ThemeContext } from 'lib/components/contextProviders/ThemeContextProvider'
 
 export const LoadingSpinner = ({}) => {
   const { theme } = useContext(ThemeContext)

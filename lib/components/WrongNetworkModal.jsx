@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SUPPORTED_CHAIN_IDS } from 'lib/constants'
 import { useOnboard, useIsWalletOnSupportedNetwork } from '@pooltogether/hooks'
-import { Modal } from 'lib/components/Modal'
+import { Modal } from '@pooltogether/react-components'
 import { networkBgColorClassname } from 'lib/utils/networkColorClassnames'
 import { networkNameToChainId } from 'lib/utils/networkNameToChainId'
 import { getNetworkNameAliasByChainId } from '@pooltogether/utilities'
@@ -57,6 +57,7 @@ export function WrongNetworkModal(props) {
         handleClose={handleClose}
         visible={!isWalletOnSupportedNetwork && !bypassed}
         header={t('ethereumNetworkMismatch')}
+        label='wrong network modal'
       >
         {t('yourEthereumNetworkIsUnsupported')}{' '}
         <div className='inline-flex items-start justify-start font-bold text-white text-center mt-2'>

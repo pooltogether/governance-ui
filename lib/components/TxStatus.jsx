@@ -1,19 +1,19 @@
 import FeatherIcon from 'feather-icons-react'
 import React, { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner'
+import { useGovernanceChainId } from '@pooltogether/hooks'
 
-import { useOnboard } from '@pooltogether/hooks'
 import { Banner } from 'lib/components/Banner'
-import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
 import { shorten } from 'lib/utils/shorten'
 import { useTranslation } from 'react-i18next'
+import { BlockExplorerLink } from '@pooltogether/react-components'
 
 export const TxStatus = (props) => {
   const { tx } = props
   const { hideOnInWallet, hideOnSent, hideOnSuccess, hideOnError } = props
   const { inWalletMessage, sentMessage, successMessage, errorMessage } = props
   const [showExtraMessage, setShowExtraMessage] = useState(false)
-  const { network: chainId } = useOnboard()
+  const chainId = useGovernanceChainId()
   const { t } = useTranslation()
 
   const txCancelled = tx?.cancelled
@@ -88,13 +88,13 @@ export const TxStatus = (props) => {
       {tx.hash && (
         <div className='text-xxs sm:text-sm text-accent-1 opacity-80 mt-2'>
           {t('transactionHash')}
-          <EtherscanTxLink
+          <BlockExplorerLink
             chainId={chainId}
-            hash={tx.hash}
+            txHash={tx.hash}
             className='underline text-accent-1 opacity-80'
           >
             {shorten(tx.hash)}
-          </EtherscanTxLink>
+          </BlockExplorerLink>
         </div>
       )}
 

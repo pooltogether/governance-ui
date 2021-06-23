@@ -1,13 +1,14 @@
 import React from 'react'
-import { useOnboard } from '@pooltogether/hooks'
+import { useOnboard, useGovernanceChainId } from '@pooltogether/hooks'
 
 import { useTranslation } from 'react-i18next'
-import { Button } from 'lib/components/Button'
+import { Button } from '@pooltogether/react-components'
 import { addTokenToMetaMask } from 'lib/services/addTokenToMetaMask'
 
 export function AddGovernanceTokenToMetaMask(props) {
   const { t } = useTranslation()
-  const { network: chainId, walletName } = useOnboard()
+  const { walletName } = useOnboard()
+  const chainId = useGovernanceChainId()
 
   const handleAddTokenToMetaMask = (e) => {
     e.preventDefault()

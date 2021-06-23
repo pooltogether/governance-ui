@@ -2,9 +2,8 @@ import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 
 import { useTranslation } from 'react-i18next'
-import { EtherscanTxLink } from 'lib/components/EtherscanTxLink'
-import { PTHint } from 'lib/components/PTHint'
 import { LoadingSpinner } from 'lib/components/LoadingSpinner'
+import { BlockExplorerLink, Tooltip } from '@pooltogether/react-components'
 
 export function TransactionsListItem(props) {
   const { t } = useTranslation()
@@ -21,9 +20,9 @@ export function TransactionsListItem(props) {
         <div className='pr-2'>
           {tx.hash ? (
             <>
-              <EtherscanTxLink chainId={tx.ethersTx.chainId} hash={tx.hash}>
+              <BlockExplorerLink chainId={tx.ethersTx.chainId} txHash={tx.hash}>
                 {tx.name}
-              </EtherscanTxLink>
+              </BlockExplorerLink>
             </>
           ) : (
             tx.name
@@ -46,26 +45,28 @@ export function TransactionsListItem(props) {
 
           {tx.completed && !tx.error && (
             <>
-              <EtherscanTxLink noIcon chainId={tx.ethersTx.chainId} hash={tx.hash}>
+              <BlockExplorerLink noIcon chainId={tx.ethersTx.chainId} txHash={tx.hash}>
                 <FeatherIcon
                   icon='check-circle'
                   className='list-item--icon relative w-5 h-5 text-green'
                 />
-              </EtherscanTxLink>
+              </BlockExplorerLink>
             </>
           )}
 
           {tx.reason && (
             <>
-              <PTHint tip={tx.reason}>{errorIcon}</PTHint>
+              <Tooltip id={tx.hash} tip={tx.reason}>
+                {errorIcon}
+              </Tooltip>
             </>
           )}
 
           {tx.error && !tx.reason && (
             <>
-              <EtherscanTxLink noIcon chainId={tx.ethersTx.chainId} hash={tx.hash}>
+              <BlockExplorerLink noIcon chainId={tx.ethersTx.chainId} txHash={tx.hash}>
                 {errorIcon}
-              </EtherscanTxLink>
+              </BlockExplorerLink>
             </>
           )}
         </div>

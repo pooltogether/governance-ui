@@ -114,7 +114,7 @@ export const PROPOSAL_STATES = [
   PROPOSAL_STATUS.executed
 ]
 
-export const VOTERS_PER_PAGE = 10
+export const VOTERS_PER_PAGE = 7
 export const DELEGATES_PER_PAGE = 15
 
 export const POOLPOOL_SNAPSHOT_URL = 'https://snapshot.org/#/poolpool.pooltogether.eth'

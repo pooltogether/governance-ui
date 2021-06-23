@@ -1,158 +1,184 @@
-import React, { useLayoutEffect } from 'react'
-import FeatherIcon from 'feather-icons-react'
+import React, { useState } from 'react'
 import classnames from 'classnames'
 
 import { Trans, useTranslation } from 'react-i18next'
 import { AddGovernanceTokenToMetaMask } from 'lib/components/AddGovernanceTokenToMetaMask'
-import { Button } from 'lib/components/Button'
-import { ProposalsList } from 'lib/components/proposals/ProposalsList'
+import { ProposalsList } from 'lib/components/Proposals/ProposalsList'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
-import { UsersPoolVotesCard } from 'lib/components/UsersPoolVotesCard'
-import { V3LoadingDots } from 'lib/components/V3LoadingDots'
-import { useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
-import { ButtonLink } from 'lib/components/ButtonLink'
+import { SORTED_STATES, useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
 import {
-  DISCORD_INVITE_URL,
-  POOLPOOL_SNAPSHOT_URL,
-  POOLPOOL_URL,
-  POOLTOGETHER_GOV_FORUM_URL,
-  POOLTOGETHER_SNAPSHOT_URL
-} from 'lib/constants'
+  ButtonLink,
+  ContentPane,
+  CountBadge,
+  PageTitleAndBreadcrumbs,
+  Tab,
+  Tabs
+} from '@pooltogether/react-components'
 import Link from 'next/link'
-import useScreenSize, { ScreenSize } from 'lib/hooks/useScreenSize'
+import { useRouter } from 'next/router'
+import { SnapshotProposals } from 'lib/components/Proposals/SnapshotProposals'
+import { queryParamUpdater } from '@pooltogether/utilities'
+import { ScreenSize, useScreenSize } from '@pooltogether/hooks'
+import { useSnapshotProposals } from 'lib/hooks/useSnapshotProposals'
+import { VotingPowerCard } from 'lib/components/VotingPowerCard'
 
 export const ProposalsUI = (props) => {
   const { t } = useTranslation()
 
-  const screenSize = useScreenSize()
+  const router = useRouter()
+  const routerView = String(router?.query?.view)
+  let defaultView = TABS[0].id
+  if (routerView && TABS.find((tab) => tab.id === routerView)) {
+    defaultView = routerView
+  }
 
-  useLayoutEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+  const [currentTab, setCurrentTab] = useState(defaultView)
 
-  const { error, isFetched, sortedProposals } = useAllProposalsSorted()
-
-  if (!isFetched) {
-    return (
-      <div className='flex flex-grow'>
-        <V3LoadingDots className='m-auto' />
-      </div>
-    )
+  const setTab = (tab) => {
+    setCurrentTab(tab)
+    queryParamUpdater.add(router, { view: tab })
   }
 
   return (
     <>
-      <RetroactivePoolClaimBanner />
-
-      <UsersPoolVotesCard />
-
-      <div className='my-12'>
-        <div className='flex flex-col sm:flex-row mb-8'>
-          <div className='sm:w-2/3'>
-            <h3 className='text-inverse'>{t('pooltogetherGovernance')}</h3>
-
-            <p className='text-inverse mb-8 sm:mb-0'>
-              {t('theProtocolIsControlledByDecentralizedGovernance')}
-              <a
-                href='https://medium.com/p/23b09f36db48'
-                target='_blank'
-                rel='noreferrer noopener'
-                className='text-inverse hover:text-highlight-2 underline trans trans-fast ml-1 font-bold'
-              >
-                {t('readMoreAboutPoolTogetherGovernance')}
-                <LinkIcon className='w-4 h-4 ml-1 mb-1' />
-              </a>
-              .
-            </p>
-          </div>
-          <div className='mx-4 sm:ml-4 sm:w-1/3 flex flex-col justify-center'>
-            {Boolean(sortedProposals.active.length) && screenSize <= ScreenSize.sm && (
-              <ButtonLink
-                primary
-                href='#_viewActiveProposals'
-                textSize='xxs'
-                type='button'
-                className='w-full mb-4'
-              >
-                {t('viewActiveProposals')}
-              </ButtonLink>
-            )}
-            <ButtonLink
-              as={`/proposals/create`}
-              href={`/proposals/create`}
-              disabled
-              textSize='xxs'
-              className='w-full mb-4'
-              tertiary
-            >
-              {t('createAProposal')}
-            </ButtonLink>
-          </div>
-        </div>
-
-        <h3 className='mb-4 text-lg'>{t('lookingToGetInvolved')}</h3>
-
-        <div className='flex flex-col sm:flex-row mb-8 sm:mb-16'>
-          <SmallCard>
-            <h6 className='mb-2'>{t('joinTheDiscussion')}</h6>
-            <Trans
-              i18nKey='checkoutTheForumAndDiscord'
-              defaults='Check out our <linkToForum>forum</linkToForum> and our <linkToDiscord>Discord</linkToDiscord> to stay up to date.'
-              components={{
-                linkToForum: <SmallCardLink href={POOLTOGETHER_GOV_FORUM_URL} />,
-                linkToDiscord: <SmallCardLink href={DISCORD_INVITE_URL} />
-              }}
-            />
-          </SmallCard>
-          <SmallCard>
-            <h6 className='mb-2'>{t('wantToVoteGasFree')}</h6>
-            <Trans
-              i18nKey='depositIntoPoolPoolToVoteGasFree'
-              defaults='Deposit into the <poolPoolLink>POOL Pool</poolPoolLink> to vote without transaction fees on <snapshotLink>Snapshot</snapshotLink>.'
-              components={{
-                poolPoolLink: <SmallCardLink href={POOLPOOL_URL} />,
-                snapshotLink: <SmallCardLink href={POOLPOOL_SNAPSHOT_URL} />
-              }}
-            />
-          </SmallCard>
-        </div>
+      <div className='flex flex-col sm:flex-row mb-10 sm:justify-between'>
+        <PageTitleAndBreadcrumbs
+          Link={Link}
+          title={t('governance')}
+          breadcrumbs={[
+            {
+              href: '/',
+              as: '/',
+              name: t('governance')
+            },
+            {
+              name: t('proposals')
+            }
+          ]}
+          sizeClassName=''
+          className='mb-4 sm:mb-0'
+        />
+        <ButtonLink
+          Link={Link}
+          href='/proposals/create'
+          as='/proposals/create'
+          className='w-full sm:w-max h-fit-content'
+          border='transparent'
+          text='primary'
+          bg='green'
+        >
+          <Trans i18nKey='createANewProposal' />
+        </ButtonLink>
       </div>
 
-      <ProposalsList />
+      <RetroactivePoolClaimBanner />
 
-      <AddGovernanceTokenToMetaMask />
+      <VotingPowerCard className='mb-4' />
+
+      <Tabs className='justify-between sm:justify-start sticky bg-body top-20 pt-10 sm:pt-16 mb-2 pb-4'>
+        {TABS.map((tab) => (
+          <tab.tabView key={tab.id} tab={tab} currentTab={currentTab} setTab={setTab} />
+        ))}
+      </Tabs>
+
+      {TABS.map((tab) => (
+        <ContentPane key={tab.id} isSelected={tab.id === currentTab}>
+          <tab.view tab={tab} />
+        </ContentPane>
+      ))}
     </>
   )
 }
 
-const SmallCard = (props) => (
-  <div
-    className={
-      'p-8 mx-auto w-full sm:w-1/2 my-2 sm:my-0 sm:mx-4 sm:first:ml-0 sm:last:mr-0 last:mb-0 bg-card rounded-xl'
-    }
-  >
-    {props.children}
-  </div>
-)
+const CommonTabView = (props) => {
+  const { tab } = props
 
-const InternalLink = (props) => (
-  <Link as={props.as} href={props.href}>
-    <a className={props.className}>{props.children}</a>
-  </Link>
-)
+  const { isFetched, sortedProposals } = useAllProposalsSorted()
 
-const LinkIcon = (props) => (
-  <FeatherIcon icon='external-link' className={classnames('inline-block', props.className)} />
-)
+  let count = 0
+  if (isFetched) {
+    const proposals = []
+    tab.proposalStates.forEach((proposalState) => {
+      proposals.push(...sortedProposals[proposalState])
+    })
+    count = proposals.length
+  }
 
-const SmallCardLink = (props) => (
-  <a
-    href={props.href}
-    target='_blank'
-    rel='noreferrer noopener'
-    className='font-bold underline trans-fast'
-  >
-    {props.children}
-    <LinkIcon className='w-4 h-4 mx-1 mb-1' />
-  </a>
-)
+  return <TabView {...props} count={count} />
+}
+
+const SnapshotTabView = (props) => {
+  const { data: proposals, isFetched, error } = useSnapshotProposals()
+
+  let count = 0
+  if (isFetched && !error) {
+    count = proposals.length
+  }
+
+  return <TabView {...props} count={count} />
+}
+
+const TabView = (props) => {
+  const { tab, count, currentTab, setTab } = props
+  const isSelected = tab.id === currentTab
+
+  return (
+    <div className='flex sm:mr-6 lg:mr-8 last:mr-0'>
+      <Tab
+        key={tab.id}
+        isSelected={isSelected}
+        className='flex mx-2'
+        onClick={() => setTab(tab.id)}
+      >
+        <div className='flex'>
+          {tab.title}
+          {count > 0 && (
+            <CountBadge
+              count={count}
+              bgClassName={classnames({
+                'bg-blue': !isSelected,
+                'bg-highlight-1': isSelected
+              })}
+              className={classnames('hidden xs:flex ml-2 my-auto', {
+                'opacity-50': !isSelected
+              })}
+              textClassName={isSelected ? 'text-match' : 'text-white'}
+            />
+          )}
+        </div>
+      </Tab>
+    </div>
+  )
+}
+
+const CommonProposalsList = (props) => <ProposalsList proposalStates={props.tab.proposalStates} />
+
+const TABS = [
+  {
+    id: 'active',
+    title: <Trans i18nKey='active'>Active</Trans>,
+    view: CommonProposalsList,
+    tabView: CommonTabView,
+    proposalStates: [SORTED_STATES.active, SORTED_STATES.pending]
+  },
+  {
+    id: 'off-chain',
+    title: <Trans i18nKey='offChain'>Off-chain</Trans>,
+    view: SnapshotProposals,
+    tabView: SnapshotTabView
+  },
+  {
+    id: 'executable',
+    title: <Trans i18nKey='executable'>Executable</Trans>,
+    view: CommonProposalsList,
+    tabView: CommonTabView,
+    proposalStates: [SORTED_STATES.executable, SORTED_STATES.pending]
+  },
+  {
+    id: 'past',
+    title: <Trans i18nKey='past'>Past</Trans>,
+    view: CommonProposalsList,
+    tabView: CommonTabView,
+    proposalStates: [SORTED_STATES.past]
+  }
+]
