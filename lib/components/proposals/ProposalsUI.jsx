@@ -1,11 +1,6 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
-
 import { Trans, useTranslation } from 'react-i18next'
-import { AddGovernanceTokenToMetaMask } from 'lib/components/AddGovernanceTokenToMetaMask'
-import { ProposalsList } from 'lib/components/Proposals/ProposalsList'
-import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
-import { SORTED_STATES, useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
 import {
   ButtonLink,
   ContentPane,
@@ -16,8 +11,12 @@ import {
 } from '@pooltogether/react-components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { SnapshotProposals } from 'lib/components/Proposals/SnapshotProposals'
 import { queryParamUpdater } from '@pooltogether/utilities'
+
+import { ProposalsList } from 'lib/components/Proposals/ProposalsList'
+import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
+import { SORTED_STATES, useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
+import { SnapshotProposals } from 'lib/components/Proposals/SnapshotProposals'
 import { useSnapshotProposals } from 'lib/hooks/useSnapshotProposals'
 import { VotingPowerCard } from 'lib/components/VotingPowerCard'
 
