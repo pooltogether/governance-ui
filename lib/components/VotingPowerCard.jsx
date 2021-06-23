@@ -54,7 +54,7 @@ export const VotingPowerCard = (props) => {
   }
 
   return (
-    <Card theme={CardTheme.secondary} className={classnames(className, 'relative sm:pb-5')}>
+    <Card theme={CardTheme.purple} className={classnames(className, 'relative')}>
       {blockNumber && (
         <div className='mb-4 flex rounded px-4 py-1 w-fit-content h-fit-content bg-tertiary font-bold'>
           <FeatherIcon icon='alert-circle' className='mr-2 my-auto w-4 h-4' />

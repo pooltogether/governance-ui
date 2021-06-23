@@ -139,7 +139,7 @@ const TabView = (props) => {
                 'bg-blue': !isSelected,
                 'bg-highlight-1': isSelected
               })}
-              className={classnames('ml-2 my-auto', {
+              className={classnames('hidden xs:flex ml-2 my-auto', {
                 'opacity-50': !isSelected
               })}
               textClassName={isSelected ? 'text-match' : 'text-white'}
