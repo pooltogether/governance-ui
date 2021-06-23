@@ -18,6 +18,7 @@ import '@reach/menu-button/styles.css'
 import '@reach/tooltip/styles.css'
 
 import 'assets/styles/index.css'
+import 'assets/styles/proposalDescription.css'
 import '@pooltogether/react-components/dist/index.css'
 
 import {

@@ -5,7 +5,7 @@ import React from 'react'
 export const GovernanceNav = (props) => {
   return (
     <div className='flex flex-row mb-8'>
-      <ButtonLink href='/proposals' className='mr-8' Link={Link}>
+      <ButtonLink Link={Link} href='/proposals' className='mr-8'>
         Proposals
       </ButtonLink>
       <ButtonLink Link={Link} href='/delegates'>

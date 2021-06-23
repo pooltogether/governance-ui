@@ -18,12 +18,12 @@
     "test": "jest",
     "testcov": "jest --coverage --coverageDirectory=coverage && open ./coverage/index.html",
     "watch": "yarn run test --watch",
-    "link-hooks": "cd node_modules/react && yarn link && cd ../react-query && yarn link && cd ../react-dom && yarn link && cd ../jotai && yarn link && cd ../.. && yarn link @pooltogether/hooks",
-    "unlink-hooks": "cd node_modules/react && yarn unlink && cd ../react-query && yarn unlink && cd ../react-dom && yarn unlink && cd ../jotai && yarn unlink && cd ../.. && yarn unlink @pooltogether/hooks",
-    "link-components": "yarn link @pooltogether/react-components && cd node_modules/react && yarn link && cd ../react-query && yarn link && cd ../react-dom && yarn link && cd ../feather-icons-react && yarn link && cd ../jotai && yarn link && cd ../framer-motion && yarn link  && cd ../lodash && yarn link && cd ../tailwindcss && yarn link && cd ../eth-revert-reason && yarn link && cd ../@pooltogether && cd hooks && yarn link && cd ../utilities && yarn link && cd ../../..",
-    "unlink-components": "cd node_modules/react && yarn unlink && cd ../react-dom && yarn unlink && cd ../jotai && yarn unlink && cd ../react-query && yarn unlink && cd ../feather-icons-react && yarn unlink && cd ../eth-revert-reason && yarn unlink && cd ../framer-motion  && yarn unlink && cd ../lodash  && yarn unlink && cd ../tailwindcss && yarn unlink && cd ../@pooltogether && cd hooks && yarn unlink && cd ../utilities && yarn unlink && cd .. && cd ../.. && yarn unlink @pooltogether/react-components",
-    "link-components-and-hooks": "cd node_modules/react && yarn link && cd ../react-query && yarn link  && cd ../eth-revert-reason && yarn link && cd ../react-dom && yarn link && cd ../jotai && yarn link && cd ../feather-icons-react && yarn link && cd ../framer-motion && yarn link && cd ../lodash && yarn link && cd ../tailwindcss && yarn link && cd ../@pooltogether && cd utilities && yarn link && cd .. cd ../.. && yarn link @pooltogether/react-components && yarn link @pooltogether/hooks",
-    "unlink-components-and-hooks": "cd node_modules/react && yarn unlink && cd ../react-query && yarn unlink  && cd ../eth-revert-reason && yarn unlink && cd ../react-dom && yarn unlink && cd ../jotai && yarn unlink && cd ../feather-icons-react && yarn unlink && cd ../framer-motion  && yarn unlink && cd ../lodash  && yarn unlink && cd ../tailwindcss && yarn unlink && cd ../@pooltogether && cd utilities && yarn unlink && cd .. && cd ../.. && yarn unlink @pooltogether/react-components && yarn unlink @pooltogether/hooks"
+    "link-hooks": "./scripts/link-hooks.sh",
+    "unlink-hooks": "./scripts/unlink-hooks.sh",
+    "link-components": "./scripts/link-components.sh",
+    "unlink-components": "./scripts/unlink-components.sh",
+    "link-components-and-hooks": "./scripts/link-components-and-hooks.sh",
+    "unlink-components-and-hooks": "./scripts/unlink-components-and-hooks.sh"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -59,11 +59,11 @@
     "@pooltogether/current-pool-data": "3.4.18",
     "@pooltogether/etherplex": "^1.0.2",
     "@pooltogether/evm-chains-extended": "^0.4.3",
-    "@pooltogether/hooks": "^0.1.5",
+    "@pooltogether/hooks": "^0.1.6",
     "@pooltogether/loot-box": "1.0.0",
     "@pooltogether/pooltogether-contracts": "3.2.0-beta.2",
-    "@pooltogether/react-components": "^0.0.15",
-    "@pooltogether/utilities": "^0.0.25",
+    "@pooltogether/react-components": "^0.0.22",
+    "@pooltogether/utilities": "^0.0.26",
     "@reach/dialog": "^0.10.5",
     "@reach/menu-button": "^0.10.5",
     "@reach/tooltip": "^0.10.5",

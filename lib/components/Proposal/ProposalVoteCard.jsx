@@ -2,14 +2,14 @@ import React, { useMemo, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import GovernorAlphaABI from 'abis/GovernorAlphaABI'
 import { useOnboard, useUsersAddress, useGovernanceChainId } from '@pooltogether/hooks'
-import { Card, Button, Tooltip } from '@pooltogether/react-components'
+import { Card, Button, Tooltip, LinkTheme } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
 import { useTokenHolder } from 'lib/hooks/useTokenHolder'
 import { useVoteData } from 'lib/hooks/useVoteData'
 import { CONTRACT_ADDRESSES, PROPOSAL_STATUS } from 'lib/constants'
 import classnames from 'classnames'
-import { ProposalStatus } from 'lib/components/proposals/ProposalsList'
+import { ProposalStatus } from 'lib/components/Proposals/ProposalsList'
 import { useRouter } from 'next/router'
 import { useProposalVotesTotalPages } from 'lib/hooks/useProposalVotesTotalPages'
 import { useProposalVotes } from 'lib/hooks/useProposalVotes'
@@ -21,12 +21,14 @@ import { useInterval } from 'lib/hooks/useInterval'
 import { ethers } from 'ethers'
 import { TimeCountDown } from 'lib/components/TimeCountDown'
 import { useIsWalletOnProperNetwork } from 'lib/hooks/useIsWalletOnProperNetwork'
+import { DelegateAddress } from 'lib/components/DelegateAddress'
 
 export const ProposalVoteCard = (props) => {
   const { proposal, refetchProposalData, blockNumber } = props
 
   const { t } = useTranslation()
-  const { id, title, status } = proposal
+  const { id, title, status, proposer } = proposal
+  const { id: authorsAddress } = proposer
 
   const usersAddress = useUsersAddress()
   const { data: tokenHolderData } = useTokenHolder(usersAddress, blockNumber)
@@ -53,6 +55,12 @@ export const ProposalVoteCard = (props) => {
         <h4 className={classnames('mr-2', { 'mb-2 sm:mb-8': showButtons })}>{title}</h4>
         <ProposalStatus proposal={proposal} />
       </div>
+
+      <div className='text-xs text-accent-1'>
+        <span className='mr-2'>Proposed by:</span>
+        <DelegateAddress className='text-xs' theme={LinkTheme.light} address={authorsAddress} />
+      </div>
+
       {voteDataIsFetched && voteData?.delegateDidVote && (
         <div className='flex my-auto mt-2'>
           <h6 className='font-normal mr-2 sm:mr-4'>{t('myVote')}:</h6>

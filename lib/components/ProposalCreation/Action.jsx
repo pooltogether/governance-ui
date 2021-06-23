@@ -12,7 +12,7 @@ import { isValidAddress } from 'lib/utils/isValidAddress'
 import { usePrizePools } from 'lib/hooks/usePrizePools'
 import { CONTRACT_ADDRESSES } from 'lib/constants'
 import { useEtherscanAbi } from 'lib/hooks/useEtherscanAbi'
-import { EMPTY_CONTRACT, EMPTY_FN } from 'lib/components/proposals/ProposalCreationForm'
+import { EMPTY_CONTRACT, EMPTY_FN } from 'lib/components/ProposalCreation/ProposalCreationForm'
 import { isValidSolidityData } from 'lib/utils/isValidSolidityData'
 
 import DelegateableERC20ABI from 'abis/DelegateableERC20ABI'
