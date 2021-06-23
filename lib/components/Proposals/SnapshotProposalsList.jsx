@@ -6,7 +6,7 @@ import {
   LoadingProposalsList,
   ProposalItemContainer,
   ProposalListContainer
-} from 'lib/components/ProposalList/ProposalsList'
+} from 'lib/components/Proposals/ProposalsList'
 import { POOLPOOL_SNAPSHOT_URL } from 'lib/constants'
 import { useSnapshotProposals } from 'lib/hooks/useSnapshotProposals'
 import { msToSeconds } from 'lib/utils/msToSeconds'
