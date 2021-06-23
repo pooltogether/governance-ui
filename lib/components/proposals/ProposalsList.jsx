@@ -2,7 +2,13 @@ import React, { useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import classnames from 'classnames'
 import { DateTime } from 'luxon'
-import { Card, ButtonLink, ExternalLink, LoadingDots } from '@pooltogether/react-components'
+import {
+  Card,
+  ButtonLink,
+  ExternalLink,
+  LoadingDots,
+  LinkTheme
+} from '@pooltogether/react-components'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { PROPOSAL_STATUS } from 'lib/constants'
@@ -11,7 +17,7 @@ import { SORTED_STATES, useAllProposalsSorted } from 'lib/hooks/useAllProposalsS
 import { useProposalData } from 'lib/hooks/useProposalData'
 import { msToSeconds } from 'lib/utils/msToSeconds'
 
-import ChatBubble from 'assets/images/chat-bubble.svg'
+import EmptyBox from 'assets/images/empty-box.png'
 import Link from 'next/link'
 
 export const ProposalsList = (props) => {
@@ -200,31 +206,31 @@ export const EmptyProposalsList = () => {
 
   return (
     <Card className='mb-6'>
-      <div className='mx-auto py-4 px-8 sm:py-8 sm:px-10 bg-body rounded-xl flex flex-col text-center text-inverse'>
-        <img src={ChatBubble} className='mx-auto w-16 h-16 sm:w-auto sm:h-auto mb-4 sm:mb-6' />
-        <h4 className='mb-2'>{t('noActiveProposalsAtTheMoment')}</h4>
-        <p>
-          {t('weEncourageYouToDiscussAnyIdeasYouHaveOn')}{' '}
-          <ExternalLink
-            underline
-            className='text-inverse'
-            href='https://discord.gg/hxPhPDW'
-            title='Discord'
-          >
-            Discord
-          </ExternalLink>{' '}
-          {t('and')}{' '}
-          <ExternalLink
-            underline
-            className='text-inverse'
-            href='https://gov.pooltogether.com/'
-            title='Discourse'
-          >
-            Discourse
-          </ExternalLink>
-          .
-        </p>
-      </div>
+      <img src={EmptyBox} className='mx-auto w-16 h-16 sm:w-auto sm:h-auto my-4 sm:my-8' />
+      <h4 className='mt-4 mb-2 text-center text-accent-1'>{t('noActiveProposalsAtTheMoment')}</h4>
+      <p className='text-center text-accent-1 mb-4 sm:mb-6'>
+        <Trans
+          i18nKey='discussIdeasOnDiscordOrDiscourse'
+          components={{
+            LinkToDiscord: (
+              <ExternalLink
+                theme={LinkTheme.light}
+                underline
+                href='https://discord.gg/hxPhPDW'
+                title='Discord'
+              />
+            ),
+            LinkToDiscourse: (
+              <ExternalLink
+                theme={LinkTheme.light}
+                underline
+                href='https://gov.pooltogether.com/'
+                title='Discourse'
+              />
+            )
+          }}
+        />
+      </p>
     </Card>
   )
 }
