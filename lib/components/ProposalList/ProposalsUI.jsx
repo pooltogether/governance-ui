@@ -13,10 +13,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { queryParamUpdater } from '@pooltogether/utilities'
 
-import { ProposalsList } from 'lib/components/Proposals/ProposalsList'
+import { ProposalsList } from 'lib/components/ProposalList/ProposalsList'
 import { RetroactivePoolClaimBanner } from 'lib/components/RetroactivePoolClaimBanner'
 import { SORTED_STATES, useAllProposalsSorted } from 'lib/hooks/useAllProposalsSorted'
-import { SnapshotProposals } from 'lib/components/Proposals/SnapshotProposals'
+import { SnapshotProposals } from 'lib/components/ProposalList/SnapshotProposals'
 import { useSnapshotProposals } from 'lib/hooks/useSnapshotProposals'
 import { VotingPowerCard } from 'lib/components/VotingPowerCard'
 

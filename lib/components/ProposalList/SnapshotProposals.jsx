@@ -1,4 +1,4 @@
-import { SnapshotProposalsList } from 'lib/components/Proposals/SnapshotProposalsList'
+import { SnapshotProposalsList } from 'lib/components/ProposalList/SnapshotProposalsList'
 import { PoolIcon, TipBanner, ExternalLink, LinkTheme } from '@pooltogether/react-components'
 import React from 'react'
 import { POOLPOOL_SNAPSHOT_URL } from 'lib/constants'
