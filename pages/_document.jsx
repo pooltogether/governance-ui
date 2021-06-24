@@ -22,6 +22,7 @@ class MyDocument extends Document {
         <Head>
           <>
             <title>{title}</title>
+            <meta name='google' content='notranslate' />
 
             <link rel='icon' href='/favicon.png' type='image/x-icon' />
 
