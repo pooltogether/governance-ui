@@ -52,6 +52,7 @@ const LanguagePicker = () => {
 const UsersAccount = () => {
   const { isWalletConnected, connectWallet, isOnboardReady } = useOnboard()
   const supportedNetworks = useSupportedNetworks()
+  const { t } = useTranslation()
 
   if (!isOnboardReady) return null
 
@@ -63,16 +64,16 @@ const UsersAccount = () => {
         textSize='xxxs'
         className='mx-1 my-auto'
       >
-        Connect wallet
+        {t('connectWallet')}
       </Button>
     )
   }
 
   return (
     <>
-      <NetworkSelector supportedNetworks={supportedNetworks} className='mx-1 my-auto' />
+      <NetworkSelector t={t} supportedNetworks={supportedNetworks} className='mx-1 my-auto' />
       <NavPoolBalance className='mx-1 my-auto' />
-      <Account className='mx-1 my-auto' />
+      <Account t={t} className='mx-1 my-auto' />
     </>
   )
 }
