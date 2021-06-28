@@ -331,6 +331,7 @@ const VotesCard = (props) => {
             </span>
             <Tooltip
               id='votes-card'
+              className='my-auto'
               tip={t('forAProposalToSucceedMinNumOfVotes', {
                 num: numberWithCommas(quorumFormatted, {
                   precision: 0

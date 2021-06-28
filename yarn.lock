@@ -3294,14 +3294,14 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/fixed-point/-/fixed-point-1.0.0-beta.2.tgz#d76a1e77f21833e9b680296d65526b0ffd7415d7"
   integrity sha512-aUw4R0Z2oM0AK3W4LIXyBaojTOzRRbhLDHX0egeuvxfjy4gBb6X66v81gI7Wngg/7O0y9QL/B8jWkUnAFzhTig==
 
-"@pooltogether/hooks@^0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-0.1.6.tgz#359997b4de7fd0f3b2b19674fc25e586136537c0"
-  integrity sha512-wMWFurr9wS/RsrTb1GiTTjzuQtJMJP+MtoLMpOZYtCbE3nJwouOAL53rgKpUEgjj/9MmKgZSpY/P9JzvlXjSMA==
+"@pooltogether/hooks@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-0.1.7.tgz#c7be7f0f4d50d7e4fbf1da76819cb9ecca3c946d"
+  integrity sha512-3tX2J8VrF8F/vpSsJQMfRBdjeQpE/7E3bcsW9j6KijJPM8wicwzpl6RVBiTLJQfjHE8JBreRKgPQ1+DG3Pb7nw==
   dependencies:
     "@pooltogether/bnc-onboard" "^1.25.0-c"
     "@pooltogether/etherplex" "^1.1.1"
-    "@pooltogether/evm-chains-extended" "^0.4.3"
+    "@pooltogether/evm-chains-extended" "^0.4.4"
     "@pooltogether/utilities" "^0.0.26"
     ethers "^5.3.0"
     framer-motion "^4.1.17"
