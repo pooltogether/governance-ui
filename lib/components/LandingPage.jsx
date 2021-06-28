@@ -84,16 +84,14 @@ export const LandingPage = (props) => {
         <Trans i18nKey='imReadyToVote'>I’m ready to vote!</Trans>
       </Header>
       <Description>
-        <Trans i18nKey='imReadyToVoteDescription'>
-          Got an idea how to improve the protocol? We are keen to hear your thoughts.
-        </Trans>
+        <Trans i18nKey='imReadyToVoteDescription'>Vote on current proposals below.</Trans>
       </Description>
 
       <div className='w-full flex flex-col sm:flex-row'>
         <InfoCard
           src={VoteIcon}
           header={t('voteOnActiveProposals')}
-          description={t('poolHolderMakeRealChanges')}
+          description={t('voteWithPoolDescription')}
           className='mb-4 sm:mb-0 sm:mr-4'
           links={
             <InternalLink
@@ -103,7 +101,7 @@ export const LandingPage = (props) => {
               theme={LinkTheme.accent}
               className='text-sm'
             >
-              <Trans i18nKey='viewOnChainProposals'>View on-chain proposals</Trans>
+              <Trans i18nKey='voteWithPool'>Vote with POOL</Trans>
             </InternalLink>
           }
         />
@@ -116,12 +114,12 @@ export const LandingPage = (props) => {
           links={
             <InternalLink
               Link={Link}
-              as='/proposals?view=off-chain'
+              as='/proposals?view=active'
               href='/proposals?view=off-chain'
               theme={LinkTheme.accent}
               className='text-sm'
             >
-              <Trans i18nKey='viewOffChainProposals'>View off-chain proposals</Trans>
+              <Trans i18nKey='voteWithPPool'>Vote with pPOOL</Trans>
             </InternalLink>
           }
         />
@@ -138,7 +136,7 @@ const InfoCard = (props) => (
     <Icon src={props.src} />
     <CardHeader>{props.header}</CardHeader>
     <CardDescription>{props.description}</CardDescription>
-    {props.links}
+    <div className='mt-auto'>{props.links}</div>
   </Card>
 )
 
