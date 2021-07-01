@@ -170,7 +170,7 @@ const TABS = [
     title: <Trans i18nKey='executable'>Executable</Trans>,
     view: CommonProposalsList,
     tabView: CommonTabView,
-    proposalStates: [SORTED_STATES.executable, SORTED_STATES.pending]
+    proposalStates: [SORTED_STATES.executable, SORTED_STATES.approved]
   },
   {
     id: 'past',
