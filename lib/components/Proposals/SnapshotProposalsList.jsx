@@ -60,6 +60,8 @@ const SnapshotProposalItem = (props) => {
         hoverBorder='green'
         hoverText='primary'
         hoverBg='green'
+        target='_blank'
+        rel='noopener noreferrer'
       >
         {t('voteNow')}
       </ButtonLink>
