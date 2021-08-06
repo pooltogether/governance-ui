@@ -3,6 +3,7 @@ import {
   BottomNavContainer,
   BottomNavLink,
   BottomPoolsIcon,
+  BottomPodsIcon,
   BottomRewardsIcon,
   BottomVoteIcon,
   CountBadge
@@ -23,6 +24,15 @@ export const BottomNav = (props) => {
         useRouter={useRouter}
       >
         <BottomPoolsIcon />
+      </BottomNavLink>
+      <BottomNavLink
+        href='https://app.pooltogether.com/pods'
+        as='https://app.pooltogether.com/pods'
+        label={'Pods'}
+        Link={Link}
+        useRouter={useRouter}
+      >
+        <BottomPodsIcon />
       </BottomNavLink>
       <BottomNavLink
         href='https://app.pooltogether.com/account'

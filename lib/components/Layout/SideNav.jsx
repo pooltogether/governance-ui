@@ -6,6 +6,7 @@ import {
   SideRewardsIcon,
   SideVoteIcon,
   SidePoolsIcon,
+  SidePodsIcon,
   SocialLinks,
   CountBadge
 } from '@pooltogether/react-components'
@@ -28,6 +29,15 @@ export const SideNav = (props) => {
           useRouter={useRouter}
         >
           <SidePoolsIcon />
+        </SideNavLink>
+        <SideNavLink
+          href='https://app.pooltogether.com/pods'
+          as='https://app.pooltogether.com/pods'
+          label={'Pods'}
+          Link={Link}
+          useRouter={useRouter}
+        >
+          <SidePodsIcon />
         </SideNavLink>
         <SideNavLink
           href='https://app.pooltogether.com/account'
