@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import Link from 'next/link'
 import {
   Button,
   LanguagePickerDropdown,
+  NavPoolBalance,
   PageHeaderContainer,
   SettingsContainer,
   TestnetSettingsItem,
@@ -11,10 +13,8 @@ import {
   SettingsItem
 } from '@pooltogether/react-components'
 import { useOnboard } from '@pooltogether/hooks'
-import Link from 'next/link'
 import { useTranslation } from 'react-i18next'
 
-import { NavPoolBalance } from 'lib/components/Layout/NavPoolBalance'
 import { useSupportedNetworks } from 'lib/hooks/useSupportedNetworks'
 
 export const PageHeader = (props) => (
