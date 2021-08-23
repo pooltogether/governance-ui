@@ -10,7 +10,6 @@ import { Provider } from 'jotai'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
 import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
-import { TxRefetchListener } from 'lib/components/TxRefetchListener'
 import { SocialDataFetcher } from 'lib/components/SocialDataFetcher'
 
 import '@reach/dialog/styles.css'
@@ -30,6 +29,7 @@ import {
 } from '@pooltogether/hooks'
 import {
   ToastContainer,
+  TxRefetchListener,
   LoadingScreen,
   TransactionStatusChecker
 } from '@pooltogether/react-components'
