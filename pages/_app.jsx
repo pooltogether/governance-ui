@@ -10,7 +10,6 @@ import { Provider } from 'jotai'
 import { AllContextProviders } from 'lib/components/contextProviders/AllContextProviders'
 import { BodyClasses } from 'lib/components/BodyClasses'
 import { CustomErrorBoundary } from 'lib/components/CustomErrorBoundary'
-import { TxRefetchListener } from 'lib/components/TxRefetchListener'
 import { SocialDataFetcher } from 'lib/components/SocialDataFetcher'
 
 import '@reach/dialog/styles.css'
@@ -26,10 +25,12 @@ import {
   useInitializeOnboard,
   useInitInfuraId,
   useInitQuickNodeId,
-  useInitReducedMotion
+  useInitReducedMotion,
+  useInitTheGraphApiKey
 } from '@pooltogether/hooks'
 import {
   ToastContainer,
+  TxRefetchListener,
   LoadingScreen,
   TransactionStatusChecker
 } from '@pooltogether/react-components'
@@ -141,6 +142,7 @@ function MyApp({ Component, pageProps, router }) {
 const InitPoolTogetherHooks = ({ children }) => {
   useInitInfuraId(process.env.NEXT_JS_INFURA_ID)
   useInitQuickNodeId(process.env.NEXT_JS_QUICKNODE_ID)
+  useInitTheGraphApiKey(process.env.NEXT_JS_THE_GRAPH_API_KEY)
   useInitReducedMotion(Boolean(process.env.NEXT_JS_REDUCE_MOTION))
   useInitCookieOptions(process.env.NEXT_JS_DOMAIN_NAME)
   useInitializeOnboard({

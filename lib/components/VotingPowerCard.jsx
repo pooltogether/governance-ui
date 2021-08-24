@@ -133,10 +133,6 @@ const RightTop = (props) => {
   const { address: usersAddress } = useOnboard()
   const { data: poolPoolData, isFetched } = usePoolPoolBalance(usersAddress, snapshotBlockNumber)
 
-  useEffect(() => {
-    console.log('poolPoolData', poolPoolData)
-  }, [poolPoolData])
-
   let votes = null
   let tip =
     blockNumber && !snapshotBlockNumber
