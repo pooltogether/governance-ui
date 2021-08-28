@@ -8,13 +8,12 @@ import { Dialog } from '@reach/dialog'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
 import { Card, ButtonLink, BlockExplorerLink, poolToast } from '@pooltogether/react-components'
-import { useOnboard, useGovernanceChainId } from '@pooltogether/hooks'
+import { useOnboard, useGovernanceChainId, useSendTransaction } from '@pooltogether/hooks'
 
 import { ActionsCard } from 'lib/components/ProposalCreation/ActionsCard'
 import { useUserCanCreateProposal } from 'lib/hooks/useUserCanCreateProposal'
 import { Button } from '@pooltogether/react-components'
 import { shorten } from 'lib/utils/shorten'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION } from 'lib/constants'
 import { TxStatus } from 'lib/components/TxStatus'
@@ -70,7 +69,7 @@ export const ProposalCreationForm = () => {
   const chainId = useGovernanceChainId()
   const governanceAddress = CONTRACT_ADDRESSES[chainId]?.GovernorAlpha
   const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
   const tx = useTransaction(txId)
 
   const onCancelled = () => setShowModal(false)
