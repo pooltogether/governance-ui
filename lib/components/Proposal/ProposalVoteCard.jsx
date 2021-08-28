@@ -1,8 +1,13 @@
 import React, { useMemo, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import GovernorAlphaABI from 'abis/GovernorAlphaABI'
-import { useOnboard, useUsersAddress, useGovernanceChainId } from '@pooltogether/hooks'
-import { Card, Button, Tooltip, LinkTheme } from '@pooltogether/react-components'
+import {
+  useOnboard,
+  useUsersAddress,
+  useGovernanceChainId,
+  useSendTransaction
+} from '@pooltogether/hooks'
+import { Card, Button, Tooltip, LinkTheme, poolToast } from '@pooltogether/react-components'
 
 import { useTranslation } from 'react-i18next'
 import { useTokenHolder } from 'lib/hooks/useTokenHolder'
@@ -13,7 +18,6 @@ import { ProposalStatus } from 'lib/components/Proposals/ProposalsList'
 import { useRouter } from 'next/router'
 import { useProposalVotesTotalPages } from 'lib/hooks/useProposalVotesTotalPages'
 import { useProposalVotes } from 'lib/hooks/useProposalVotes'
-import { useSendTransaction } from 'lib/hooks/useSendTransaction'
 import { useTransaction } from 'lib/hooks/useTransaction'
 import { TxText } from 'lib/components/TxText'
 import { getSecondsSinceEpoch } from 'lib/utils/getCurrentSecondsSinceEpoch'
@@ -119,7 +123,7 @@ const VoteButtons = (props) => {
   const { t } = useTranslation()
 
   const chainId = useGovernanceChainId()
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
   const [txId, setTxId] = useState(0)
   const [votingFor, setVotingFor] = useState()
   const governanceAddress = CONTRACT_ADDRESSES[chainId]?.GovernorAlpha
@@ -229,7 +233,7 @@ const QueueButton = (props) => {
 
   const { t } = useTranslation()
   const { network: chainId } = useOnboard()
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
   const isWalletOnProperNetwork = useIsWalletOnProperNetwork()
   const [txId, setTxId] = useState(0)
   const governanceAddress = CONTRACT_ADDRESSES[chainId]?.GovernorAlpha
@@ -299,7 +303,7 @@ const ExecuteButton = (props) => {
 
   const { t } = useTranslation()
   const { network: chainId } = useOnboard()
-  const sendTx = useSendTransaction()
+  const sendTx = useSendTransaction(t, poolToast)
   const isWalletOnProperNetwork = useIsWalletOnProperNetwork()
   const [txId, setTxId] = useState(0)
   const governanceAddress = CONTRACT_ADDRESSES[chainId]?.GovernorAlpha

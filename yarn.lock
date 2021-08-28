@@ -3689,10 +3689,10 @@
     walletlink "^2.1.6"
     web3-provider-engine "^16.0.1"
 
-"@pooltogether/current-pool-data@3.5.19":
-  version "3.5.19"
-  resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.5.19.tgz#1c66585d455c1cfc97c3d86faee01749b0cb02dd"
-  integrity sha512-K+OFDFP2LPtDTi6dJboVxP/J2zovslufvi8SQwUjnJLmI/GAJjt2o+xOBjul09loDEnbCh9T2eotravsb2r5CQ==
+"@pooltogether/current-pool-data@3.6.1":
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/@pooltogether/current-pool-data/-/current-pool-data-3.6.1.tgz#8374926e7455ab11b1f2fb020106f9481a0b1777"
+  integrity sha512-lP15+TLQkJdZuZKZjiMK1jaX6KlnT3xroDQS1SYwuk35yb/Q91rcAJuCSzUj1vCqUBHoaqbgVZcD8H0Uf0p3Hw==
 
 "@pooltogether/etherplex@^1.0.2":
   version "1.1.1"
@@ -3711,10 +3711,10 @@
   dependencies:
     evm-chains "^0.2.0"
 
-"@pooltogether/evm-chains-extended@^0.4.4":
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/@pooltogether/evm-chains-extended/-/evm-chains-extended-0.4.4.tgz#aa13abf759942135f3691e096fb101467a9ea9e4"
-  integrity sha512-SGweoZ4T7JPZEDyJc6iJMEezv+sx1304QsmAs7z98Uwv0vt5jwrjyVdydiBHMgULq9+qghDWmxkrfR7w32ftaA==
+"@pooltogether/evm-chains-extended@^0.5.3":
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/@pooltogether/evm-chains-extended/-/evm-chains-extended-0.5.3.tgz#678a94fcde4aa5602cb57d793da0865736f0a850"
+  integrity sha512-2P/MzeFeKhbtCb2WSmb7G5zMcI0nztgCdzTYwc5DjN5q9iLbUymr/PE/nKJBoStuuMtzXBzDjdLDpI5GyQdPXg==
   dependencies:
     evm-chains "^0.2.0"
 
@@ -3723,10 +3723,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/fixed-point/-/fixed-point-1.0.0-beta.2.tgz#d76a1e77f21833e9b680296d65526b0ffd7415d7"
   integrity sha512-aUw4R0Z2oM0AK3W4LIXyBaojTOzRRbhLDHX0egeuvxfjy4gBb6X66v81gI7Wngg/7O0y9QL/B8jWkUnAFzhTig==
 
-"@pooltogether/hooks@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-0.2.0.tgz#14f7ca778d316b45d28757344e593de247e3cbd4"
-  integrity sha512-kmu1sHXXuyKRYHD6bP4OpX/Yjaow8h7GsksmW0esbvEBK03P5xmFs5cfYyzrbwLjR+QiH+B81P0biShnzRn5Xw==
+"@pooltogether/hooks@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-0.2.3.tgz#a7f203a76758c9f3bdd1cd705f4af352ee6cd328"
+  integrity sha512-siQFfEL/SO4oSUs3VZqUMlfyNRVmHExnDbjyUfZ5YyJee89ado1n+b0lIMY0Wk1ovU2BGHUIWaV8RLTEmUFuVg==
 
 "@pooltogether/loot-box@1.0.0":
   version "1.0.0"
@@ -3766,13 +3766,13 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-rng-contracts/-/pooltogether-rng-contracts-1.0.0.tgz#191d155dc960559cce06b7ec3b0f9ed2caed0f46"
   integrity sha512-jQub/+qPLQwTFtbBCvvyIEqxJDEBEV/hgLKnuocBg2/GySWtHLz67WCy17bNn1hZw8nWIt8Ih8h+7iT2UJhtmQ==
 
-"@pooltogether/react-components@^0.2.14":
-  version "0.2.14"
-  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-0.2.14.tgz#1172d6d9d1ced768d8a66413e1dd59a21797b020"
-  integrity sha512-aDUIrEb89OUDsKeyr2P38Uve0X96ySHnFmMSgnKR6lRBvhBozuj88pv9n7lm4yV1vxiNOGn9w2gXdtZsyTJsYA==
+"@pooltogether/react-components@^0.2.20":
+  version "0.2.20"
+  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-0.2.20.tgz#03115847c2e434299b4fd5a7893b856831985048"
+  integrity sha512-Gryl5eZ5SrfP99DilRUbKbZfGv9VJxaN/E/EZtcYKp+KhQveOWNaA9tihScb6JV6tTohb4TZkaif1eQIYyEMHw==
   dependencies:
     "@download/blockies" "^1.0.3"
-    "@pooltogether/evm-chains-extended" "^0.4.4"
+    "@pooltogether/evm-chains-extended" "^0.5.3"
     "@reach/dialog" "^0.15.0"
     "@reach/menu-button" "^0.15.1"
     "@reach/popover" "^0.15.0"
@@ -3795,10 +3795,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/uniform-random-number/-/uniform-random-number-1.0.0-beta.1.tgz#72257401fe8536e95f9f812f1d249262659084a7"
   integrity sha512-V4iqLOpNFNhnUqfKRlvqUeRwvKaODdz+qn4Qi65C3iMOnDb0J31tBvyhwKbhP4wauNuUN64WfepqkkxET9U7EQ==
 
-"@pooltogether/utilities@^0.0.39":
-  version "0.0.39"
-  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.39.tgz#420bcfa7f127b2cfd50ba21ce0abca4b0c8a604b"
-  integrity sha512-Wc1yYFjTaWK8DWLcD6g4u/9bOpCpE+yYicvWqaj0+0qAg78WqUD+mlek91pH5jgJXqRglGtpJWz5Z8/J0wgmGw==
+"@pooltogether/utilities@^0.0.42":
+  version "0.0.42"
+  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.42.tgz#243dc5abcdb5ded06b94932d92d62fe563d5c7dc"
+  integrity sha512-huxJRKcvxnK/lYzRROwjznxtLN4jWDHwp2I+iFcatKu926Inbin8hXTLSBI3PmF2jINVOrrg6Quwu70L8AutAA==
 
 "@portis/web3@^4.0.0":
   version "4.0.5"
