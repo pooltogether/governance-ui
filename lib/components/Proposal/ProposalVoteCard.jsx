@@ -167,7 +167,11 @@ const VoteButtons = (props) => {
   }
 
   const cannotVote = !canVote || alreadyVoted
-  const isButtonDisabled = !isWalletOnProperNetwork || cannotVote
+
+  let isButtonDisabled = false
+  if (!isWalletOnProperNetwork || cannotVote) {
+    isButtonDisabled = true
+  }
 
   let tip = t('yourWalletIsOnTheWrongNetwork', {
     networkName: getNetworkNiceNameByChainId(chainId)
