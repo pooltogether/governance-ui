@@ -21,7 +21,7 @@ import { usePoolPoolBalance } from 'lib/hooks/usePoolPoolBalance'
 import { POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from 'lib/constants'
 import { DelegateAddress } from 'lib/components/DelegateAddress'
 
-import VoteIcon from 'assets/images/icon-vote@2x.png'
+import VoteIcon from 'assets/images/icon-vote.svg'
 
 export const VotingPowerCard = (props) => {
   const { className, blockNumber, snapshotBlockNumber } = props

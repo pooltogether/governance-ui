@@ -12,9 +12,9 @@ import { Trans, useTranslation } from 'react-i18next'
 
 import { DISCORD_INVITE_URL, POOLTOGETHER_GOV_FORUM_URL } from 'lib/constants'
 
-import ChatBubble from 'assets/images/chat-bubble@2x.png'
-import DollarBill from 'assets/images/dollar-bill@2x.png'
-import VoteIcon from 'assets/images/icon-vote@2x.png'
+import ChatBubble from 'assets/images/chat-bubble.svg'
+import DollarBill from 'assets/images/dollar-bill.svg'
+import VoteIcon from 'assets/images/icon-vote.svg'
 
 export const LandingPage = (props) => {
   const { t } = useTranslation()
