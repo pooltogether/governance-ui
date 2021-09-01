@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import Link from 'next/link'
 import { Trans, useTranslation } from 'react-i18next'
 import { useOnboard } from '@pooltogether/hooks'
 import FeatherIcon from 'feather-icons-react'
@@ -19,8 +20,8 @@ import { useTokenHolder } from 'lib/hooks/useTokenHolder'
 import { usePoolPoolBalance } from 'lib/hooks/usePoolPoolBalance'
 import { POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from 'lib/constants'
 import { DelegateAddress } from 'lib/components/DelegateAddress'
-import VoteIcon from 'assets/images/LandingPage/vote-icon.png'
-import Link from 'next/link'
+
+import VoteIcon from 'assets/images/icon-vote@2x.png'
 
 export const VotingPowerCard = (props) => {
   const { className, blockNumber, snapshotBlockNumber } = props
@@ -56,7 +57,7 @@ export const VotingPowerCard = (props) => {
   return (
     <Card theme={CardTheme.purple} className={classnames(className, 'relative')}>
       {blockNumber && (
-        <div className='mb-4 flex rounded px-4 py-1 w-fit-content h-fit-content bg-tertiary font-bold'>
+        <div className='mb-4 flex rounded-lg px-4 py-1 w-fit-content h-fit-content bg-tertiary font-bold'>
           <FeatherIcon icon='alert-circle' className='mr-2 my-auto w-4 h-4' />
           {t('votingPowerIsLockedFromBlock', { blockNumber })}
         </div>
@@ -95,6 +96,7 @@ const LeftTop = (props) => {
   let votes = null
   let disabled = true
 
+  let onChainVotesKey = 'onChainVotesTitle'
   if (tokenHolderIsFetched) {
     const { tokenBalance, isDelegating, isBeingDelegatedTo, delegatedVotes } = tokenHolder
     if (isBeingDelegatedTo && !isDelegating) {
@@ -106,6 +108,7 @@ const LeftTop = (props) => {
     } else if (!isDelegating) {
       votes = tokenBalance
       disabled = true
+      onChainVotesKey = 'onChainVotesIfDelegated'
     } else if (isBeingDelegatedTo) {
       votes = delegatedVotes
       disabled = false
@@ -119,7 +122,7 @@ const LeftTop = (props) => {
     <div className='flex flex-col leading-tight'>
       <TopText>
         <Trans
-          i18nKey='onChainVotesTitle'
+          i18nKey={onChainVotesKey}
           components={{ PoolIcon: <PoolIcon className='my-auto mx-1' /> }}
         />
       </TopText>
@@ -343,7 +346,7 @@ const ZeroBalanceVotingPowerCard = (props) => {
   return (
     <Card theme={CardTheme.purple} className={className}>
       {blockNumber && (
-        <div className='mb-4 flex rounded px-4 py-1 w-fit-content h-fit-content bg-tertiary font-bold'>
+        <div className='mb-4 flex rounded-lg px-4 py-1 w-fit-content h-fit-content bg-tertiary font-bold'>
           <FeatherIcon icon='alert-circle' className='mr-2 my-auto w-4 h-4' />
           {t('votingPowerIsLockedFromBlock', { blockNumber })}
         </div>
@@ -351,7 +354,7 @@ const ZeroBalanceVotingPowerCard = (props) => {
 
       <div className='flex flex-col sm:flex-row justify-between'>
         <div className='flex flex-row mb-8 sm:mb-0 mt-4 sm:mt-0'>
-          <img src={VoteIcon} className='w-16 my-auto py-2 mx-8' />
+          <img src={VoteIcon} className='w-12 my-auto pb-2 ml-2 mr-8' />
           <div className='flex flex-col justify-center'>
             <h5 className='leading-none mb-2'>
               <Trans i18nKey='youHaveNoVotes' />
@@ -363,7 +366,9 @@ const ZeroBalanceVotingPowerCard = (props) => {
         </div>
         <ButtonLink
           Link={Link}
-          href=''
+          target='_blank'
+          rel='nofollow noreferrer'
+          href='https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x0cec1a9154ff802e7934fc916ed7ca50bde6844e&use=V2'
           textSize='xs'
           className='w-full sm:w-max h-fit-content my-auto whitespace-nowrap ml-2'
         >
