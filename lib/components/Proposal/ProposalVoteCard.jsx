@@ -12,6 +12,7 @@ import {
   useSendTransaction
 } from '@pooltogether/hooks'
 import { Card, Button, Tooltip, LinkTheme, poolToast } from '@pooltogether/react-components'
+import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 
 import { CONTRACT_ADDRESSES, PROPOSAL_STATUS } from 'lib/constants'
 import { ProposalStatus } from 'lib/components/Proposals/ProposalsList'
@@ -47,12 +48,11 @@ export const ProposalVoteCard = (props) => {
     refetchProposalData()
   }
 
-  const showButtons = true
-  // const showButtons =
-  //   usersAddress &&
-  //   (status === PROPOSAL_STATUS.active ||
-  //     status === PROPOSAL_STATUS.succeeded ||
-  //     status === PROPOSAL_STATUS.queued)
+  const showButtons =
+    usersAddress &&
+    (status === PROPOSAL_STATUS.active ||
+      status === PROPOSAL_STATUS.succeeded ||
+      status === PROPOSAL_STATUS.queued)
 
   return (
     <Card className='mb-6'>
@@ -167,6 +167,17 @@ const VoteButtons = (props) => {
   }
 
   const cannotVote = !canVote || alreadyVoted
+  const isButtonDisabled = !isWalletOnProperNetwork || cannotVote
+
+  let tip = t('yourWalletIsOnTheWrongNetwork', {
+    networkName: getNetworkNiceNameByChainId(chainId)
+  })
+  if (cannotVote) {
+    tip = t(
+      'youAreUnableToVoteMakeSure',
+      'You are unable to vote on this proposal. To activate voting make sure you have delegated your POOL to yourself prior to a proposal start date.'
+    )
+  }
 
   if (tx?.completed && !tx?.error && !tx?.cancelled) {
     return (
@@ -192,37 +203,42 @@ const VoteButtons = (props) => {
           <p>{t('errorWithTxPleaseTryAgain')}</p>
         </div>
       )}
-      <Button
-        border='green'
-        text='primary'
-        bg='green'
-        hoverBorder='green'
-        hoverText='primary'
-        hoverBg='green'
-        onClick={handleVoteFor}
-        className='mr-4'
-        disabled={!isWalletOnProperNetwork || cannotVote}
-      >
-        <div className='flex'>
-          <FeatherIcon icon='check-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
-          {t('accept')}
-        </div>
-      </Button>
-      <Button
-        border='red'
-        text='red'
-        bg='transparent'
-        hoverBorder='red'
-        hoverText='red'
-        hoverBg='transparent'
-        onClick={handleVoteAgainst}
-        disabled={!isWalletOnProperNetwork || cannotVote}
-      >
-        <div className='flex'>
-          <FeatherIcon icon='x-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
-          {t('reject')}
-        </div>
-      </Button>
+      <Tooltip isEnabled={isButtonDisabled} id={`tooltip-proposal-vote-yes`} tip={tip}>
+        <Button
+          border='green'
+          text='primary'
+          bg='green'
+          hoverBorder='green'
+          hoverText='primary'
+          hoverBg='green'
+          onClick={handleVoteFor}
+          className='mr-4'
+          disabled={isButtonDisabled}
+        >
+          <div className='flex'>
+            <FeatherIcon icon='check-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
+            {t('accept')}
+          </div>
+        </Button>
+      </Tooltip>
+
+      <Tooltip isEnabled={isButtonDisabled} id={`tooltip-proposal-vote-no`} tip={tip}>
+        <Button
+          border='red'
+          text='red'
+          bg='transparent'
+          hoverBorder='red'
+          hoverText='red'
+          hoverBg='transparent'
+          onClick={handleVoteAgainst}
+          disabled={!isWalletOnProperNetwork || cannotVote}
+        >
+          <div className='flex'>
+            <FeatherIcon icon='x-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
+            {t('reject')}
+          </div>
+        </Button>
+      </Tooltip>
     </div>
   )
 }
