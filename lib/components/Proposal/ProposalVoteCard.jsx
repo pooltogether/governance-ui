@@ -1,6 +1,10 @@
 import React, { useMemo, useState } from 'react'
+import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import GovernorAlphaABI from 'abis/GovernorAlphaABI'
+import { useRouter } from 'next/router'
+import { ethers } from 'ethers'
+import { useTranslation } from 'react-i18next'
 import {
   useOnboard,
   useUsersAddress,
@@ -8,24 +12,21 @@ import {
   useSendTransaction
 } from '@pooltogether/hooks'
 import { Card, Button, Tooltip, LinkTheme, poolToast } from '@pooltogether/react-components'
+import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 
-import { useTranslation } from 'react-i18next'
+import { CONTRACT_ADDRESSES, PROPOSAL_STATUS } from 'lib/constants'
+import { ProposalStatus } from 'lib/components/Proposals/ProposalsList'
+import { TxText } from 'lib/components/TxText'
+import { TimeCountDown } from 'lib/components/TimeCountDown'
+import { DelegateAddress } from 'lib/components/DelegateAddress'
+import { useInterval } from 'lib/hooks/useInterval'
+import { useIsWalletOnProperNetwork } from 'lib/hooks/useIsWalletOnProperNetwork'
 import { useTokenHolder } from 'lib/hooks/useTokenHolder'
 import { useVoteData } from 'lib/hooks/useVoteData'
-import { CONTRACT_ADDRESSES, PROPOSAL_STATUS } from 'lib/constants'
-import classnames from 'classnames'
-import { ProposalStatus } from 'lib/components/Proposals/ProposalsList'
-import { useRouter } from 'next/router'
 import { useProposalVotesTotalPages } from 'lib/hooks/useProposalVotesTotalPages'
 import { useProposalVotes } from 'lib/hooks/useProposalVotes'
 import { useTransaction } from 'lib/hooks/useTransaction'
-import { TxText } from 'lib/components/TxText'
 import { getSecondsSinceEpoch } from 'lib/utils/getCurrentSecondsSinceEpoch'
-import { useInterval } from 'lib/hooks/useInterval'
-import { ethers } from 'ethers'
-import { TimeCountDown } from 'lib/components/TimeCountDown'
-import { useIsWalletOnProperNetwork } from 'lib/hooks/useIsWalletOnProperNetwork'
-import { DelegateAddress } from 'lib/components/DelegateAddress'
 
 export const ProposalVoteCard = (props) => {
   const { proposal, refetchProposalData, blockNumber } = props
@@ -56,7 +57,7 @@ export const ProposalVoteCard = (props) => {
   return (
     <Card className='mb-6'>
       <div className='flex justify-between flex-col-reverse sm:flex-row'>
-        <h4 className={classnames('mr-2', { 'mb-2 sm:mb-8': showButtons })}>{title}</h4>
+        <h4 className='mr-2'>{title}</h4>
         <ProposalStatus proposal={proposal} />
       </div>
 
@@ -165,8 +166,17 @@ const VoteButtons = (props) => {
     setTxId(txId)
   }
 
-  if (!canVote || alreadyVoted) {
-    return null
+  const cannotVote = !canVote || alreadyVoted
+  const isButtonDisabled = !isWalletOnProperNetwork || cannotVote
+
+  let tip = t('yourWalletIsOnTheWrongNetwork', {
+    networkName: getNetworkNiceNameByChainId(chainId)
+  })
+  if (cannotVote) {
+    tip = t(
+      'youAreUnableToVoteMakeSure',
+      'You are unable to vote on this proposal. To activate voting make sure you have delegated your POOL to yourself prior to a proposal start date.'
+    )
   }
 
   if (tx?.completed && !tx?.error && !tx?.cancelled) {
@@ -186,44 +196,49 @@ const VoteButtons = (props) => {
   }
 
   return (
-    <div className='flex mt-2 justify-end'>
+    <div className='flex mt-2 justify-end mt-6 sm:mt-4'>
       {tx?.error && (
         <div className='text-red flex'>
           <FeatherIcon icon='alert-triangle' className='h-4 w-4 stroke-current my-auto mr-2' />
           <p>{t('errorWithTxPleaseTryAgain')}</p>
         </div>
       )}
-      <Button
-        border='green'
-        text='primary'
-        bg='green'
-        hoverBorder='green'
-        hoverText='primary'
-        hoverBg='green'
-        onClick={handleVoteFor}
-        className='mr-4'
-        disabled={!isWalletOnProperNetwork}
-      >
-        <div className='flex'>
-          <FeatherIcon icon='check-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
-          {t('accept')}
-        </div>
-      </Button>
-      <Button
-        border='red'
-        text='red'
-        bg='transparent'
-        hoverBorder='red'
-        hoverText='red'
-        hoverBg='transparent'
-        onClick={handleVoteAgainst}
-        disabled={!isWalletOnProperNetwork}
-      >
-        <div className='flex'>
-          <FeatherIcon icon='x-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
-          {t('reject')}
-        </div>
-      </Button>
+      <Tooltip isEnabled={isButtonDisabled} id={`tooltip-proposal-vote-yes`} tip={tip}>
+        <Button
+          border='green'
+          text='primary'
+          bg='green'
+          hoverBorder='green'
+          hoverText='primary'
+          hoverBg='green'
+          onClick={handleVoteFor}
+          className='mr-4'
+          disabled={isButtonDisabled}
+        >
+          <div className='flex'>
+            <FeatherIcon icon='check-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
+            {t('accept')}
+          </div>
+        </Button>
+      </Tooltip>
+
+      <Tooltip isEnabled={isButtonDisabled} id={`tooltip-proposal-vote-no`} tip={tip}>
+        <Button
+          border='red'
+          text='red'
+          bg='transparent'
+          hoverBorder='red'
+          hoverText='red'
+          hoverBg='transparent'
+          onClick={handleVoteAgainst}
+          disabled={!isWalletOnProperNetwork || cannotVote}
+        >
+          <div className='flex'>
+            <FeatherIcon icon='x-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
+            {t('reject')}
+          </div>
+        </Button>
+      </Tooltip>
     </div>
   )
 }

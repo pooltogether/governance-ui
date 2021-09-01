@@ -7,14 +7,14 @@ import {
   PageTitleAndBreadcrumbs
 } from '@pooltogether/react-components'
 import Link from 'next/link'
-import classnames from 'classnames'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
-import ChatBubble from 'assets/images/LandingPage/chat-bubble.png'
-import DollarBill from 'assets/images/LandingPage/dollar-bill.png'
-import VoteIcon from 'assets/images/LandingPage/vote-icon.png'
 import { DISCORD_INVITE_URL, POOLTOGETHER_GOV_FORUM_URL } from 'lib/constants'
+
+import ChatBubble from 'assets/images/chat-bubble@2x.png'
+import DollarBill from 'assets/images/dollar-bill@2x.png'
+import VoteIcon from 'assets/images/icon-vote@2x.png'
 
 export const LandingPage = (props) => {
   const { t } = useTranslation()
@@ -53,6 +53,7 @@ export const LandingPage = (props) => {
       </Description>
 
       <InfoCard
+        iconClassName='w-16'
         src={ChatBubble}
         header={t('joinTheDiscussion')}
         description={t('stayUpToDate')}
@@ -89,6 +90,7 @@ export const LandingPage = (props) => {
 
       <div className='w-full flex flex-col sm:flex-row'>
         <InfoCard
+          iconClassName='w-12'
           src={VoteIcon}
           header={t('voteOnActiveProposals')}
           description={t('voteWithPoolDescription')}
@@ -107,6 +109,7 @@ export const LandingPage = (props) => {
         />
 
         <InfoCard
+          iconClassName='w-16'
           src={DollarBill}
           header={t('voteGasFreeAndEarnRewards')}
           description={t('ppoolHoldersCanVoteGasFree')}
@@ -133,7 +136,7 @@ const InfoCard = (props) => (
     sizeClassName='w-full sm:w-auto sm:w-1/2 flex flex-col text-center'
     className={props.className}
   >
-    <Icon src={props.src} />
+    <Icon {...props} />
     <CardHeader>{props.header}</CardHeader>
     <CardDescription>{props.description}</CardDescription>
     <div className='mt-auto'>{props.links}</div>
@@ -157,6 +160,6 @@ const CardExternalLink = (props) => (
 
 const Icon = (props) => (
   <div className='h-16 mb-6 mx-auto flex flex-col justify-center'>
-    <img src={props.src} className='w-16' />
+    <img src={props.src} className={props.iconClassName} />
   </div>
 )
