@@ -122,12 +122,7 @@ const TabView = (props) => {
 
   return (
     <div className='flex sm:mr-6 lg:mr-8 last:mr-0'>
-      <Tab
-        key={tab.id}
-        isSelected={isSelected}
-        className='flex mx-2'
-        onClick={() => setTab(tab.id)}
-      >
+      <Tab key={tab.id} isSelected={isSelected} className='flex' onClick={() => setTab(tab.id)}>
         <div className='flex'>
           {tab.title}
           {count > 0 && (

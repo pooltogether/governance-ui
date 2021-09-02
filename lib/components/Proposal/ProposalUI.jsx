@@ -114,7 +114,7 @@ const ProposalDescriptionCard = (props) => {
       <CardTitle>{t('description')}</CardTitle>
       <Card className='mb-6'>
         <div
-          className={classnames('proposal-details overflow-hidden text-inverse relative')}
+          className={classnames('proposal-details')}
           style={{ maxHeight: showMore ? 'unset' : '300px' }}
         >
           {!showMore && (
@@ -129,7 +129,7 @@ const ProposalDescriptionCard = (props) => {
           )}
           <ReactMarkdown
             plugins={[gfm]}
-            className='description whitespace-pre-wrap break-word'
+            className='description whitespace-pre-wrap break-words'
             children={description}
           />
         </div>

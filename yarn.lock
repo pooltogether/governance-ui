@@ -3723,10 +3723,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/fixed-point/-/fixed-point-1.0.0-beta.2.tgz#d76a1e77f21833e9b680296d65526b0ffd7415d7"
   integrity sha512-aUw4R0Z2oM0AK3W4LIXyBaojTOzRRbhLDHX0egeuvxfjy4gBb6X66v81gI7Wngg/7O0y9QL/B8jWkUnAFzhTig==
 
-"@pooltogether/hooks@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-0.2.3.tgz#a7f203a76758c9f3bdd1cd705f4af352ee6cd328"
-  integrity sha512-siQFfEL/SO4oSUs3VZqUMlfyNRVmHExnDbjyUfZ5YyJee89ado1n+b0lIMY0Wk1ovU2BGHUIWaV8RLTEmUFuVg==
+"@pooltogether/hooks@^0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@pooltogether/hooks/-/hooks-0.2.7.tgz#22cbb72b7eb3429041d2a53d1347581994d32a79"
+  integrity sha512-JPp+KQpuz4xU2tRwCG2pKNz6yLyWmjOhX3S+G1DG75kdAidvtzZvY8NyFUuYA8l/FC51ZU90SlYWM/K3IgvpBQ==
 
 "@pooltogether/loot-box@1.0.0":
   version "1.0.0"
@@ -3766,10 +3766,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/pooltogether-rng-contracts/-/pooltogether-rng-contracts-1.0.0.tgz#191d155dc960559cce06b7ec3b0f9ed2caed0f46"
   integrity sha512-jQub/+qPLQwTFtbBCvvyIEqxJDEBEV/hgLKnuocBg2/GySWtHLz67WCy17bNn1hZw8nWIt8Ih8h+7iT2UJhtmQ==
 
-"@pooltogether/react-components@^0.2.20":
-  version "0.2.20"
-  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-0.2.20.tgz#03115847c2e434299b4fd5a7893b856831985048"
-  integrity sha512-Gryl5eZ5SrfP99DilRUbKbZfGv9VJxaN/E/EZtcYKp+KhQveOWNaA9tihScb6JV6tTohb4TZkaif1eQIYyEMHw==
+"@pooltogether/react-components@^0.2.27":
+  version "0.2.27"
+  resolved "https://registry.yarnpkg.com/@pooltogether/react-components/-/react-components-0.2.27.tgz#2db8b69ba94ea58c994dd6631fbbf9b0e3b9d3ac"
+  integrity sha512-IeTgfMWst1xUDPB6YuluPqEE7LfhKYkmvd/f85XagKSqI/JMEUfVM+Chzn9hDqA1enn88VkXB+m5SBBNPkAD7g==
   dependencies:
     "@download/blockies" "^1.0.3"
     "@pooltogether/evm-chains-extended" "^0.5.3"
@@ -3795,10 +3795,10 @@
   resolved "https://registry.yarnpkg.com/@pooltogether/uniform-random-number/-/uniform-random-number-1.0.0-beta.1.tgz#72257401fe8536e95f9f812f1d249262659084a7"
   integrity sha512-V4iqLOpNFNhnUqfKRlvqUeRwvKaODdz+qn4Qi65C3iMOnDb0J31tBvyhwKbhP4wauNuUN64WfepqkkxET9U7EQ==
 
-"@pooltogether/utilities@^0.0.42":
-  version "0.0.42"
-  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.42.tgz#243dc5abcdb5ded06b94932d92d62fe563d5c7dc"
-  integrity sha512-huxJRKcvxnK/lYzRROwjznxtLN4jWDHwp2I+iFcatKu926Inbin8hXTLSBI3PmF2jINVOrrg6Quwu70L8AutAA==
+"@pooltogether/utilities@^0.0.43":
+  version "0.0.43"
+  resolved "https://registry.yarnpkg.com/@pooltogether/utilities/-/utilities-0.0.43.tgz#ce4eb0533e9f9b6acb63300c9f75c0a10c606dcb"
+  integrity sha512-aYJGisnlTG6hsEU6aF0CW7ZxHcHdvn1EEGlyy4plNE0vtZ/m8z49Z21x3g6KEk9hZ+qI5/r8JlnJGCMAo6IlVQ==
 
 "@portis/web3@^4.0.0":
   version "4.0.5"

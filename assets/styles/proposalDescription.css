@@ -1,8 +1,9 @@
 .proposal-details {
-  @apply text-accent-1;
+  @apply text-accent-1 break-all overflow-hidden relative max-w-full;
 }
 
 .proposal-details p {
+  @apply break-words;
   font-size: 1rem;
 }
 
@@ -12,25 +13,31 @@
 }
 
 .proposal-details h1 {
+  @apply break-words;
   font-size: 2rem;
 }
 
 .proposal-details h2 {
+  @apply break-words;
   font-size: 1.5rem;
 }
 
 .proposal-details h3 {
+  @apply break-words;
   font-size: 1.25rem;
 }
 
 .proposal-details h4 {
+  @apply break-words;
   font-size: 1.15rem;
 }
 
 .proposal-details h5 {
+  @apply break-words;
   font-size: 1.1rem;
 }
 
 .proposal-details h6 {
+  @apply break-words;
   font-size: 1.05rem;
 }
