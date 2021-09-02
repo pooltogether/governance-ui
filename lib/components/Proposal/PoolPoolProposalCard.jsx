@@ -67,7 +67,7 @@ export const PoolPoolProposalCard = (props) => {
         <SnapshotVoteTime end={end} />
       </div>
       <div className='mt-4 xs:mt-0 flex flex-col'>
-        <div className='mb-4 flex rounded px-4 py-1 w-fit-content h-fit-content bg-tertiary font-bold'>
+        <div className='mb-4 flex rounded-lg px-4 py-1 w-fit-content h-fit-content bg-tertiary font-bold'>
           <FeatherIcon icon='alert-circle' className='mr-2 my-auto w-4 h-4' />
           {t('votingPowerIsLockedFromBlock', { blockNumber: snapshotBlockNumber })}
         </div>
