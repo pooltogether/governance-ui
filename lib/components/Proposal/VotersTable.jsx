@@ -56,7 +56,7 @@ export const VotersTable = (props) => {
   }, [])
 
   const rowData = React.useMemo(() => {
-    if (!data) {
+    if (!data || !data.votes) {
       return []
     }
 
