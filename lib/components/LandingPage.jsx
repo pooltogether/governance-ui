@@ -117,7 +117,7 @@ export const LandingPage = (props) => {
           links={
             <InternalLink
               Link={Link}
-              as='/proposals?view=active'
+              as='/proposals?view=off-chain'
               href='/proposals?view=off-chain'
               theme={LinkTheme.accent}
               className='text-sm'
