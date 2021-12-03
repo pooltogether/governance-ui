@@ -29,7 +29,7 @@ export const LandingPage = (props) => {
           sizeClassName=''
           className='mb-4 sm:mb-0'
         />
-        {/* <ButtonLink
+        <ButtonLink
           Link={Link}
           href='/proposals'
           as='/proposals'
@@ -39,7 +39,7 @@ export const LandingPage = (props) => {
           bg='green'
         >
           <Trans i18nKey='goToGovernanceDashboard'>Go to Governance Dashboard</Trans>
-        </ButtonLink> */}
+        </ButtonLink>
       </div>
 
       <Header>
@@ -96,24 +96,15 @@ export const LandingPage = (props) => {
           description={t('voteWithPoolDescription')}
           className='mb-4 sm:mb-0 sm:mr-4'
           links={
-            <ExternalLink
-              key='voteNowLink'
-              className='text-sm'
-              href='https://www.withtally.com/governance/pooltogether'
+            <InternalLink
+              Link={Link}
+              as='/proposals?view=active'
+              href='/proposals?view=active'
               theme={LinkTheme.accent}
+              className='text-sm'
             >
               <Trans i18nKey='voteWithPool'>Vote with POOL</Trans>
-            </ExternalLink>
-
-            // <InternalLink
-            //   Link={Link}
-            //   as='/proposals?view=active'
-            //   href='/proposals?view=active'
-            //   theme={LinkTheme.accent}
-            //   className='text-sm'
-            // >
-            //   <Trans i18nKey='voteWithPool'>Vote with POOL</Trans>
-            // </InternalLink>
+            </InternalLink>
           }
         />
 
@@ -124,24 +115,15 @@ export const LandingPage = (props) => {
           description={t('ppoolHoldersCanVoteGasFree')}
           className='sm:ml-4'
           links={
-            <ExternalLink
-              key='voteNowLink'
-              className='text-sm'
-              href='https://snapshot.org/#/poolpool.pooltogether.eth'
+            <InternalLink
+              Link={Link}
+              as='/proposals?view=active'
+              href='/proposals?view=off-chain'
               theme={LinkTheme.accent}
+              className='text-sm'
             >
               <Trans i18nKey='voteWithPPool'>Vote with pPOOL</Trans>
-            </ExternalLink>
-
-            // <InternalLink
-            //   Link={Link}
-            //   as='/proposals?view=active'
-            //   href='/proposals?view=off-chain'
-            //   theme={LinkTheme.accent}
-            //   className='text-sm'
-            // >
-            //   <Trans i18nKey='voteWithPPool'>Vote with pPOOL</Trans>
-            // </InternalLink>
+            </InternalLink>
           }
         />
       </div>

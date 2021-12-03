@@ -1,8 +1,6 @@
-/proposals     https://www.withtally.com/governance/pooltogether         301!
-/proposals/create               https://www.withtally.com/governance/pooltogether                 301!
-/proposals/:id                  https://www.withtally.com/governance/pooltogether                 301!
-
-
 https://app.pooltogether.us     https://app.pooltogether.com         301!
 https://app.pooltogether.us/*   https://app.pooltogether.com         301!
 
+/proposals                      /proposals.html                      200
+/proposals/create               /proposals/create.html                 200
+/proposals/:id                  /proposals/[id].html                 200
