@@ -19,20 +19,11 @@ export const BottomNav = (props) => {
       <BottomNavLink
         href='https://app.pooltogether.com'
         as='https://app.pooltogether.com'
-        label={'Pools'}
+        label={'App'}
         Link={Link}
         useRouter={useRouter}
       >
         <BottomPoolsIcon />
-      </BottomNavLink>
-      <BottomNavLink
-        href='https://app.pooltogether.com/pods'
-        as='https://app.pooltogether.com/pods'
-        label={'Pods'}
-        Link={Link}
-        useRouter={useRouter}
-      >
-        <BottomPodsIcon />
       </BottomNavLink>
       <BottomNavLink
         href='https://app.pooltogether.com/account'
@@ -42,15 +33,6 @@ export const BottomNav = (props) => {
         useRouter={useRouter}
       >
         <BottomAccountIcon />
-      </BottomNavLink>
-      <BottomNavLink
-        href='https://app.pooltogether.com/rewards'
-        as='https://app.pooltogether.com/rewards'
-        label={'Rewards'}
-        Link={Link}
-        useRouter={useRouter}
-      >
-        <BottomRewardsIcon />
       </BottomNavLink>
       <BottomNavLink href='/' as='/' label={'Vote'} Link={Link} useRouter={useRouter} match='/'>
         <VoteIcon />
