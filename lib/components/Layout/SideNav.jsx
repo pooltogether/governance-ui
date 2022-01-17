@@ -24,20 +24,11 @@ export const SideNav = (props) => {
         <SideNavLink
           href='https://app.pooltogether.com'
           as='https://app.pooltogether.com'
-          label={'Pools'}
+          label={'App'}
           Link={Link}
           useRouter={useRouter}
         >
           <SidePoolsIcon />
-        </SideNavLink>
-        <SideNavLink
-          href='https://app.pooltogether.com/pods'
-          as='https://app.pooltogether.com/pods'
-          label={'Pods'}
-          Link={Link}
-          useRouter={useRouter}
-        >
-          <SidePodsIcon />
         </SideNavLink>
         <SideNavLink
           href='https://app.pooltogether.com/account'
@@ -47,17 +38,6 @@ export const SideNav = (props) => {
           useRouter={useRouter}
         >
           <SideAccountIcon />
-        </SideNavLink>
-        <SideNavLink
-          shallow
-          href='https://app.pooltogether.com/rewards'
-          as='https://app.pooltogether.com/rewards'
-          label={t('rewards')}
-          Link={Link}
-          useRouter={useRouter}
-          match='/rewards'
-        >
-          <SideRewardsIcon />
         </SideNavLink>
         <SideNavLink
           href='/'
