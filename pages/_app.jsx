@@ -36,6 +36,7 @@ import {
 } from '@pooltogether/react-components'
 import '../i18n'
 import { useTranslation } from 'react-i18next'
+import { DEFAULT_NETWORK_NAME } from 'lib/services/initOnboard'
 
 const queryClient = new QueryClient()
 
@@ -138,7 +139,7 @@ const InitPoolTogetherHooks = ({ children }) => {
     infuraId: process.env.NEXT_JS_INFURA_ID,
     fortmaticKey: process.env.NEXT_JS_FORTMATIC_API_KEY,
     portisKey: process.env.NEXT_JS_PORTIS_API_KEY,
-    defaultNetworkName: process.env.NEXT_JS_DEFAULT_ETHEREUM_NETWORK_NAME
+    defaultNetworkName: DEFAULT_NETWORK_NAME
   })
   return children
 }
