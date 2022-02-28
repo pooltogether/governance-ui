@@ -186,7 +186,7 @@ const LeftBottom = (props) => {
     content = (
       <ExternalLink
         theme={LinkTheme.light}
-        href='https://app.pooltogether.com'
+        href='https://v3.pooltogether.com'
         title='PoolTogether App'
         className='text-xs'
       >

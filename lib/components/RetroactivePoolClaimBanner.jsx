@@ -32,8 +32,8 @@ export const RetroactivePoolClaimBanner = () => {
           </p>
           <ButtonLink
             Link={Link}
-            as={`https://app.pooltogether.com?claim=1&address=${usersAddress}`}
-            href={`https://app.pooltogether.com?claim=1&address=${usersAddress}`}
+            as={`https://v3.pooltogether.com?claim=1&address=${usersAddress}`}
+            href={`https://v3.pooltogether.com?claim=1&address=${usersAddress}`}
             type='button'
             className='w-full xs:w-auto'
             border='transparent'

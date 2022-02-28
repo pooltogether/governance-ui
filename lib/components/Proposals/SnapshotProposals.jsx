@@ -46,7 +46,7 @@ const SnapshotTip = () => {
             PoolPoolLink: (
               <ExternalLink
                 className='text-sm'
-                href='https://app.pooltogether.com/pools/mainnet/PT-stPOOL'
+                href='https://v3.pooltogether.com/pools/mainnet/PT-stPOOL'
                 theme={LinkTheme.accent}
               />
             )
