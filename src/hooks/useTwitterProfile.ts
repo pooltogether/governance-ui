@@ -1,5 +1,5 @@
 import { QUERY_KEYS } from '../constants'
-import { fetchTwitterProfileData } from '../services/social'
+import { fetchTwitterProfileData } from '../utils/social'
 import { useQuery } from 'react-query'
 import { useAtom } from 'jotai'
 import { socialIdentitiesAtom } from '../hooks/useSybilSocialIdentities'

@@ -58,12 +58,9 @@ class MyDocument extends Document {
             <script type='text/javascript' src='/graph-error-modal.js' />
           </>
         </Head>
-        <body className='bg-body'>
+        <body className='bg-pt-purple-lightest dark:bg-pt-purple-darkest text-pt-purple-darkest dark:text-white overscroll-y-none'>
           <Main />
           <NextScript />
-          <script src='/confetti.js'></script>
-
-          <canvas className='confettiCanvas' width='1' height='1' />
         </body>
       </Html>
     )

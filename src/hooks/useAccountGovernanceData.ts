@@ -1,13 +1,14 @@
 import { useQuery } from 'react-query'
 import gql from 'graphql-tag'
 import { request } from 'graphql-request'
-import { useOnboard, useGovernanceChainId } from '@pooltogether/hooks'
+import { useGovernanceChainId } from '@pooltogether/hooks'
 
 import { MAINNET_POLLING_INTERVAL, getGovernanceGraphUrl, QUERY_KEYS } from '../constants'
-import { testAddress } from '../utils/testAddress'
 
 import { atom, useAtom } from 'jotai'
 import { useEffect } from 'react'
+import { useUsersAddress } from '@pooltogether/wallet-connection'
+import { isAddress } from 'ethers/lib/utils'
 
 export const accountGovernanceDataQueryAtom = atom({})
 
@@ -40,9 +41,9 @@ export function useAccountGovernanceData() {
 }
 
 function useAccountGovernanceDataQuery() {
-  const { address: usersAddress } = useOnboard()
+  const usersAddress = useUsersAddress()
   const chainId = useGovernanceChainId()
-  const error = testAddress(usersAddress)
+  const error = !isAddress(usersAddress)
 
   const refetchInterval = MAINNET_POLLING_INTERVAL
 

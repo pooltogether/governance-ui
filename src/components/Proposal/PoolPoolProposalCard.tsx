@@ -1,19 +1,24 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
-import { useOnboard, useGovernanceChainId } from '@pooltogether/hooks'
-import { ButtonLink, Card, LoadingDots, Tooltip } from '@pooltogether/react-components'
-
+import {
+  ButtonLink,
+  Card,
+  LoadingDots,
+  SquareButtonSize,
+  SquareLink,
+  Tooltip
+} from '@pooltogether/react-components'
 import { useTranslation } from 'react-i18next'
-import { usePoolPoolBalance } from '../hooks/usePoolPoolBalance'
-import { getPoolPoolSnapshotId } from '../utils/getPoolPoolSnapshotId'
-import { usePoolPoolProposal } from '../hooks/usePoolPoolProposal'
-import { POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from '../constants'
-import PoolIcon from '../assets/images/pool-icon.svg'
-import { useTimeCountdown } from '../hooks/useTimeCountdown'
-import { getSecondsSinceEpoch } from '../utils/getCurrentSecondsSinceEpoch'
-import { TimeCountDown } from '../components/TimeCountDown'
-import { getPrecision, numberWithCommas } from '../utils/numberWithCommas'
+import { usePoolPoolBalance } from '../../hooks/usePoolPoolBalance'
+import { getPoolPoolSnapshotId } from '../../utils/getPoolPoolSnapshotId'
+import { usePoolPoolProposal } from '../../hooks/usePoolPoolProposal'
+import { POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from '../../constants'
+import { getSecondsSinceEpoch } from '../../utils/getCurrentSecondsSinceEpoch'
+import { TimeCountDown } from '../../components/TimeCountDown'
 import Link from 'next/link'
+import { useUsersAddress } from '@pooltogether/wallet-connection'
+import { useGovernanceChainId, useTimeCountdown } from '@pooltogether/hooks'
+import { getPrecision, numberWithCommas } from '@pooltogether/utilities'
 
 const POOLPOOL_PROPOSAL_STATES = Object.freeze({
   active: 'active',
@@ -24,7 +29,7 @@ export const PoolPoolProposalCard = (props) => {
   const { proposal, snapshotBlockNumber } = props
   const { id } = proposal
   const { t } = useTranslation()
-  const { address: usersAddress } = useOnboard()
+  const usersAddress = useUsersAddress()
   const chainId = useGovernanceChainId()
   const poolPoolSnapShotId = getPoolPoolSnapshotId(chainId, id)
   const { data: poolPoolProposal, isFetched: isFetched } = usePoolPoolProposal(chainId, id)
@@ -53,7 +58,7 @@ export const PoolPoolProposalCard = (props) => {
     <Card className='flex flex-col xs:flex-row xs:justify-between mb-6'>
       <div className='flex flex-col'>
         <span className='flex'>
-          <img src={PoolIcon} className='rounded-full w-4 h-4 xs:w-6 xs:h-6 my-auto mr-2' />
+          <img src={'pool-icon.svg'} className='rounded-full w-4 h-4 xs:w-6 xs:h-6 my-auto mr-2' />
           <h6>{t('poolPoolGasFreeVote')}</h6>
           <Tooltip className='my-auto ml-2 text-inverse' tip={t('depositIntoPoolPoolTooltip')} />
         </span>
@@ -73,26 +78,20 @@ export const PoolPoolProposalCard = (props) => {
         </div>
         <div className='flex flex-row xs:flex-col'>
           <PoolPoolSnapshotLinkButton state={state} snapShotId={poolPoolSnapShotId} />
-          <ButtonLink
-            Link={Link}
-            target='_blank'
-            rel='noopener noreferrer'
-            border='transparent'
-            text='green'
-            hoverText='primary'
-            hoverBg='green'
-            hoverBorder='transparent'
-            padding='px-2 xs:px-4 sm:px-6 lg:px-8 py-1'
-            textSize='xs'
-            href={POOLPOOL_URL}
-            className='flex justify-center'
-          >
-            <span className='my-auto'>{t('goToPoolPool')}</span>
-            <FeatherIcon
-              icon={'external-link'}
-              className='relative w-4 h-4 inline-block my-auto ml-2'
-            />
-          </ButtonLink>
+          <Link href={POOLPOOL_URL}>
+            <SquareLink
+              rel='noopener noreferrer'
+              target='_blank'
+              size={SquareButtonSize.sm}
+              className='flex justify-center'
+            >
+              <span className='my-auto'>{t('goToPoolPool')}</span>
+              <FeatherIcon
+                icon={'external-link'}
+                className='relative w-4 h-4 inline-block my-auto ml-2'
+              />
+            </SquareLink>
+          </Link>
         </div>
       </div>
     </Card>
@@ -127,24 +126,21 @@ const PoolPoolSnapshotLinkButton = (props) => {
   const { t } = useTranslation()
 
   return (
-    <ButtonLink
-      Link={Link}
-      target='_blank'
-      rel='noopener noreferrer'
-      border='transparent'
-      text='green'
-      hoverText='primary'
-      hoverBg='green'
-      hoverBorder='transparent'
-      padding='px-2 xs:px-4 sm:px-6 lg:px-8 py-1'
-      textSize='xs'
-      href={`${POOLPOOL_SNAPSHOT_URL}/proposal/${snapShotId}`}
-      className='flex xs:mb-2 justify-center'
-    >
-      <span className='my-auto'>
-        {state === POOLPOOL_PROPOSAL_STATES.closed ? 'View on Snapshot' : t('voteOnSnapshot')}
-      </span>
-      <FeatherIcon icon={'external-link'} className='relative w-4 h-4 inline-block my-auto ml-2' />
-    </ButtonLink>
+    <Link href={`${POOLPOOL_SNAPSHOT_URL}/proposal/${snapShotId}`}>
+      <SquareLink
+        target='_blank'
+        rel='noopener noreferrer'
+        size={SquareButtonSize.sm}
+        className='flex xs:mb-2 justify-center'
+      >
+        <span className='my-auto'>
+          {state === POOLPOOL_PROPOSAL_STATES.closed ? 'View on Snapshot' : t('voteOnSnapshot')}
+        </span>
+        <FeatherIcon
+          icon={'external-link'}
+          className='relative w-4 h-4 inline-block my-auto ml-2'
+        />
+      </SquareLink>
+    </Link>
   )
 }

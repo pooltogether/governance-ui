@@ -7,12 +7,10 @@ import gfm from 'remark-gfm'
 import { Dialog } from '@reach/dialog'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
-import { Card, ButtonLink, BlockExplorerLink, poolToast } from '@pooltogether/react-components'
-import { useOnboard, useGovernanceChainId, useSendTransaction } from '@pooltogether/hooks'
-
+import { Card, ButtonLink, BlockExplorerLink, SquareLink } from '@pooltogether/react-components'
 import { ActionsCard } from '../components/ProposalCreation/ActionsCard'
 import { useUserCanCreateProposal } from '../hooks/useUserCanCreateProposal'
-import { Button } from '@pooltogether/react-components'
+import { SquareButton } from '@pooltogether/react-components'
 import { shorten } from '../utils/shorten'
 import { useTransaction } from '../hooks/useTransaction'
 import { CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION } from '../constants'
@@ -27,6 +25,8 @@ import GovernorAlphaABI from '../abis/GovernorAlphaABI'
 import { useIsWalletOnProperNetwork } from '../hooks/useIsWalletOnProperNetwork'
 import Link from 'next/link'
 import { TextInputGroup } from '../components/TextInputGroup'
+import { getReadProvider, Transaction } from '@pooltogether/wallet-connection'
+import { useGovernanceChainId } from '@pooltogether/hooks'
 
 export const EMPTY_INPUT = {
   type: null,
@@ -159,9 +159,9 @@ export const ProposalCreationForm = () => {
             <TitleCard />
             <DescriptionCard />
             {!userCanCreateProposal && <ProposalCreationWarning />}
-            <Button className='mb-16 w-full' disabled={!userCanCreateProposal} type='submit'>
+            <SquareButton className='mb-16 w-full' disabled={!userCanCreateProposal} type='submit'>
               {t('previewProposal')}
-            </Button>
+            </SquareButton>
           </div>
 
           {showSummary && (
@@ -349,9 +349,8 @@ const ProposalSummary = (props) => {
           <ActionSummary key={index} action={action} index={index} chainId={chainId} />
         ))}
       </Card>
-      <Button
+      <SquareButton
         className='w-full'
-        secondary
         type='button'
         onClick={(e) => {
           e.preventDefault()
@@ -359,8 +358,8 @@ const ProposalSummary = (props) => {
         }}
       >
         {t('editProposal')}
-      </Button>
-      <Button
+      </SquareButton>
+      <SquareButton
         className='mt-4 mb-16 w-full'
         type='button'
         onClick={(e) => {
@@ -370,7 +369,7 @@ const ProposalSummary = (props) => {
         disabled={!isWalletOnProperNetwork}
       >
         {t('submitProposal')}
-      </Button>
+      </SquareButton>
     </>
   )
 }
@@ -457,11 +456,14 @@ const FormattedInputValue = (props) => {
   return value
 }
 
-const ProposalTransactionModal = (props) => {
+const ProposalTransactionModal: React.FC<{
+  isOpen: boolean
+  closeModal: () => void
+  tx: Transaction
+}> = (props) => {
   const { isOpen, closeModal, tx } = props
 
   const { t } = useTranslation()
-  const { provider } = useOnboard()
   const [proposalId, setProposalId] = useState()
 
   const showClose = tx && (tx.error || tx.cancelled)
@@ -470,6 +472,7 @@ const ProposalTransactionModal = (props) => {
   useEffect(() => {
     const getProposalId = async () => {
       const hash = tx.hash
+      const provider = getReadProvider(tx.chainId)
       await tx.ethersTx.wait()
       const receipt = await provider.getTransactionReceipt(hash)
       const governorAlphaInterface = new ethers.utils.Interface(GovernorAlphaABI)
@@ -507,14 +510,9 @@ const ProposalTransactionModal = (props) => {
         )}
         <TxStatus tx={tx} />
         {showNavigateToProposal && (
-          <ButtonLink
-            Link={Link}
-            className='mt-8'
-            href='/proposals/[id]'
-            as={`/proposals/${proposalId}`}
-          >
-            {t('viewProposal')}
-          </ButtonLink>
+          <Link href={`/proposals/${proposalId}`}>
+            <SquareLink className='mt-8'>{t('viewProposal')}</SquareLink>
+          </Link>
         )}
       </Banner>
     </Dialog>

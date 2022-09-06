@@ -1,18 +1,18 @@
-import { ButtonLink, Card, LoadingDots } from '@pooltogether/react-components'
-import { CountDown } from '../components/CountDown'
+import { ButtonLink, Card, LoadingDots, SquareLink } from '@pooltogether/react-components'
+import { CountDown } from '../../components/CountDown'
 import {
   EmptyProposalsList,
   ErrorLoadingProposalsList,
   LoadingProposalsList,
   ProposalItemContainer,
   ProposalListContainer
-} from '../components/Proposals/ProposalsList'
-import { POOLPOOL_SNAPSHOT_URL } from '../constants'
-import { useSnapshotProposals } from '../hooks/useSnapshotProposals'
-import { msToSeconds } from '../utils/msToSeconds'
+} from '../../components/Proposals/ProposalsList'
+import { POOLPOOL_SNAPSHOT_URL } from '../../constants'
+import { useSnapshotProposals } from '../../hooks/useSnapshotProposals'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { msToSeconds } from '@pooltogether/utilities'
 
 export const SnapshotProposalsList = (props) => {
   const { data: proposals, isFetched, error } = useSnapshotProposals()
@@ -51,20 +51,11 @@ const SnapshotProposalItem = (props) => {
         </div>
         <SnapshotProposalCountDown end={end} />
       </div>
-      <ButtonLink
-        Link={Link}
-        href={`${POOLPOOL_SNAPSHOT_URL}/proposal/${id}`}
-        border='green'
-        text='primary'
-        bg='green'
-        hoverBorder='green'
-        hoverText='primary'
-        hoverBg='green'
-        target='_blank'
-        rel='noopener noreferrer'
-      >
-        {t('voteNow')}
-      </ButtonLink>
+      <Link href={`${POOLPOOL_SNAPSHOT_URL}/proposal/${id}`}>
+        <SquareLink target='_blank' rel='noopener noreferrer'>
+          {t('voteNow')}
+        </SquareLink>
+      </Link>
     </ProposalItemContainer>
   )
 }
@@ -72,7 +63,7 @@ const SnapshotProposalItem = (props) => {
 const SnapshotProposalCountDown = (props) => {
   const { end } = props
 
-  const [seconds] = useState(end - msToSeconds(Date.now()).toNumber())
+  const [seconds] = useState(end - msToSeconds(Date.now()))
 
   return <CountDown className='sm:ml-auto sm:w-unset mb-4 sm:mb-0' seconds={seconds} />
 }

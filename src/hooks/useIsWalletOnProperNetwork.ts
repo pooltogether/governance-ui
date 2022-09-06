@@ -1,4 +1,5 @@
-import { useOnboard, useGovernanceChainId } from '@pooltogether/hooks'
+import { useGovernanceChainId } from '@pooltogether/hooks'
+import { useWalletChainId } from '@pooltogether/wallet-connection'
 
 /**
  * Checks if the connected wallet is on the proper network for the current
@@ -7,6 +8,6 @@ import { useOnboard, useGovernanceChainId } from '@pooltogether/hooks'
  */
 export const useIsWalletOnProperNetwork = () => {
   const expectedChainId = useGovernanceChainId()
-  const { network: walletChainId } = useOnboard()
+  const walletChainId = useWalletChainId()
   return Boolean(walletChainId) && walletChainId === expectedChainId
 }

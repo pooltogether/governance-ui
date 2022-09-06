@@ -1,14 +1,13 @@
 import { request } from 'graphql-request'
 import gql from 'graphql-tag'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-
 import { getGovernanceGraphUrl, QUERY_KEYS } from '../constants'
-import { testAddress } from '../utils/testAddress'
 import { useQuery } from 'react-query'
+import { isAddress } from 'ethers/lib/utils'
 
 export const useVoteData = (delegateAddress, proposalId) => {
   const chainId = useGovernanceChainId()
-  const addressError = testAddress(delegateAddress)
+  const addressError = !isAddress(delegateAddress)
 
   const results = useQuery(
     [QUERY_KEYS.voteDataQuery, chainId, delegateAddress, proposalId],

@@ -2,12 +2,11 @@ import { useQuery } from 'react-query'
 import gql from 'graphql-tag'
 import { request } from 'graphql-request'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-
 import { getGovernanceGraphUrl, QUERY_KEYS } from '../constants'
-import { testAddress } from '../utils/testAddress'
+import { isAddress } from 'ethers/lib/utils'
 
 export function useDelegateData(address) {
-  const addressError = testAddress(address)
+  const addressError = !isAddress(address)
   const chainId = useGovernanceChainId()
 
   return useQuery(

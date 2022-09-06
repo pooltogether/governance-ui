@@ -1,13 +1,10 @@
-import { useTimeCountdown } from '../hooks/useTimeCountdown'
+import { useTimeCountdown } from '@pooltogether/hooks'
 import classnames from 'classnames'
 import React from 'react'
 
 export const CountDown = (props) => {
-  const { seconds: secondsToCountDown, changeColors, onZero, className } = props
-  const { days, hours, minutes, seconds, secondsLeft } = useTimeCountdown(
-    secondsToCountDown,
-    onZero
-  )
+  const { seconds: secondsToCountDown, changeColors, className } = props
+  const { days, hours, minutes, seconds, secondsLeft } = useTimeCountdown(secondsToCountDown)
 
   const textColorClass = getTextColorClass(secondsLeft, changeColors)
 

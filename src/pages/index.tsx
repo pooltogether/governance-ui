@@ -1,11 +1,14 @@
 import { LandingPage } from '../components/LandingPage'
 import Layout from '../components/Layout'
 import React from 'react'
+import { PagePadding } from '../components/Layout/PagePadding'
 
 export default function IndexPage(props) {
   return (
     <Layout>
-      <LandingPage />
+      <PagePadding>
+        <LandingPage />
+      </PagePadding>
     </Layout>
   )
 }

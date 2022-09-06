@@ -26,8 +26,9 @@ export enum ContentPaneState {
 export const PageHeader = (props) => {
   return (
     <PageHeaderContainer
+      href='/'
+      maxWidthClassName='max-w-screen-sm'
       className='backdrop-filter backdrop-blur-xl w-full sticky top-0'
-      Link={Link}
     >
       <div className='flex flex-row justify-end items-center space-x-4'>
         <FullWalletConnectionButtonWrapper />

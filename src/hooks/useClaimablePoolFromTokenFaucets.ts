@@ -1,28 +1,23 @@
-import TokenFaucetABI from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
 import { useQuery } from 'react-query'
 import { ethers } from 'ethers'
-import { useOnboard, useGovernanceChainId, useReadProvider } from '@pooltogether/hooks'
+import { useGovernanceChainId, useReadProvider } from '@pooltogether/hooks'
 import { batch, contract } from '@pooltogether/etherplex'
-
 import { DEFAULT_TOKEN_PRECISION, QUERY_KEYS } from '../constants'
-import { testAddress } from '../utils/testAddress'
 import { useTokenFaucetAddresses } from '../hooks/useTokenFaucetAddresses'
+import { useUsersAddress } from '@pooltogether/wallet-connection'
+import { isAddress } from 'ethers/lib/utils'
 
 export const useClaimablePoolFromTokenFaucets = () => {
   const { data: tokenFaucetAddresses, isFetched: tokenFaucetAddressesIsFetched } =
     useTokenFaucetAddresses()
-  const { address: usersAddress } = useOnboard()
+  const usersAddress = useUsersAddress()
   const chainId = useGovernanceChainId()
-  const { readProvider, isReadProviderReady } = useReadProvider(chainId)
+  const readProvider = useReadProvider(chainId)
 
-  const addressError = testAddress(usersAddress)
+  const addressError = !isAddress(usersAddress)
 
   const enabled = Boolean(
-    tokenFaucetAddressesIsFetched &&
-      tokenFaucetAddresses &&
-      usersAddress &&
-      !addressError &&
-      isReadProviderReady
+    tokenFaucetAddressesIsFetched && tokenFaucetAddresses && usersAddress && !addressError
   )
 
   return useQuery(

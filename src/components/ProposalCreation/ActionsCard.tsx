@@ -2,11 +2,11 @@ import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
 import { useTranslation } from 'react-i18next'
-import { Button, Card } from '@pooltogether/react-components'
-import { useGovernorAlpha } from '../hooks/useGovernorAlpha'
-import { usePrizePools } from '../hooks/usePrizePools'
-import { EMPTY_ACTION } from '../components/ProposalCreation/ProposalCreationForm'
-import { Action } from '../components/ProposalCreation/Action'
+import { SquareButton, Card } from '@pooltogether/react-components'
+import { useGovernorAlpha } from '../../hooks/useGovernorAlpha'
+import { usePrizePools } from '../../hooks/usePrizePools'
+import { EMPTY_ACTION } from '../../components/ProposalCreation/ProposalCreationForm'
+import { Action } from '../../components/ProposalCreation/Action'
 
 export const ActionsCard = (props) => {
   const { t } = useTranslation()
@@ -44,7 +44,7 @@ export const ActionsCard = (props) => {
           />
         )
       })}
-      <Button
+      <SquareButton
         className='mt-8'
         type='button'
         disabled={actions.length >= proposalMaxOperations}
@@ -54,7 +54,7 @@ export const ActionsCard = (props) => {
         }}
       >
         {t('addAnotherAction')}
-      </Button>
+      </SquareButton>
     </Card>
   )
 }

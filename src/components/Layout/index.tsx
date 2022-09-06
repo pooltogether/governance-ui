@@ -31,23 +31,24 @@ const Layout = (props: LayoutProps) => {
   }
 
   return (
-    <div className={classNames(className, '')}>
-      <AnimatePresence>
-        <motion.div
-          key={`loading-animation`}
-          transition={{ duration: shouldReduceMotion ? 0 : 0.1, ease: 'easeIn' }}
-          initial={{
-            opacity: 0
-          }}
-          animate={{
-            opacity: 1
-          }}
-          className={'flex flex-col h-screen absolute top-0 w-screen'}
-        >
-          <LoadingLogo className='m-auto' />
-        </motion.div>
-      </AnimatePresence>
-    </div>
+    <AnimatePresence>
+      <motion.div
+        key={`loading-animation`}
+        transition={{ duration: shouldReduceMotion ? 0 : 0.1, ease: 'easeIn' }}
+        initial={{
+          opacity: 0
+        }}
+        animate={{
+          opacity: 1
+        }}
+        className={classNames(
+          'flex flex-col absolute inset-0 w-screen h-actually-full-screen',
+          className
+        )}
+      >
+        <LoadingLogo className='m-auto' />
+      </motion.div>
+    </AnimatePresence>
   )
 }
 

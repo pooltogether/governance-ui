@@ -2,16 +2,20 @@ import React from 'react'
 import { ethers } from 'ethers'
 import classnames from 'classnames'
 import { useTranslation } from 'react-i18next'
-import { Button, ExternalLink, PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
-import { useOnboard } from '@pooltogether/hooks'
-
-import { DEFAULT_TOKEN_PRECISION } from '../constants'
-import { Banner } from '../components/Banner'
-import { ProposalCreationForm } from '../components/ProposalCreation/ProposalCreationForm'
-import { useGovernorAlpha } from '../hooks/useGovernorAlpha'
-import { useUserCanCreateProposal } from '../hooks/useUserCanCreateProposal'
-import { numberWithCommas } from '../utils/numberWithCommas'
+import {
+  SquareButton,
+  ExternalLink,
+  PageTitleAndBreadcrumbs,
+  SquareButtonSize
+} from '@pooltogether/react-components'
+import { DEFAULT_TOKEN_PRECISION } from '../../constants'
+import { Banner } from '../../components/Banner'
+import { ProposalCreationForm } from '../../components/ProposalCreation/ProposalCreationForm'
+import { useGovernorAlpha } from '../../hooks/useGovernorAlpha'
+import { useUserCanCreateProposal } from '../../hooks/useUserCanCreateProposal'
+import { numberWithCommas } from '../../utils/numberWithCommas'
 import Link from 'next/link'
+import { useConnectWallet, useUsersAddress } from '@pooltogether/wallet-connection'
 
 export const ProposalCreationUI = (props) => {
   const { t } = useTranslation()
@@ -53,7 +57,8 @@ export const ProposalCreationUI = (props) => {
 const ProposalCreationMinimumRequirementBanner = () => {
   const { t } = useTranslation()
 
-  const { address: usersAddress, connectWallet } = useOnboard()
+  const usersAddress = useUsersAddress()
+  const connectWallet = useConnectWallet()
   const { isFetched, userCanCreateProposal } = useUserCanCreateProposal()
   const { data: governorAlpha } = useGovernorAlpha()
 
@@ -75,15 +80,14 @@ const ProposalCreationMinimumRequirementBanner = () => {
         >
           {t('learnMore')}
         </ExternalLink>
-        <Button
-          tertiary
+        <SquareButton
           type='button'
           className='mx-auto mt-4 xs:w-5/12 sm:w-1/3 lg:w-1/4'
-          textSize='xxxs'
+          size={SquareButtonSize.sm}
           onClick={() => connectWallet()}
         >
           {t('connectWallet')}
-        </Button>
+        </SquareButton>
       </Banner>
     )
   }

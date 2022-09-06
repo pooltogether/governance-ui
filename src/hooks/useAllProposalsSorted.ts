@@ -1,4 +1,4 @@
-import { PROPOSAL_STATUS, SECONDS_PER_BLOCK } from '../constants'
+import { PROPOSAL_STATUS } from '../constants'
 import { useAllProposals } from '../hooks/useAllProposals'
 import { useMemo } from 'react'
 

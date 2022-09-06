@@ -1,5 +1,5 @@
 import { Provider as JotaiProvider } from 'jotai'
-import { createClient, createStorage, Provider as WagmiProvider } from 'wagmi'
+import { createClient, WagmiConfig as WagmiProvider } from 'wagmi'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
@@ -16,7 +16,7 @@ import {
   initProviderApiKeys as initProviderApiKeysForHooks,
   getAppEnvString
 } from '@pooltogether/hooks'
-import '../services/i18n'
+import '../utils/i18n'
 import { ToastContainer, ToastContainerProps } from 'react-toastify'
 import { useContext } from 'react'
 import {
@@ -40,17 +40,12 @@ initProviderApiKeysForWalletConnection(RPC_API_KEYS)
 
 // Initialize WAGMI wallet connectors
 const chains = SUPPORTED_CHAINS[getAppEnvString()]
-const connectors = ({ chainId }) => {
+const connectors = () => {
   return [
     new MetaMaskConnector({ chains, options: {} }),
     new WalletConnectConnector({
       chains,
       options: {
-        chainId: chainId || NETWORK.mainnet,
-        rpc: getRpcUrls(
-          chains.map((chain) => chain.id),
-          RPC_API_KEYS
-        ),
         bridge: 'https://pooltogether.bridge.walletconnect.org/',
         qrcode: true
       }
@@ -58,8 +53,7 @@ const connectors = ({ chainId }) => {
     new CoinbaseWalletConnector({
       chains,
       options: {
-        appName: 'PoolTogether',
-        jsonRpcUrl: getRpcUrl(chainId || NETWORK.mainnet, RPC_API_KEYS)
+        appName: 'PoolTogether'
       }
     }),
     new InjectedConnector({ chains, options: {} })
@@ -82,9 +76,7 @@ const wagmiClient = createClient({
  */
 export const AppContainer = (props) => {
   const { children } = props
-
   useInitPoolTogetherHooks()
-  const { i18n } = useTranslation()
 
   return (
     <WagmiProvider client={wagmiClient}>
@@ -93,13 +85,7 @@ export const AppContainer = (props) => {
           <ReactQueryDevtools />
           <ThemeContextProvider>
             <ThemedToastContainer />
-            {i18n.isInitialized ? (
-              <>{children}</>
-            ) : (
-              <div className='flex flex-col h-screen absolute top-0 w-screen'>
-                <LoadingLogo className='m-auto' />
-              </div>
-            )}
+            {children}
           </ThemeContextProvider>
         </QueryClientProvider>
       </JotaiProvider>

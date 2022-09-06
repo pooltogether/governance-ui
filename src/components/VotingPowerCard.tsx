@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import { Trans, useTranslation } from 'react-i18next'
-import { useOnboard } from '@pooltogether/hooks'
 import FeatherIcon from 'feather-icons-react'
 import {
   Card,
@@ -11,7 +10,8 @@ import {
   PoolIcon,
   Tooltip,
   ThemedClipSpinner,
-  ButtonLink
+  SquareLink,
+  SquareButtonSize
 } from '@pooltogether/react-components'
 import { getMinPrecision, numberWithCommas } from '@pooltogether/utilities'
 import classnames from 'classnames'
@@ -20,16 +20,15 @@ import { useTokenHolder } from '../hooks/useTokenHolder'
 import { usePoolPoolBalance } from '../hooks/usePoolPoolBalance'
 import { POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from '../constants'
 import { DelegateAddress } from '../components/DelegateAddress'
-
-import VoteIcon from '../assets/images/icon-vote.svg'
+import { useIsWalletConnected, useUsersAddress } from '@pooltogether/wallet-connection'
 
 export const VotingPowerCard = (props) => {
   const { className, blockNumber, snapshotBlockNumber } = props
 
-  const { isWalletConnected } = useOnboard()
+  const isWalletConnected = useIsWalletConnected()
   const { t } = useTranslation()
 
-  const { address: usersAddress } = useOnboard()
+  const usersAddress = useUsersAddress()
   const { isFetched: tokenHolderIsFetched, data: tokenHolder } = useTokenHolder(
     usersAddress,
     blockNumber
@@ -87,7 +86,7 @@ export const VotingPowerCard = (props) => {
 const LeftTop = (props) => {
   const { blockNumber } = props
 
-  const { address: usersAddress } = useOnboard()
+  const usersAddress = useUsersAddress()
   const { data: tokenHolder, isFetched: tokenHolderIsFetched } = useTokenHolder(
     usersAddress,
     blockNumber
@@ -133,7 +132,7 @@ const LeftTop = (props) => {
 
 const RightTop = (props) => {
   const { blockNumber, snapshotBlockNumber } = props
-  const { address: usersAddress } = useOnboard()
+  const usersAddress = useUsersAddress()
   const { data: poolPoolData, isFetched } = usePoolPoolBalance(usersAddress, snapshotBlockNumber)
 
   let votes = null
@@ -161,7 +160,7 @@ const RightTop = (props) => {
 const LeftBottom = (props) => {
   const { blockNumber } = props
 
-  const { address: usersAddress } = useOnboard()
+  const usersAddress = useUsersAddress()
   const { data: tokenHolder, isFetched: tokenHolderIsFetched } = useTokenHolder(
     usersAddress,
     blockNumber
@@ -273,7 +272,7 @@ const LeftBottom = (props) => {
 
 const RightBottom = (props) => {
   const { snapshotBlockNumber } = props
-  const { address: usersAddress } = useOnboard()
+  const usersAddress = useUsersAddress()
   const { data: poolPoolData, isFetched } = usePoolPoolBalance(usersAddress, snapshotBlockNumber)
 
   if (!isFetched) return null
@@ -354,7 +353,7 @@ const ZeroBalanceVotingPowerCard = (props) => {
 
       <div className='flex flex-col sm:flex-row justify-between'>
         <div className='flex flex-row mb-8 sm:mb-0 mt-4 sm:mt-0'>
-          <img src={VoteIcon} className='w-12 my-auto pb-2 ml-2 mr-8' />
+          <img src={'/icon-vote.svg'} className='w-12 my-auto pb-2 ml-2 mr-8' />
           <div className='flex flex-col justify-center'>
             <h5 className='leading-none mb-2'>
               <Trans i18nKey='youHaveNoVotes' />
@@ -364,16 +363,16 @@ const ZeroBalanceVotingPowerCard = (props) => {
             </p>
           </div>
         </div>
-        <ButtonLink
-          Link={Link}
-          target='_blank'
-          rel='nofollow noreferrer'
-          href='https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x0cec1a9154ff802e7934fc916ed7ca50bde6844e&use=V2'
-          textSize='xs'
-          className='w-full sm:w-max h-fit-content my-auto whitespace-nowrap ml-2'
-        >
-          <Trans i18nKey='getPoolToGetStarted' />
-        </ButtonLink>
+        <Link href='https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x0cec1a9154ff802e7934fc916ed7ca50bde6844e&use=V2'>
+          <SquareLink
+            target='_blank'
+            rel='nofollow noreferrer'
+            size={SquareButtonSize.sm}
+            className='w-full sm:w-max h-fit-content my-auto whitespace-nowrap ml-2'
+          >
+            <Trans i18nKey='getPoolToGetStarted' />
+          </SquareLink>
+        </Link>
       </div>
     </Card>
   )

@@ -3,17 +3,14 @@ import {
   Card,
   ExternalLink,
   LinkTheme,
-  PageTitleAndBreadcrumbs
+  PageTitleAndBreadcrumbs,
+  SquareLink
 } from '@pooltogether/react-components'
 import Link from 'next/link'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { DISCORD_INVITE_URL, POOLTOGETHER_GOV_FORUM_URL } from '../constants'
-
-import ChatBubble from '../assets/images/chat-bubble.svg'
-import DollarBill from '../assets/images/dollar-bill.svg'
-import VoteIcon from '../assets/images/icon-vote.svg'
 
 export const LandingPage = (props) => {
   const { t } = useTranslation()
@@ -28,15 +25,11 @@ export const LandingPage = (props) => {
           sizeClassName=''
           className='mb-4 sm:mb-0'
         />
-        <ButtonLink
-          href='/proposals'
-          className='w-full sm:w-max'
-          border='transparent'
-          text='primary'
-          bg='green'
-        >
-          <Trans i18nKey='goToGovernanceDashboard'>Go to Governance Dashboard</Trans>
-        </ButtonLink>
+        <Link href='/proposals' as='/proposals'>
+          <SquareLink className='w-full sm:w-max'>
+            <Trans i18nKey='goToGovernanceDashboard'>Go to Governance Dashboard</Trans>
+          </SquareLink>
+        </Link>
       </div>
 
       <Header>
@@ -51,7 +44,7 @@ export const LandingPage = (props) => {
 
       <InfoCard
         iconClassName='w-16'
-        src={ChatBubble}
+        src={'chat-bubble.svg'}
         header={t('joinTheDiscussion')}
         description={t('stayUpToDate')}
         className='sm:mr-4 mb-8'
@@ -88,7 +81,7 @@ export const LandingPage = (props) => {
       <div className='w-full flex flex-col sm:flex-row'>
         <InfoCard
           iconClassName='w-12'
-          src={VoteIcon}
+          src={'icon-vote.svg'}
           header={t('voteOnActiveProposals')}
           description={t('voteWithPoolDescription')}
           className='mb-4 sm:mb-0 sm:mr-4'
@@ -103,7 +96,7 @@ export const LandingPage = (props) => {
 
         <InfoCard
           iconClassName='w-16'
-          src={DollarBill}
+          src={'dollar-bill.svg'}
           header={t('voteGasFreeAndEarnRewards')}
           description={t('ppoolHoldersCanVoteGasFree')}
           className='sm:ml-4'

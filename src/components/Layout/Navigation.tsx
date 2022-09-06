@@ -12,15 +12,19 @@ interface NavLink {
 const NavLinks: NavLink[] = [
   {
     i18nKey: 'deposit',
-    href: '/deposit'
+    href: 'https://app.pooltogether.com/deposit'
   },
   {
     i18nKey: 'prizes',
-    href: '/prizes'
+    href: 'https://app.pooltogether.com/prizes'
   },
   {
     i18nKey: 'account',
-    href: '/account'
+    href: 'https://app.pooltogether.com/account'
+  },
+  {
+    i18nKey: 'vote',
+    href: '/'
   }
 ]
 
@@ -36,14 +40,14 @@ export const Navigation: React.FC<{ className?: string }> = (props) => {
         'z-3',
         'flex flex-row justify-center',
         'pointer-events-none',
-        'transition fixed bottom-0 top-auto xs:bottom-auto xs:top-1 sm:top-2 inset-x-0 xs:left-12 xs:right-auto sm:inset-x-0'
+        'transition fixed bottom-0 top-auto xs:bottom-auto xs:top-2 sm:top-3 inset-x-0 xs:left-12 xs:right-auto sm:inset-x-0'
       )}
     >
       <nav
         className={classNames(
           className,
           'flex flex-row justify-center space-x-4 w-full xs:w-auto pointer-events-auto pt-2 pb-8 px-5',
-          'dark:bg-actually-black bg-opacity-10 bg-white dark:bg-opacity-10 xs:bg-opacity-0 xs:dark:bg-opacity-0 shadow-lg xs:shadow-none rounded-t-xl p-1 backdrop-filter backdrop-blur-xl xs:backdrop-blur-none'
+          'dark:bg-actually-black bg-opacity-10 bg-white dark:bg-opacity-10 xs:bg-opacity-0 xs:dark:bg-opacity-0 shadow-lg xs:shadow-none rounded-t-xl xs:rounded-t-none p-1 backdrop-filter backdrop-blur-xl xs:backdrop-blur-none'
         )}
       >
         {NavLinks.map((navLink) => (

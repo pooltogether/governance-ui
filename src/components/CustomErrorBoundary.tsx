@@ -2,6 +2,8 @@ import React from 'react'
 import { ErrorBoundary as SentryErrorBoundary } from '@sentry/react'
 
 import { ErrorPage } from '../components/ErrorPage'
+import { useIsWalletMetamask } from '@pooltogether/hooks'
+import { useAccount } from 'wagmi'
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -24,7 +26,7 @@ class ErrorBoundary extends React.Component {
 
 export function CustomErrorBoundary(props) {
   const { children } = props
-  const { walletName } = useOnboard()
+  const { connector } = useAccount()
 
   if (!process.env.NEXT_JS_SENTRY_DSN) {
     return <ErrorBoundary>{children}</ErrorBoundary>
@@ -33,10 +35,10 @@ export function CustomErrorBoundary(props) {
       <>
         <SentryErrorBoundary
           beforeCapture={(scope) => {
-            scope.setTag('web3', walletName)
+            scope.setTag('web3', connector?.name)
 
             scope.setContext('wallet', {
-              name: walletName
+              name: connector?.name
             })
           }}
           fallback={({ error, componentStack, resetError }) => <ErrorPage />}

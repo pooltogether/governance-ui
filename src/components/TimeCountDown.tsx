@@ -3,9 +3,9 @@ import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 
 import { useTranslation } from 'react-i18next'
-import { useTimeCountdown } from '../hooks/useTimeCountdown'
 import { SECONDS_PER_DAY, SECONDS_PER_HOUR } from '../constants'
 import { getSecondsSinceEpoch } from '../utils/getCurrentSecondsSinceEpoch'
+import { useTimeCountdown } from '@pooltogether/hooks'
 
 /**
  * endTime - An time in seconds since the epoch to count down to

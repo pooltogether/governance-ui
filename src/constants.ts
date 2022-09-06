@@ -71,6 +71,8 @@ export const SUPPORTED_CHAINS = Object.freeze({
 })
 
 export const QUERY_KEYS = {
+  retroactivePoolClaimDataQuery: 'retroactivePoolClaimDataQuery',
+  claimablePoolTotal: 'claimablePoolTotal',
   accountGovernanceDataQuery: 'accountGovernanceDataQuery',
   governorAlphaDataQuery: 'governorAlphaDataQuery',
   proposalVotesQuery: 'proposalVotesQuery',

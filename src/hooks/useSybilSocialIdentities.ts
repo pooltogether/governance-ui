@@ -1,5 +1,5 @@
 import { atom, useAtom } from 'jotai'
-import { fetchAllIdentities } from '../services/social'
+import { fetchAllIdentities } from '../utils/social'
 import { useEffect } from 'react'
 
 export const socialIdentitiesAtom = atom({})

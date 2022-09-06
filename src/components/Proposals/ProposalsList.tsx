@@ -7,18 +7,18 @@ import {
   ButtonLink,
   ExternalLink,
   LoadingDots,
-  LinkTheme
+  LinkTheme,
+  SquareLink
 } from '@pooltogether/react-components'
 import { Trans, useTranslation } from 'react-i18next'
 
-import { PROPOSAL_STATUS } from '../constants'
-import { CountDown } from '../components/CountDown'
-import { SORTED_STATES, useAllProposalsSorted } from '../hooks/useAllProposalsSorted'
-import { useProposalData } from '../hooks/useProposalData'
-import { msToSeconds } from '../utils/msToSeconds'
+import { PROPOSAL_STATUS } from '../../constants'
+import { CountDown } from '../../components/CountDown'
+import { useAllProposalsSorted } from '../../hooks/useAllProposalsSorted'
+import { useProposalData } from '../../hooks/useProposalData'
 
-import EmptyBox from '../assets/images/empty-box.png'
 import Link from 'next/link'
+import { msToSeconds } from '@pooltogether/utilities'
 
 export const ProposalsList = (props) => {
   const { proposalStates } = props
@@ -162,12 +162,10 @@ export const ProposalStatus = (props) => {
 const ProposalCountDown = (props) => {
   const { proposal } = props
 
-  const [seconds] = useState(proposal.endDateSeconds - msToSeconds(Date.now()).toNumber())
+  const [seconds] = useState(proposal.endDateSeconds - msToSeconds(Date.now()))
   const { refetch } = useProposalData(proposal.id)
 
-  return (
-    <CountDown className='sm:ml-auto sm:w-unset mb-4 sm:mb-0' seconds={seconds} onZero={refetch} />
-  )
+  return <CountDown className='sm:ml-auto sm:w-unset mb-4 sm:mb-0' seconds={seconds} />
 }
 
 const ViewProposalButton = (props) => {
@@ -178,26 +176,16 @@ const ViewProposalButton = (props) => {
 
   if (status === PROPOSAL_STATUS.active) {
     return (
-      <ButtonLink
-        Link={Link}
-        href={'/proposals/[id]/'}
-        as={`/proposals/${id}/`}
-        border='green'
-        text='primary'
-        bg='green'
-        hoverBorder='green'
-        hoverText='primary'
-        hoverBg='green'
-      >
-        {t('voteNow')}
-      </ButtonLink>
+      <Link href={`/proposals/${id}/`}>
+        <SquareLink>{t('voteNow')}</SquareLink>
+      </Link>
     )
   }
 
   return (
-    <ButtonLink Link={Link} textSize='xxs' href={'/proposals/[id]/'} as={`/proposals/${id}/`}>
-      {t('viewProposal')}
-    </ButtonLink>
+    <Link href={`/proposals/${id}/`}>
+      <SquareLink>{t('viewProposal')}</SquareLink>
+    </Link>
   )
 }
 
@@ -206,7 +194,7 @@ export const EmptyProposalsList = () => {
 
   return (
     <Card className='mb-6'>
-      <img src={EmptyBox} className='mx-auto w-16 h-16 sm:w-auto sm:h-auto my-4 sm:my-8' />
+      <img src={'/empty-box.png'} className='mx-auto w-16 h-16 sm:w-auto sm:h-auto my-4 sm:my-8' />
       <h4 className='mt-4 mb-2 text-center text-accent-1'>{t('noActiveProposalsAtTheMoment')}</h4>
       <p className='text-center text-accent-1 mb-4 sm:mb-6'>
         <Trans

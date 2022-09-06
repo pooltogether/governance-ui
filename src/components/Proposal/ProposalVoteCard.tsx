@@ -1,32 +1,31 @@
 import React, { useMemo, useState } from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-import GovernorAlphaABI from '../abis/GovernorAlphaABI'
+import GovernorAlphaABI from '../../abis/GovernorAlphaABI'
 import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useTranslation } from 'react-i18next'
-import {
-  useOnboard,
-  useUsersAddress,
-  useGovernanceChainId,
-  useSendTransaction
-} from '@pooltogether/hooks'
-import { Card, Button, Tooltip, LinkTheme, poolToast } from '@pooltogether/react-components'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
-
-import { CONTRACT_ADDRESSES, PROPOSAL_STATUS } from '../constants'
-import { ProposalStatus } from '../components/Proposals/ProposalsList'
-import { TxText } from '../components/TxText'
-import { TimeCountDown } from '../components/TimeCountDown'
-import { DelegateAddress } from '../components/DelegateAddress'
-import { useInterval } from '../hooks/useInterval'
-import { useIsWalletOnProperNetwork } from '../hooks/useIsWalletOnProperNetwork'
-import { useTokenHolder } from '../hooks/useTokenHolder'
-import { useVoteData } from '../hooks/useVoteData'
-import { useProposalVotesTotalPages } from '../hooks/useProposalVotesTotalPages'
-import { useProposalVotes } from '../hooks/useProposalVotes'
-import { useTransaction } from '../hooks/useTransaction'
-import { getSecondsSinceEpoch } from '../utils/getCurrentSecondsSinceEpoch'
+import { CONTRACT_ADDRESSES, PROPOSAL_STATUS } from '../../constants'
+import { ProposalStatus } from '../../components/Proposals/ProposalsList'
+import { TxText } from '../../components/TxText'
+import { TimeCountDown } from '../../components/TimeCountDown'
+import { DelegateAddress } from '../../components/DelegateAddress'
+import { useInterval } from '../../hooks/useInterval'
+import { useIsWalletOnProperNetwork } from '../../hooks/useIsWalletOnProperNetwork'
+import { useTokenHolder } from '../../hooks/useTokenHolder'
+import { useVoteData } from '../../hooks/useVoteData'
+import { useProposalVotesTotalPages } from '../../hooks/useProposalVotesTotalPages'
+import { useProposalVotes } from '../../hooks/useProposalVotes'
+import { useTransaction } from '../../hooks/useTransaction'
+import { getSecondsSinceEpoch } from '../../utils/getCurrentSecondsSinceEpoch'
+import {
+  useSendTransaction,
+  useUsersAddress,
+  useWalletChainId
+} from '@pooltogether/wallet-connection'
+import { Card, LinkTheme, SquareButton, Tooltip } from '@pooltogether/react-components'
+import { useGovernanceChainId } from '@pooltogether/hooks'
 
 export const ProposalVoteCard = (props) => {
   const { proposal, refetchProposalData, blockNumber } = props
@@ -124,9 +123,9 @@ const VoteButtons = (props) => {
   const { t } = useTranslation()
 
   const chainId = useGovernanceChainId()
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransaction(t)
   const [txId, setTxId] = useState(0)
-  const [votingFor, setVotingFor] = useState()
+  const [votingFor, setVotingFor] = useState<boolean>()
   const governanceAddress = CONTRACT_ADDRESSES[chainId]?.GovernorAlpha
   const tx = useTransaction(txId)
 
@@ -148,6 +147,7 @@ const VoteButtons = (props) => {
     refetchVoterTable()
   }
 
+  // TODO: Casting votes transaction
   const castVote = async (support) => {
     const params = [id, support]
 
@@ -208,7 +208,7 @@ const VoteButtons = (props) => {
         </div>
       )}
       <Tooltip isEnabled={isButtonDisabled} id={`tooltip-proposal-vote-yes`} tip={tip}>
-        <Button
+        <SquareButton
           border='green'
           text='primary'
           bg='green'
@@ -223,11 +223,11 @@ const VoteButtons = (props) => {
             <FeatherIcon icon='check-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
             {t('accept')}
           </div>
-        </Button>
+        </SquareButton>
       </Tooltip>
 
       <Tooltip isEnabled={isButtonDisabled} id={`tooltip-proposal-vote-no`} tip={tip}>
-        <Button
+        <SquareButton
           border='red'
           text='red'
           bg='transparent'
@@ -241,7 +241,7 @@ const VoteButtons = (props) => {
             <FeatherIcon icon='x-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
             {t('reject')}
           </div>
-        </Button>
+        </SquareButton>
       </Tooltip>
     </div>
   )
@@ -251,13 +251,14 @@ const QueueButton = (props) => {
   const { id, refetchData } = props
 
   const { t } = useTranslation()
-  const { network: chainId } = useOnboard()
+  const walletChainId = useWalletChainId()
   const sendTx = useSendTransaction(t, poolToast)
   const isWalletOnProperNetwork = useIsWalletOnProperNetwork()
   const [txId, setTxId] = useState(0)
-  const governanceAddress = CONTRACT_ADDRESSES[chainId]?.GovernorAlpha
+  const governanceAddress = CONTRACT_ADDRESSES[walletChainId]?.GovernorAlpha
   const tx = useTransaction(txId)
 
+  // TODO: Queue transaction
   const handleQueueProposal = async (e) => {
     e.preventDefault()
 
@@ -310,9 +311,9 @@ const QueueButton = (props) => {
           />
         </Tooltip>
       )}
-      <Button onClick={handleQueueProposal} disabled={!isWalletOnProperNetwork}>
+      <SquareButton onClick={handleQueueProposal} disabled={!isWalletOnProperNetwork}>
         {t('queueProposal')}
-      </Button>
+      </SquareButton>
     </div>
   )
 }
@@ -321,11 +322,11 @@ const ExecuteButton = (props) => {
   const { id, refetchData, executionETA, proposal } = props
 
   const { t } = useTranslation()
-  const { network: chainId } = useOnboard()
+  const walletChainId = useWalletChainId()
   const sendTx = useSendTransaction(t, poolToast)
   const isWalletOnProperNetwork = useIsWalletOnProperNetwork()
   const [txId, setTxId] = useState(0)
-  const governanceAddress = CONTRACT_ADDRESSES[chainId]?.GovernorAlpha
+  const governanceAddress = CONTRACT_ADDRESSES[walletChainId]?.GovernorAlpha
   const tx = useTransaction(txId)
 
   const [currentTime, setCurrentTime] = useState(getSecondsSinceEpoch())
@@ -419,18 +420,12 @@ const ExecuteButton = (props) => {
             />
           </Tooltip>
         )}
-        <Button
-          border='green'
-          text='primary'
-          bg='green'
-          hoverBorder='green'
-          hoverText='primary'
-          hoverBg='green'
+        <SquareButton
           onClick={handleExecuteProposal}
           disabled={currentTime < executionETA || !isWalletOnProperNetwork}
         >
           {t('executeProposal')}
-        </Button>
+        </SquareButton>
       </div>
     </>
   )

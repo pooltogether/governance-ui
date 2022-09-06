@@ -2,12 +2,12 @@ import { useQuery } from 'react-query'
 import { batch, contract } from '@pooltogether/etherplex'
 import { ethers } from 'ethers'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import { useOnboard, useReadProvider } from '@pooltogether/hooks'
-
+import { useReadProvider } from '@pooltogether/hooks'
 import MerkleDistributorAbi from '../abis/MerkleDistributor'
 import { CONTRACT_ADDRESSES, QUERY_KEYS } from '../constants'
 import { axiosInstance } from '../axiosInstance'
-import { testAddress } from '../utils/testAddress'
+import { useUsersAddress } from '@pooltogether/wallet-connection'
+import { isAddress } from 'ethers/lib/utils'
 
 export const useRetroactivePoolClaimData = (address) => {
   const { refetch, data, isFetching, isFetched, error } = useFetchRetroactivePoolClaimData(address)
@@ -23,15 +23,15 @@ export const useRetroactivePoolClaimData = (address) => {
 }
 
 const useFetchRetroactivePoolClaimData = (address) => {
-  const { address: usersAddress } = useOnboard()
+  const usersAddress = useUsersAddress()
   const chainId = useGovernanceChainId()
-  const { readProvider, isReadProviderReady } = useReadProvider(chainId)
+  const readProvider = useReadProvider(chainId)
 
   if (!address) {
     address = usersAddress
   }
 
-  const addressError = testAddress(address)
+  const addressError = !isAddress(usersAddress)
 
   return useQuery(
     [QUERY_KEYS.retroactivePoolClaimDataQuery, address, chainId],
@@ -39,7 +39,7 @@ const useFetchRetroactivePoolClaimData = (address) => {
       return getRetroactivePoolClaimData(readProvider, chainId, address)
     },
     {
-      enabled: Boolean(address && isReadProviderReady && !addressError),
+      enabled: Boolean(address && !addressError),
       refetchInterval: false,
       refetchOnWindowFocus: false,
       refetchOnMount: false

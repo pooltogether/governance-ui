@@ -6,19 +6,19 @@ import {
   ContentPane,
   CountBadge,
   PageTitleAndBreadcrumbs,
+  SquareLink,
   Tab,
   Tabs
 } from '@pooltogether/react-components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { queryParamUpdater } from '@pooltogether/utilities'
 
-import { ProposalsList } from '../components/Proposals/ProposalsList'
-import { RetroactivePoolClaimBanner } from '../components/RetroactivePoolClaimBanner'
-import { SORTED_STATES, useAllProposalsSorted } from '../hooks/useAllProposalsSorted'
-import { SnapshotProposals } from '../components/Proposals/SnapshotProposals'
-import { useSnapshotProposals } from '../hooks/useSnapshotProposals'
-import { VotingPowerCard } from '../components/VotingPowerCard'
+import { ProposalsList } from '../../components/Proposals/ProposalsList'
+import { RetroactivePoolClaimBanner } from '../../components/RetroactivePoolClaimBanner'
+import { SORTED_STATES, useAllProposalsSorted } from '../../hooks/useAllProposalsSorted'
+import { SnapshotProposals } from '../../components/Proposals/SnapshotProposals'
+import { useSnapshotProposals } from '../../hooks/useSnapshotProposals'
+import { VotingPowerCard } from '../../components/VotingPowerCard'
 
 export const ProposalsUI = (props) => {
   const { t } = useTranslation()
@@ -56,17 +56,11 @@ export const ProposalsUI = (props) => {
           sizeClassName=''
           className='mb-4 sm:mb-0'
         />
-        <ButtonLink
-          Link={Link}
-          href='/proposals/create'
-          as='/proposals/create'
-          className='w-full sm:w-max h-fit-content'
-          border='transparent'
-          text='primary'
-          bg='green'
-        >
-          <Trans i18nKey='createANewProposal' />
-        </ButtonLink>
+        <Link href='/proposals/create'>
+          <SquareLink className='w-full sm:w-max h-fit-content'>
+            <Trans i18nKey='createANewProposal' />
+          </SquareLink>
+        </Link>
       </div>
 
       <RetroactivePoolClaimBanner />
