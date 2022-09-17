@@ -4,19 +4,15 @@ import { useQuery } from 'react-query'
 import { DateTime } from 'luxon'
 import { isEmpty } from 'lodash'
 import { batch, contract } from '@pooltogether/etherplex'
-import { useGovernanceChainId, useReadProvider } from '@pooltogether/hooks'
-
-import {
-  CONTRACT_ADDRESSES,
-  getGovernanceGraphUrl,
-  PROPOSAL_STATES,
-  QUERY_KEYS,
-  SECONDS_PER_BLOCK
-} from '../constants'
-
+import { useGovernanceChainId } from '@pooltogether/hooks'
+import { CONTRACT_ADDRESSES, PROPOSAL_STATES, QUERY_KEYS, SECONDS_PER_BLOCK } from '../constants'
 import GovernorAlphaABI from '../abis/GovernorAlphaABI'
-import { useBlockOnProviderLoad } from '../hooks/useBlockOnProviderLoad'
-import { NETWORK } from '@pooltogether/utilities'
+import { getReadProvider } from '@pooltogether/wallet-connection'
+import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
+import { useBlockNumber } from 'wagmi'
+import { useBlock } from './useBlock'
+import { Block } from '@ethersproject/abstract-provider'
+import { BaseProvider } from '@ethersproject/providers'
 
 export function useAllProposals() {
   const { refetch, data, isFetching, isFetched, error } = useFetchProposals()
@@ -36,28 +32,32 @@ export function useAllProposals() {
 
 function useFetchProposals() {
   const chainId = useGovernanceChainId()
-  const { readProvider, isReadProviderReady } = useReadProvider(chainId)
-  const block = useBlockOnProviderLoad()
+  const readProvider = getReadProvider(chainId)
+  const { data: blockNumber } = useBlockNumber()
+  const { data: block } = useBlock(blockNumber)
 
   return useQuery(
-    [QUERY_KEYS.proposalsQuery, chainId, block?.blockNumber],
+    [QUERY_KEYS.proposalsQuery, chainId, blockNumber],
     async () => {
       return getProposals(readProvider, chainId, block)
     },
     {
-      enabled: Boolean(chainId && isReadProviderReady && !isEmpty(block))
+      enabled: Boolean(chainId && !isEmpty(block))
     }
   )
 }
 
-async function getProposals(provider, chainId, block) {
+async function getProposals(provider: BaseProvider, chainId: number, block: Block) {
   const query = proposalsQuery()
   const governanceAddress = CONTRACT_ADDRESSES[chainId]?.GovernorAlpha
 
   try {
     const proposals = {}
 
-    const subgraphData = await request(getGovernanceGraphUrl(chainId), query)
+    const subgraphData = await request(
+      getGovernanceSubgraphUrl(chainId, process.env.NEXT_PUBLIC_THE_GRAPH_API_KEY),
+      query
+    )
 
     const batchCalls = []
     subgraphData.proposals.forEach((proposal) => {

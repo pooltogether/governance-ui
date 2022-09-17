@@ -1,5 +1,5 @@
 import { FullWalletConnectionButton } from '@pooltogether/wallet-connection'
-import { Trans } from 'react-i18next'
+import { Trans } from 'next-i18next'
 import { useSupportedNetworks } from '../hooks/useSupportedNetworks'
 
 /**

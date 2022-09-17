@@ -1,5 +1,4 @@
 import {
-  ButtonLink,
   Card,
   ExternalLink,
   LinkTheme,
@@ -8,7 +7,7 @@ import {
 } from '@pooltogether/react-components'
 import Link from 'next/link'
 import React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'next-i18next'
 
 import { DISCORD_INVITE_URL, POOLTOGETHER_GOV_FORUM_URL } from '../constants'
 
@@ -87,7 +86,7 @@ export const LandingPage = (props) => {
           className='mb-4 sm:mb-0 sm:mr-4'
           links={
             <Link as='/proposals?view=active' href='/proposals?view=active'>
-              <a className='text-sm'>
+              <a className='text-sm text-pt-teal transition-colors hover:text-actually-black dark:hover:text-white'>
                 <Trans i18nKey='voteWithPool'>Vote with POOL</Trans>
               </a>
             </Link>
@@ -102,7 +101,7 @@ export const LandingPage = (props) => {
           className='sm:ml-4'
           links={
             <Link as='/proposals?view=off-chain' href='/proposals?view=off-chain'>
-              <a className='text-sm'>
+              <a className='text-sm text-pt-teal transition-colors hover:text-actually-black dark:hover:text-white'>
                 <Trans i18nKey='voteWithPPool'>Vote with pPOOL</Trans>
               </a>
             </Link>

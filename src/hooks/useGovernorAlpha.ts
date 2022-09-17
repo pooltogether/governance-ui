@@ -1,13 +1,13 @@
 import { useQuery } from 'react-query'
 import { batch, contract } from '@pooltogether/etherplex'
-import { useGovernanceChainId, useReadProvider } from '@pooltogether/hooks'
-
+import { useGovernanceChainId } from '@pooltogether/hooks'
 import { CONTRACT_ADDRESSES, QUERY_KEYS } from '../constants'
 import GovernorAlphaABI from '../abis/GovernorAlphaABI'
+import { getReadProvider } from '@pooltogether/wallet-connection'
 
 export function useGovernorAlpha() {
   const chainId = useGovernanceChainId()
-  const { readProvider, isReadProviderReady } = useReadProvider(chainId)
+  const readProvider = getReadProvider(chainId)
 
   return useQuery(
     [QUERY_KEYS.governorAlphaDataQuery, chainId],
@@ -15,7 +15,7 @@ export function useGovernorAlpha() {
       return getGovernorAlpha(readProvider, chainId)
     },
     {
-      enabled: Boolean(chainId && isReadProviderReady),
+      enabled: Boolean(chainId),
       refetchInterval: false,
       refetchOnWindowFocus: false
     }

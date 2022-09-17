@@ -30,7 +30,7 @@ export const useSocialIdentity = (address) => {
     setSocialIdentity(socialIdentities[address] ?? {})
   }, [socialIdentities, address])
 
-  return socialIdentity
+  return socialIdentity as { twitter: { handle: string } }
 }
 
 const useFetchTwitterProfile = (handle) => {

@@ -1,24 +1,23 @@
 import React from 'react'
 import FeatherIcon from 'feather-icons-react'
 import {
-  ButtonLink,
   Card,
   LoadingDots,
   SquareButtonSize,
   SquareLink,
-  Tooltip
+  Tooltip,
+  useTimeCountdown
 } from '@pooltogether/react-components'
-import { useTranslation } from 'react-i18next'
-import { usePoolPoolBalance } from '../../hooks/usePoolPoolBalance'
+import { useTranslation } from 'next-i18next'
 import { getPoolPoolSnapshotId } from '../../utils/getPoolPoolSnapshotId'
 import { usePoolPoolProposal } from '../../hooks/usePoolPoolProposal'
 import { POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from '../../constants'
 import { getSecondsSinceEpoch } from '../../utils/getCurrentSecondsSinceEpoch'
 import { TimeCountDown } from '../../components/TimeCountDown'
 import Link from 'next/link'
-import { useUsersAddress } from '@pooltogether/wallet-connection'
-import { useGovernanceChainId, useTimeCountdown } from '@pooltogether/hooks'
-import { getPrecision, numberWithCommas } from '@pooltogether/utilities'
+import { CHAIN_ID, useUsersAddress } from '@pooltogether/wallet-connection'
+import { useGovernanceChainId, useTokenBalance } from '@pooltogether/hooks'
+import { getPrecision, numberWithCommas, POOL_ADDRESSES } from '@pooltogether/utilities'
 
 const POOLPOOL_PROPOSAL_STATES = Object.freeze({
   active: 'active',
@@ -33,14 +32,15 @@ export const PoolPoolProposalCard = (props) => {
   const chainId = useGovernanceChainId()
   const poolPoolSnapShotId = getPoolPoolSnapshotId(chainId, id)
   const { data: poolPoolProposal, isFetched: isFetched } = usePoolPoolProposal(chainId, id)
-  const { data: poolPoolData, isFetched: poolPoolDataIsFetched } = usePoolPoolBalance(
+  const { isFetched: poolPoolBalanceIsFetched, data: poolPoolBalance } = useTokenBalance(
+    CHAIN_ID.mainnet,
     usersAddress,
-    snapshotBlockNumber
+    POOL_ADDRESSES[CHAIN_ID.mainnet].ppool
   )
 
   if (!poolPoolSnapShotId) {
     return null
-  } else if (!isFetched || !poolPoolDataIsFetched) {
+  } else if (!isFetched || !poolPoolBalanceIsFetched) {
     return (
       <Card className='mb-6'>
         <LoadingDots />
@@ -50,8 +50,8 @@ export const PoolPoolProposalCard = (props) => {
 
   const { state, end } = poolPoolProposal.proposal
 
-  const votingPower = numberWithCommas(poolPoolData.amount, {
-    precision: getPrecision(poolPoolData.amount)
+  const votingPower = numberWithCommas(poolPoolBalance.amount, {
+    precision: getPrecision(poolPoolBalance.amount)
   })
 
   return (
@@ -63,7 +63,7 @@ export const PoolPoolProposalCard = (props) => {
           <Tooltip className='my-auto ml-2 text-inverse' tip={t('depositIntoPoolPoolTooltip')} />
         </span>
 
-        {poolPoolDataIsFetched && poolPoolData && poolPoolData.hasBalance && (
+        {poolPoolBalanceIsFetched && poolPoolBalance && poolPoolBalance.hasBalance && (
           <span className='text-accent-1 mt-2'>
             <span className='mr-2'>{t('myPoolPoolVotingPower')}</span>
             <b>{votingPower}</b>

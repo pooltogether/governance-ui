@@ -3,14 +3,14 @@ import { useGovernanceChainId } from '@pooltogether/hooks'
 
 import { axiosInstance } from '../axiosInstance'
 import { ETHERSCAN_API_KEY, QUERY_KEYS } from '../constants'
-import { isValidAddress } from '../utils/isValidAddress'
+import { isAddress } from 'ethers/lib/utils'
 
 const ETHERSCAN_URI = `https://api.etherscan.io/api`
 
-export const useEtherscanAbi = (contractAddress, disableQuery) => {
+export const useEtherscanAbi = (contractAddress, disableQuery = false) => {
   const chainId = useGovernanceChainId()
 
-  const isValid = isValidAddress(contractAddress)
+  const isValid = isAddress(contractAddress)
 
   return useQuery(
     [QUERY_KEYS.etherscanContractAbi, chainId, contractAddress],

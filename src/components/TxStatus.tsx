@@ -2,11 +2,10 @@ import FeatherIcon from 'feather-icons-react'
 import React, { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-
 import { Banner } from '../components/Banner'
-import { shorten } from '../utils/shorten'
-import { useTranslation } from 'react-i18next'
-import { BlockExplorerLink } from '@pooltogether/react-components'
+import { useTranslation } from 'next-i18next'
+import { BlockExplorerLink } from '@pooltogether/wallet-connection'
+import { shorten } from '@pooltogether/utilities'
 
 export const TxStatus = (props) => {
   const { tx } = props
@@ -42,7 +41,7 @@ export const TxStatus = (props) => {
   return (
     <>
       {txSent && !txCompleted && !txError && (
-        <Loader type='Oval' height={50} width={50} color='#bbb2ce' className='mx-auto mb-4' />
+        <Loader type='Oval' height={50} width={50} color='#bbb2ce' />
       )}
 
       {txCompleted && !txError && (

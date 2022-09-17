@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'next-i18next'
+import { replaceQueryParam } from '@pooltogether/utilities'
 import {
-  ButtonLink,
   ContentPane,
   CountBadge,
   PageTitleAndBreadcrumbs,
@@ -12,7 +12,6 @@ import {
 } from '@pooltogether/react-components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-
 import { ProposalsList } from '../../components/Proposals/ProposalsList'
 import { RetroactivePoolClaimBanner } from '../../components/RetroactivePoolClaimBanner'
 import { SORTED_STATES, useAllProposalsSorted } from '../../hooks/useAllProposalsSorted'
@@ -34,7 +33,7 @@ export const ProposalsUI = (props) => {
 
   const setTab = (tab) => {
     setCurrentTab(tab)
-    queryParamUpdater.add(router, { view: tab })
+    replaceQueryParam('view', tab)
   }
 
   return (
@@ -67,16 +66,20 @@ export const ProposalsUI = (props) => {
 
       <VotingPowerCard className='mb-4' />
 
-      <Tabs className='justify-between sm:justify-start sticky bg-body top-20 pt-10 sm:pt-16 mb-2 pb-4'>
+      <Tabs className='justify-evenly sm:justify-start pt-10 sm:pt-16 mb-2 pb-4'>
         {TABS.map((tab) => (
           <tab.tabView key={tab.id} tab={tab} currentTab={currentTab} setTab={setTab} />
         ))}
       </Tabs>
 
       {TABS.map((tab) => (
-        <ContentPane key={tab.id} isSelected={tab.id === currentTab}>
-          <tab.view tab={tab} />
-        </ContentPane>
+        <ContentPane
+          key={tab.id}
+          isSelected={tab.id === currentTab}
+          children={<tab.view tab={tab} />}
+          className={undefined}
+          alwaysPresent={true}
+        />
       ))}
     </>
   )
@@ -115,31 +118,24 @@ const TabView = (props) => {
   const isSelected = tab.id === currentTab
 
   return (
-    <div className='flex sm:mr-6 lg:mr-8 last:mr-0'>
-      <Tab
-        key={tab.id}
-        isSelected={isSelected}
-        className='flex mx-2'
-        onClick={() => setTab(tab.id)}
-      >
-        <div className='flex'>
-          {tab.title}
-          {count > 0 && (
-            <CountBadge
-              count={count}
-              bgClassName={classnames({
-                'bg-blue': !isSelected,
-                'bg-highlight-1': isSelected
-              })}
-              className={classnames('hidden xs:flex ml-2 my-auto', {
-                'opacity-50': !isSelected
-              })}
-              textClassName={isSelected ? 'text-match' : 'text-white'}
-            />
-          )}
-        </div>
-      </Tab>
-    </div>
+    <Tab key={tab.id} isSelected={isSelected} className='flex mx-2' onClick={() => setTab(tab.id)}>
+      <div className='flex text-xs md:text-lg'>
+        {tab.title}
+        {count > 0 && (
+          <CountBadge
+            count={count}
+            bgClassName={classnames({
+              'bg-blue': !isSelected,
+              'bg-highlight-1': isSelected
+            })}
+            className={classnames('hidden xs:flex ml-2 my-auto', {
+              'opacity-50': !isSelected
+            })}
+            textClassName={isSelected ? 'text-match' : 'text-white'}
+          />
+        )}
+      </div>
+    </Tab>
   )
 }
 

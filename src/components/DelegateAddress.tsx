@@ -1,9 +1,9 @@
 import React from 'react'
 import classnames from 'classnames'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import { BlockExplorerLink, ExternalLink } from '@pooltogether/react-components'
-
+import { ExternalLink } from '@pooltogether/react-components'
 import { useSocialIdentity } from '../hooks/useTwitterProfile'
+import { BlockExplorerLink } from '@pooltogether/wallet-connection'
 
 export const DelegateAddress = (props) => {
   const { address, className, theme } = props

@@ -6,7 +6,7 @@
   },
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": ["*.ts", "*.tsx"],
       "rules": {
         "import/order": [
           "error",
@@ -19,7 +19,7 @@
                 "position": "before"
               }
             ],
-            "newlines-between": "always",
+            "newlines-between": "never",
             "alphabetize": {
               "order": "asc",
               "caseInsensitive": true

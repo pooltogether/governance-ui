@@ -4,6 +4,7 @@ export const addTokenToMetaMask = async (chainId) => {
   const poolTokenAddress = CONTRACT_ADDRESSES[chainId].GovernanceToken
 
   try {
+    // @ts-ignore
     const wasAdded = await ethereum.request({
       method: 'wallet_watchAsset',
       params: {

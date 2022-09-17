@@ -1,17 +1,12 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FeatherIcon from 'feather-icons-react'
 import ReactMarkdown from 'react-markdown'
 import classnames from 'classnames'
 import gfm from 'remark-gfm'
 import { useRouter } from 'next/router'
-import {
-  BlockExplorerLink,
-  Card,
-  PageTitleAndBreadcrumbs,
-  Tooltip
-} from '@pooltogether/react-components'
+import { Card, PageTitleAndBreadcrumbs, Tooltip } from '@pooltogether/react-components'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { ethers } from 'ethers'
 import { AddGovernanceTokenToMetaMask } from '../../components/AddGovernanceTokenToMetaMask'
 import { CardTitle } from '../../components/CardTitle'
@@ -26,7 +21,8 @@ import { DEFAULT_TOKEN_PRECISION, PROPOSAL_STATUS } from '../../constants'
 import { calculateVotePercentage, formatVotes } from '../../utils/formatVotes'
 import { VotingPowerCard } from '../../components/VotingPowerCard'
 import Link from 'next/link'
-import { numberWithCommas } from '@pooltogether/utilities'
+import { numberWithCommas, shorten } from '@pooltogether/utilities'
+import { BlockExplorerLink } from '@pooltogether/wallet-connection'
 
 const SMALL_DESCRIPTION_LENGTH = 500
 
@@ -222,14 +218,24 @@ const ProposalActionRow = (props) => {
     if (data && data.status === 200 && data.data && data.data.status === '1') {
       try {
         const abi = JSON.parse(data.data.result)
-        const iface = new ethers.utils.Interface(abi)
-        const fnIface = iface.functions[fnName]
-        const sighash = fnIface.sighash
+        const i = new ethers.utils.Interface(abi)
+        const fnFragment = i.functions[fnName]
+        const sighash = fnFragment.format('sighash')
         const fnData = calldata.replace('0x', sighash)
-        const parsedData = iface.parseTransaction({ data: fnData })
+        const parsedData = i.parseTransaction({ data: fnData })
         setFnParameters(
           parsedData.args.map((arg, index) => {
-            const input = { ...fnIface.inputs[index] }
+            const input: {
+              name: string
+              type: string
+              baseType: string
+              indexed: boolean
+              components: ethers.utils.ParamType[]
+              arrayLength: number
+              arrayChildren: ethers.utils.ParamType
+              _isParamType: boolean
+              value: string
+            } = { ...fnFragment.inputs[index], value: '' }
             if (typeof arg === 'object') {
               try {
                 input.value = arg.toString()

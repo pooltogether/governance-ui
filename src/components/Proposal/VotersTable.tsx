@@ -1,22 +1,17 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { useTable } from 'react-table'
-import {
-  BasicTable,
-  BlockExplorerLink,
-  LinkTheme,
-  LoadingDots,
-  PoolIcon
-} from '@pooltogether/react-components'
+import { BasicTable, LinkTheme, LoadingDots, PoolIcon } from '@pooltogether/react-components'
 import { useGovernanceChainId } from '@pooltogether/hooks'
 
-import { useTranslation } from 'react-i18next'
-import { BlankStateMessage } from '../components/BlankStateMessage'
-import { DefaultPaginationButtons } from '../components/PaginationUI'
-import { useProposalVotes } from '../hooks/useProposalVotes'
-import { formatVotes } from '../utils/formatVotes'
-import { useProposalVotesTotalPages } from '../hooks/useProposalVotesTotalPages'
-import { DelegateAddress } from '../components/DelegateAddress'
+import { useTranslation } from 'next-i18next'
+import { BlankStateMessage } from '../../components/BlankStateMessage'
+import { DefaultPaginationButtons } from '../../components/PaginationUI'
+import { useProposalVotes } from '../../hooks/useProposalVotes'
+import { formatVotes } from '../../utils/formatVotes'
+import { useProposalVotesTotalPages } from '../../hooks/useProposalVotesTotalPages'
+import { DelegateAddress } from '../../components/DelegateAddress'
+import { BlockExplorerLink } from '@pooltogether/wallet-connection'
 
 export const VotersTable = (props) => {
   const { id } = props
@@ -25,7 +20,7 @@ export const VotersTable = (props) => {
   const router = useRouter()
 
   const { data: totalPages, isFetched: totalPagesIsFetched } = useProposalVotesTotalPages(id)
-  const currentPage = router?.query?.page ? parseInt(router.query.page, 10) : 1
+  const currentPage = router?.query?.page ? parseInt(router.query.page as string, 10) : 1
   const baseAsPath = `/proposals/${id}`
   const baseHref = '/proposals/[id]'
 

@@ -3,7 +3,8 @@ import gql from 'graphql-tag'
 import { request } from 'graphql-request'
 import { useGovernanceChainId } from '@pooltogether/hooks'
 
-import { getGovernanceGraphUrl, QUERY_KEYS, VOTERS_PER_PAGE } from '../constants'
+import { QUERY_KEYS, VOTERS_PER_PAGE } from '../constants'
+import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
 
 export function useProposalVotes(id, page) {
   const { refetch, data, isFetching, isFetched, error } = useFetchProposalVotes(id, page)
@@ -45,7 +46,11 @@ async function getProposalVotes(id, page, chainId) {
   const variables = { id, first, skip }
 
   try {
-    const subgraphData = await request(getGovernanceGraphUrl(chainId), query, variables)
+    const subgraphData = await request(
+      getGovernanceSubgraphUrl(chainId, process.env.NEXT_PUBLIC_THE_GRAPH_API_KEY),
+      query,
+      variables
+    )
 
     return subgraphData
   } catch (error) {

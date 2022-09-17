@@ -1,7 +1,6 @@
 import { FullWalletConnectionButton } from '@pooltogether/wallet-connection'
-import { Trans } from 'react-i18next'
-
-import { useSupportedNetworks } from '../../hooks/useSupportedNetworks'
+import { getSupportedChains } from '@utils/getSupportedChains'
+import { Trans } from 'next-i18next'
 
 /**
  * NOTE: Only render one per app
@@ -9,7 +8,7 @@ import { useSupportedNetworks } from '../../hooks/useSupportedNetworks'
  * @returns
  */
 export const FullWalletConnectionButtonWrapper = (props) => {
-  const chains = useSupportedNetworks()
+  const chains = getSupportedChains()
 
   return <FullWalletConnectionButton {...props} chains={chains} TosDisclaimer={<TosDisclaimer />} />
 }

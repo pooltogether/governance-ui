@@ -3,7 +3,8 @@ import gql from 'graphql-tag'
 import { useQuery } from 'react-query'
 import { useGovernanceChainId } from '@pooltogether/hooks'
 
-import { getGovernanceGraphUrl, QUERY_KEYS, VOTERS_PER_PAGE } from '../constants'
+import { QUERY_KEYS, VOTERS_PER_PAGE } from '../constants'
+import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
 
 export const useProposalVotesTotalPages = (proposalId) => {
   const chainId = useGovernanceChainId()
@@ -23,7 +24,11 @@ const getProposalVotesTotalPages = async (proposalId, chainId) => {
   try {
     const query = allProposalVotesQuery()
     const variables = { id: proposalId }
-    const subgraphData = await request(getGovernanceGraphUrl(chainId), query, variables)
+    const subgraphData = await request(
+      getGovernanceSubgraphUrl(chainId, process.env.NEXT_PUBLIC_THE_GRAPH_API_KEY),
+      query,
+      variables
+    )
 
     const voterCount = subgraphData.votes.length
     const totalPages = Math.ceil(Number(voterCount / VOTERS_PER_PAGE))

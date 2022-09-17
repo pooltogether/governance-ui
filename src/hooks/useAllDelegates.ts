@@ -2,13 +2,8 @@ import { useQuery } from 'react-query'
 import gql from 'graphql-tag'
 import { request } from 'graphql-request'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-
-import {
-  DELEGATES_PER_PAGE,
-  getGovernanceGraphUrl,
-  QUERY_KEYS,
-  VOTERS_PER_PAGE
-} from '../constants'
+import { DELEGATES_PER_PAGE, QUERY_KEYS, VOTERS_PER_PAGE } from '../constants'
+import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
 
 export function useAllDelegates(pageNumber) {
   const { refetch, data, isFetching, isFetched, error } = useFetchDelegates(pageNumber)
@@ -46,7 +41,11 @@ async function getDelegates(pageNumber, chainId) {
   const variables = { first: DELEGATES_PER_PAGE, skip: pageNumber * VOTERS_PER_PAGE }
 
   try {
-    const subgraphData = await request(getGovernanceGraphUrl(chainId), query, variables)
+    const subgraphData = await request(
+      getGovernanceSubgraphUrl(chainId, process.env.NEXT_PUBLIC_THE_GRAPH_API_KEY),
+      query,
+      variables
+    )
 
     return subgraphData
   } catch (error) {

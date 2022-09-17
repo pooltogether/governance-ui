@@ -5,28 +5,36 @@ import { FormProvider, useForm, useFormContext, useWatch } from 'react-hook-form
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import { Dialog } from '@reach/dialog'
-import { ethers } from 'ethers'
-import { useTranslation } from 'react-i18next'
-import { Card, ButtonLink, BlockExplorerLink, SquareLink } from '@pooltogether/react-components'
-import { ActionsCard } from '../components/ProposalCreation/ActionsCard'
-import { useUserCanCreateProposal } from '../hooks/useUserCanCreateProposal'
+import { Contract, ethers } from 'ethers'
+import { useTranslation } from 'next-i18next'
+import { Card, SquareLink } from '@pooltogether/react-components'
+import { ActionsCard } from '../../components/ProposalCreation/ActionsCard'
+import { useUserCanCreateProposal } from '../../hooks/useUserCanCreateProposal'
 import { SquareButton } from '@pooltogether/react-components'
-import { shorten } from '../utils/shorten'
-import { useTransaction } from '../hooks/useTransaction'
-import { CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION } from '../constants'
-import { TxStatus } from '../components/TxStatus'
-import { Banner } from '../components/Banner'
-import { useAllProposals } from '../hooks/useAllProposals'
-import { getEmptySolidityDataTypeValue } from '../utils/getEmptySolidityDataTypeValue'
-import { numberWithCommas } from '../utils/numberWithCommas'
-import { useGovernorAlpha } from '../hooks/useGovernorAlpha'
-import { arrayRegex, dataArrayRegex, fixedArrayRegex } from '../utils/isValidSolidityData'
-import GovernorAlphaABI from '../abis/GovernorAlphaABI'
-import { useIsWalletOnProperNetwork } from '../hooks/useIsWalletOnProperNetwork'
+import { CONTRACT_ADDRESSES, DEFAULT_TOKEN_PRECISION } from '../../constants'
+import { TxStatus } from '../../components/TxStatus'
+import { Banner } from '../../components/Banner'
+import { useAllProposals } from '../../hooks/useAllProposals'
+import { getEmptySolidityDataTypeValue } from '../../utils/getEmptySolidityDataTypeValue'
+import { useGovernorAlpha } from '../../hooks/useGovernorAlpha'
+import { arrayRegex, dataArrayRegex, fixedArrayRegex } from '../../utils/isValidSolidityData'
+import GovernorAlphaABI from '../../abis/GovernorAlphaABI'
+import { useIsWalletOnProperNetwork } from '../../hooks/useIsWalletOnProperNetwork'
 import Link from 'next/link'
-import { TextInputGroup } from '../components/TextInputGroup'
-import { getReadProvider, Transaction } from '@pooltogether/wallet-connection'
+import { TextInputGroup } from '../../components/TextInputGroup'
+import {
+  BlockExplorerLink,
+  Transaction,
+  useSendTransaction,
+  useTransaction,
+  getReadProvider,
+  TransactionStatus,
+  TransactionState
+} from '@pooltogether/wallet-connection'
 import { useGovernanceChainId } from '@pooltogether/hooks'
+import { toast } from 'react-toastify'
+import { numberWithCommas, shorten } from '@pooltogether/utilities'
+import { useSigner } from 'wagmi'
 
 export const EMPTY_INPUT = {
   type: null,
@@ -68,9 +76,10 @@ export const ProposalCreationForm = () => {
 
   const chainId = useGovernanceChainId()
   const governanceAddress = CONTRACT_ADDRESSES[chainId]?.GovernorAlpha
-  const [txId, setTxId] = useState(0)
-  const sendTx = useSendTransaction(t, poolToast)
+  const [txId, setTxId] = useState('')
+  const sendTx = useSendTransaction()
   const tx = useTransaction(txId)
+  const { data: signer } = useSigner()
 
   const onCancelled = () => setShowModal(false)
 
@@ -84,10 +93,10 @@ export const ProposalCreationForm = () => {
 
     const txId = await sendTx({
       name: t('propose'),
-      contractAbi: GovernorAlphaABI,
-      contractAddress: governanceAddress,
-      method: 'propose',
-      params,
+      callTransaction: () => {
+        const contract = new Contract(governanceAddress, GovernorAlphaABI, signer)
+        return contract.functions.propose(...params)
+      },
       callbacks: {
         onCancelled,
         onSuccess
@@ -136,7 +145,7 @@ export const ProposalCreationForm = () => {
       })
     }
 
-    poolToast.error(parsedErrorMessages.join('. '))
+    toast.error(parsedErrorMessages.join('. '))
   }
 
   const closeModal = () => {
@@ -146,12 +155,7 @@ export const ProposalCreationForm = () => {
 
   return (
     <>
-      <ProposalTransactionModal
-        tx={tx}
-        isOpen={showModal}
-        closeModal={closeModal}
-        resetForm={formMethods.reset}
-      />
+      <ProposalTransactionModal tx={tx} isOpen={showModal} closeModal={closeModal} />
       <FormProvider {...formMethods}>
         <form onSubmit={formMethods.handleSubmit(onSubmit, onError)}>
           <div className={classnames('flex flex-col', { hidden: showSummary })}>
@@ -466,14 +470,19 @@ const ProposalTransactionModal: React.FC<{
   const { t } = useTranslation()
   const [proposalId, setProposalId] = useState()
 
-  const showClose = tx && (tx.error || tx.cancelled)
-  const showNavigateToProposal = tx && !tx.error && tx.completed && proposalId !== undefined
+  const showClose =
+    tx && (tx.status === TransactionStatus.error || tx.status === TransactionStatus.cancelled)
+  const showNavigateToProposal =
+    tx &&
+    tx.status !== TransactionStatus.error &&
+    tx.status === TransactionStatus.success &&
+    proposalId !== undefined
 
   useEffect(() => {
     const getProposalId = async () => {
-      const hash = tx.hash
+      const hash = tx?.receipt?.transactionHash
       const provider = getReadProvider(tx.chainId)
-      await tx.ethersTx.wait()
+      await tx.response.wait()
       const receipt = await provider.getTransactionReceipt(hash)
       const governorAlphaInterface = new ethers.utils.Interface(GovernorAlphaABI)
       const proposalCreatedEvent = receipt.logs.map((log) =>
@@ -483,13 +492,13 @@ const ProposalTransactionModal: React.FC<{
       setProposalId(proposalCreatedEvent.id)
     }
 
-    if (tx && tx.completed && !tx.error && !tx.cancelled) {
+    if (tx?.status === TransactionStatus.success) {
       getProposalId()
     }
-  }, [tx, tx?.completed, tx?.error])
+  }, [tx])
 
   const onClose = () => {
-    if (tx && (tx.completed || tx.error || tx.cancelled)) {
+    if (tx && tx.state === TransactionState.complete) {
       closeModal()
     }
   }
@@ -531,7 +540,7 @@ const ProposalCreationWarning = (props) => {
   )
 
   return (
-    <div className='flex mb-7 mx-auto flex flex-col xs:flex-row text-center'>
+    <div className='flex mb-7 mx-auto flex-col xs:flex-row text-center'>
       <FeatherIcon icon='alert-circle' className='w-6 h-6 text-red mx-auto xs:mr-4 mb-2 xs:mb-0' />
       <span>{t('inOrderToSubmitAProposalYouNeedDelegatedThreshold', { proposalThreshold })} </span>
     </div>
@@ -572,7 +581,7 @@ const getProposeParamsFromForm = (formData, t) => {
       }
 
       const contractInterface = new ethers.utils.Interface(action.contract.abi)
-      const fnFragment = contractInterface.fragments.find(
+      const fnFragment = Object.values(contractInterface.functions).find(
         (fragment) => fragment.name === action.contract.fn.name
       )
 
@@ -605,7 +614,7 @@ const getProposeParamsFromForm = (formData, t) => {
     return [targets, values, signatures, calldatas, description]
   } catch (e) {
     console.warn(e.message)
-    poolToast.error(t('errorEncodingData'))
+    toast.error(t('errorEncodingData'))
     return null
   }
 }

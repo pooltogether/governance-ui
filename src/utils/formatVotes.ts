@@ -1,5 +1,5 @@
+import { numberWithCommas } from '@pooltogether/utilities'
 import { ethers } from 'ethers'
-import { numberWithCommas } from '../utils/numberWithCommas'
 
 export function formatVotes(votes) {
   return numberWithCommas(ethers.utils.formatUnits(votes, 18), { precision: 0 })

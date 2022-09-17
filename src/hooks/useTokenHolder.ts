@@ -2,9 +2,10 @@ import { useQuery } from 'react-query'
 import gql from 'graphql-tag'
 import { request } from 'graphql-request'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import { getGovernanceGraphUrl, QUERY_KEYS } from '../constants'
-import { useBlockOnProviderLoad } from '../hooks/useBlockOnProviderLoad'
+import { QUERY_KEYS } from '../constants'
 import { isAddress } from 'ethers/lib/utils'
+import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
+import { useBlockNumber } from 'wagmi'
 
 const EMPTY_TOKEN_HOLDER = Object.freeze({
   delegatedVotes: null,
@@ -17,13 +18,13 @@ const EMPTY_TOKEN_HOLDER = Object.freeze({
   canVote: false
 })
 
-export function useTokenHolder(address, blockNumber) {
-  const block = useBlockOnProviderLoad()
+export function useTokenHolder(address: string, blockNumber?: number) {
+  const { data: _blockNumber } = useBlockNumber()
 
   // Only add filter if it is in the past
-  const isDataFromBeforeCurrentBlock = block && blockNumber && blockNumber < block.blockNumber
-
+  const isDataFromBeforeCurrentBlock = !!_blockNumber && blockNumber && blockNumber < _blockNumber
   const blockNumberToQuery = isDataFromBeforeCurrentBlock ? blockNumber : undefined
+
   const { refetch, data, isFetching, isFetched, error } = useFetchTokenHolder(
     address,
     blockNumberToQuery
@@ -62,7 +63,11 @@ async function getTokenHolder(address, chainId, blockNumber) {
   try {
     const query = tokenHolderQuery(blockNumber)
     const variables = { id: address.toLowerCase() }
-    const subgraphData = await request(getGovernanceGraphUrl(chainId), query, variables)
+    const subgraphData = await request(
+      getGovernanceSubgraphUrl(chainId, process.env.NEXT_PUBLIC_THE_GRAPH_API_KEY),
+      query,
+      variables
+    )
 
     if (!subgraphData.tokenHolder && !subgraphData.delegate) {
       return EMPTY_TOKEN_HOLDER

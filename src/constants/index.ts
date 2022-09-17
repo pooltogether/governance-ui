@@ -4,7 +4,31 @@ import PoolWithMultipleWinnersBuilderRinkeby from '@pooltogether/pooltogether-co
 import { NETWORK } from '@pooltogether/utilities'
 import { getChain } from '@pooltogether/wallet-connection'
 
-export const SUPPORTED_CHAIN_IDS = Object.freeze({
+export const RPC_URLS = {
+  // Ethereum
+  [NETWORK.mainnet]: process.env.NEXT_PUBLIC_ETHEREUM_MAINNET_RPC_URL,
+  [NETWORK.rinkeby]: process.env.NEXT_PUBLIC_ETHEREUM_RINKEBY_RPC_URL,
+  [NETWORK.ropsten]: process.env.NEXT_PUBLIC_ETHEREUM_ROPSTEN_RPC_URL,
+  [NETWORK.kovan]: process.env.NEXT_PUBLIC_ETHEREUM_KOVAN_RPC_URL,
+  [NETWORK.goerli]: process.env.NEXT_PUBLIC_ETHEREUM_GOERLI_RPC_URL,
+  // Avalanche
+  [NETWORK.avalanche]: process.env.NEXT_PUBLIC_AVALANCHE_MAINNET_RPC_URL,
+  [NETWORK.fuji]: process.env.NEXT_PUBLIC_AVALANCHE_FUJI_RPC_URL,
+  // Polygon
+  [NETWORK.polygon]: process.env.NEXT_PUBLIC_POLYGON_MAINNET_RPC_URL,
+  [NETWORK.mumbai]: process.env.NEXT_PUBLIC_POLYGON_MUMBAI_RPC_URL,
+  // Optimism
+  [NETWORK.optimism]: process.env.NEXT_PUBLIC_OPTIMISM_MAINNET_RPC_URL,
+  [NETWORK['optimism-goerli']]: process.env.NEXT_PUBLIC_OPTIMISM_GOERLI_RPC_URL,
+  // Arbitrum
+  [NETWORK.arbitrum]: process.env.NEXT_PUBLIC_ARBITRUM_MAINNET_RPC_URL,
+  [NETWORK['arbitrum-goerli']]: process.env.NEXT_PUBLIC_ARBITRUM_GOERLI_RPC_URL,
+  // Celo
+  [NETWORK.celo]: process.env.NEXT_PUBLIC_CELO_MAINNET_RPC_URL,
+  [NETWORK['celo-testnet']]: process.env.NEXT_PUBLIC_CELO_TESTNET_RPC_URL
+}
+
+export const SUPPORTED_NETWORKS = Object.freeze({
   [APP_ENVIRONMENTS.mainnets]: Array.from(new Set([NETWORK.mainnet])),
   [APP_ENVIRONMENTS.testnets]: Array.from(new Set([NETWORK.rinkeby]))
 })
@@ -66,8 +90,8 @@ export const CONTRACT_ADDRESSES = {
 }
 
 export const SUPPORTED_CHAINS = Object.freeze({
-  [APP_ENVIRONMENTS.mainnets]: SUPPORTED_CHAIN_IDS[APP_ENVIRONMENTS.mainnets].map(getChain),
-  [APP_ENVIRONMENTS.testnets]: SUPPORTED_CHAIN_IDS[APP_ENVIRONMENTS.testnets].map(getChain)
+  [APP_ENVIRONMENTS.mainnets]: SUPPORTED_NETWORKS[APP_ENVIRONMENTS.mainnets].map(getChain),
+  [APP_ENVIRONMENTS.testnets]: SUPPORTED_NETWORKS[APP_ENVIRONMENTS.testnets].map(getChain)
 })
 
 export const QUERY_KEYS = {
@@ -92,20 +116,7 @@ export const QUERY_KEYS = {
   poolPoolProposal: 'poolPoolProposal'
 }
 
-export const ETHERSCAN_API_KEY = process.env.NEXT_JS_ETHERSCAN_API_KEY
-
-export const getGovernanceGraphUrl = (chainId) => {
-  if (chainId === 1) {
-    return `https://gateway.thegraph.com/api/${process.env.NEXT_JS_THE_GRAPH_API_KEY}/subgraphs/id/0xa57d294c3a11fb542d524062ae4c5100e0e373ec-0`
-  } else {
-    return 'https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-rinkeby-governance'
-  }
-}
-
-export const POOLTOGETHER_SUBGRAPH_URIS = {
-  1: 'https://api.thegraph.com/subgraphs/name/pooltogether/pooltogether-v3_1_0',
-  4: 'https://api.thegraph.com/subgraphs/name/pooltogether/rinkeby-v3_1_0'
-}
+export const ETHERSCAN_API_KEY = process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY
 
 export const PROPOSAL_STATUS = {
   pending: 'pending',

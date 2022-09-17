@@ -2,13 +2,12 @@ import { useQuery } from 'react-query'
 import gql from 'graphql-tag'
 import { request } from 'graphql-request'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-
-import { MAINNET_POLLING_INTERVAL, getGovernanceGraphUrl, QUERY_KEYS } from '../constants'
-
+import { MAINNET_POLLING_INTERVAL, QUERY_KEYS } from '../constants'
 import { atom, useAtom } from 'jotai'
 import { useEffect } from 'react'
 import { useUsersAddress } from '@pooltogether/wallet-connection'
 import { isAddress } from 'ethers/lib/utils'
+import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
 
 export const accountGovernanceDataQueryAtom = atom({})
 
@@ -67,7 +66,11 @@ async function getAccountGovernanceData(chainId, accountAddress) {
   }
 
   try {
-    const data = await request(getGovernanceGraphUrl(chainId), query, variables)
+    const data = await request(
+      getGovernanceSubgraphUrl(chainId, process.env.NEXT_PUBLIC_THE_GRAPH_API_KEY),
+      query,
+      variables
+    )
 
     return data
   } catch (error) {

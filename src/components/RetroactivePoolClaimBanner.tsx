@@ -1,7 +1,7 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { Banner } from '../components/Banner'
-import { ButtonLink, SquareLink } from '@pooltogether/react-components'
+import { SquareLink } from '@pooltogether/react-components'
 import { useUsersAddress } from '@pooltogether/wallet-connection'
 import Link from 'next/link'
 

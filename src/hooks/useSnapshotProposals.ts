@@ -14,7 +14,7 @@ export const useSnapshotProposals = () => {
   })
 }
 
-const getActiveProposal = async (snapshotProposalId) => {
+const getActiveProposal = async () => {
   const query = proposalsQuery()
   const response = await request(SNAPSHOT_GRAPHQL_URL, query)
   return response.proposals

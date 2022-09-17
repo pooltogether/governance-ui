@@ -1,9 +1,10 @@
 import { request } from 'graphql-request'
 import gql from 'graphql-tag'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import { getGovernanceGraphUrl, QUERY_KEYS } from '../constants'
+import { QUERY_KEYS } from '../constants'
 import { useQuery } from 'react-query'
 import { isAddress } from 'ethers/lib/utils'
+import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
 
 export const useVoteData = (delegateAddress, proposalId) => {
   const chainId = useGovernanceChainId()
@@ -37,7 +38,11 @@ async function getVoteData(delegateAddress, proposalId, chainId) {
   const variables = { id: `${delegateAddress}-${proposalId}` }
 
   try {
-    const subgraphData = await request(getGovernanceGraphUrl(chainId), query, variables)
+    const subgraphData = await request(
+      getGovernanceSubgraphUrl(chainId, process.env.NEXT_PUBLIC_THE_GRAPH_API_KEY),
+      query,
+      variables
+    )
 
     return {
       ...subgraphData.vote,

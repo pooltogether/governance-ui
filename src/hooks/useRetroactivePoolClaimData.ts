@@ -2,12 +2,12 @@ import { useQuery } from 'react-query'
 import { batch, contract } from '@pooltogether/etherplex'
 import { ethers } from 'ethers'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import { useReadProvider } from '@pooltogether/hooks'
 import MerkleDistributorAbi from '../abis/MerkleDistributor'
 import { CONTRACT_ADDRESSES, QUERY_KEYS } from '../constants'
 import { axiosInstance } from '../axiosInstance'
 import { useUsersAddress } from '@pooltogether/wallet-connection'
 import { isAddress } from 'ethers/lib/utils'
+import { getReadProvider } from '@pooltogether/wallet-connection'
 
 export const useRetroactivePoolClaimData = (address) => {
   const { refetch, data, isFetching, isFetched, error } = useFetchRetroactivePoolClaimData(address)
@@ -25,7 +25,7 @@ export const useRetroactivePoolClaimData = (address) => {
 const useFetchRetroactivePoolClaimData = (address) => {
   const usersAddress = useUsersAddress()
   const chainId = useGovernanceChainId()
-  const readProvider = useReadProvider(chainId)
+  const readProvider = getReadProvider(chainId)
 
   if (!address) {
     address = usersAddress
@@ -49,7 +49,10 @@ const useFetchRetroactivePoolClaimData = (address) => {
 
 const getRetroactivePoolClaimData = async (provider, chainId, usersAddress) => {
   const checksummedAddress = ethers.utils.getAddress(usersAddress)
-  let merkleDistributionData = {}
+  let merkleDistributionData: { amount: string; index: number } = {
+    amount: undefined,
+    index: undefined
+  }
 
   try {
     const response = await getMerkleDistributionData(checksummedAddress, chainId)

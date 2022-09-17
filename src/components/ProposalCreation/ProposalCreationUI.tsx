@@ -1,7 +1,7 @@
 import React from 'react'
 import { ethers } from 'ethers'
 import classnames from 'classnames'
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import {
   SquareButton,
   ExternalLink,
@@ -13,9 +13,9 @@ import { Banner } from '../../components/Banner'
 import { ProposalCreationForm } from '../../components/ProposalCreation/ProposalCreationForm'
 import { useGovernorAlpha } from '../../hooks/useGovernorAlpha'
 import { useUserCanCreateProposal } from '../../hooks/useUserCanCreateProposal'
-import { numberWithCommas } from '../../utils/numberWithCommas'
 import Link from 'next/link'
 import { useConnectWallet, useUsersAddress } from '@pooltogether/wallet-connection'
+import { numberWithCommas } from '@pooltogether/utilities'
 
 export const ProposalCreationUI = (props) => {
   const { t } = useTranslation()

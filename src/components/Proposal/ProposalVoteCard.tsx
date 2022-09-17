@@ -3,8 +3,8 @@ import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import GovernorAlphaABI from '../../abis/GovernorAlphaABI'
 import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
-import { useTranslation } from 'react-i18next'
+import { Contract, ethers, Overrides } from 'ethers'
+import { useTranslation } from 'next-i18next'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 import { CONTRACT_ADDRESSES, PROPOSAL_STATUS } from '../../constants'
 import { ProposalStatus } from '../../components/Proposals/ProposalsList'
@@ -17,15 +17,18 @@ import { useTokenHolder } from '../../hooks/useTokenHolder'
 import { useVoteData } from '../../hooks/useVoteData'
 import { useProposalVotesTotalPages } from '../../hooks/useProposalVotesTotalPages'
 import { useProposalVotes } from '../../hooks/useProposalVotes'
-import { useTransaction } from '../../hooks/useTransaction'
 import { getSecondsSinceEpoch } from '../../utils/getCurrentSecondsSinceEpoch'
 import {
+  TransactionState,
+  TransactionStatus,
   useSendTransaction,
+  useTransaction,
   useUsersAddress,
   useWalletChainId
 } from '@pooltogether/wallet-connection'
 import { Card, LinkTheme, SquareButton, Tooltip } from '@pooltogether/react-components'
 import { useGovernanceChainId } from '@pooltogether/hooks'
+import { useSigner } from 'wagmi'
 
 export const ProposalVoteCard = (props) => {
   const { proposal, refetchProposalData, blockNumber } = props
@@ -115,16 +118,17 @@ const VoteButtons = (props) => {
   const { id, refetchData, canVote, alreadyVoted, usersAddress } = props
 
   const router = useRouter()
-  const page = router?.query?.page ? parseInt(router.query.page, 10) : 1
+  const page = router?.query?.page ? parseInt(router.query.page as string, 10) : 1
   const { refetch: refetchTotalVotesPages } = useProposalVotesTotalPages(id)
   const { refetch: refetchVoterTable } = useProposalVotes(id, page)
   const isWalletOnProperNetwork = useIsWalletOnProperNetwork()
 
   const { t } = useTranslation()
 
+  const { data: signer } = useSigner()
   const chainId = useGovernanceChainId()
-  const sendTx = useSendTransaction(t)
-  const [txId, setTxId] = useState(0)
+  const sendTx = useSendTransaction()
+  const [txId, setTxId] = useState('')
   const [votingFor, setVotingFor] = useState<boolean>()
   const governanceAddress = CONTRACT_ADDRESSES[chainId]?.GovernorAlpha
   const tx = useTransaction(txId)
@@ -147,7 +151,6 @@ const VoteButtons = (props) => {
     refetchVoterTable()
   }
 
-  // TODO: Casting votes transaction
   const castVote = async (support) => {
     const params = [id, support]
 
@@ -155,10 +158,10 @@ const VoteButtons = (props) => {
 
     const txId = await sendTx({
       name,
-      contractAbi: GovernorAlphaABI,
-      contractAddress: governanceAddress,
-      method: 'castVote',
-      params,
+      callTransaction: () => {
+        const contract = new Contract(governanceAddress, GovernorAlphaABI, signer)
+        return contract.functions.castVote(...params)
+      },
       callbacks: {
         refetch
       }
@@ -183,7 +186,7 @@ const VoteButtons = (props) => {
     )
   }
 
-  if (tx?.completed && !tx?.error && !tx?.cancelled) {
+  if (tx?.state === TransactionState.complete && tx?.status === TransactionStatus.success) {
     return (
       <TxText className='text-green ml-auto'>
         🎉 {t('successfullyVoted')} - {votingFor ? t('accept') : t('reject')} 🎉
@@ -191,17 +194,23 @@ const VoteButtons = (props) => {
     )
   }
 
-  if (tx?.inWallet && !tx?.cancelled && !tx?.error) {
+  if (
+    tx?.state === TransactionState.pending &&
+    tx?.status === TransactionStatus.pendingUserConfirmation
+  ) {
     return <TxText className='ml-auto'>{t('pleaseConfirmInYourWallet')}</TxText>
   }
 
-  if (tx?.sent) {
+  if (
+    tx?.state === TransactionState.pending &&
+    tx?.status === TransactionStatus.pendingBlockchainConfirmation
+  ) {
     return <TxText className='ml-auto'>{t('waitingForConfirmations')}...</TxText>
   }
 
   return (
-    <div className='flex mt-2 justify-end mt-6 sm:mt-4'>
-      {tx?.error && (
+    <div className='flex mt-2 justify-end sm:mt-4'>
+      {tx?.status === TransactionStatus.error && (
         <div className='text-red flex'>
           <FeatherIcon icon='alert-triangle' className='h-4 w-4 stroke-current my-auto mr-2' />
           <p>{t('errorWithTxPleaseTryAgain')}</p>
@@ -209,15 +218,9 @@ const VoteButtons = (props) => {
       )}
       <Tooltip isEnabled={isButtonDisabled} id={`tooltip-proposal-vote-yes`} tip={tip}>
         <SquareButton
-          border='green'
-          text='primary'
-          bg='green'
-          hoverBorder='green'
-          hoverText='primary'
-          hoverBg='green'
           onClick={handleVoteFor}
           className='mr-4'
-          disabled={isButtonDisabled}
+          disabled={isButtonDisabled || !signer}
         >
           <div className='flex'>
             <FeatherIcon icon='check-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
@@ -227,16 +230,7 @@ const VoteButtons = (props) => {
       </Tooltip>
 
       <Tooltip isEnabled={isButtonDisabled} id={`tooltip-proposal-vote-no`} tip={tip}>
-        <SquareButton
-          border='red'
-          text='red'
-          bg='transparent'
-          hoverBorder='red'
-          hoverText='red'
-          hoverBg='transparent'
-          onClick={handleVoteAgainst}
-          disabled={!isWalletOnProperNetwork || cannotVote}
-        >
+        <SquareButton onClick={handleVoteAgainst} disabled={!isWalletOnProperNetwork || cannotVote}>
           <div className='flex'>
             <FeatherIcon icon='x-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
             {t('reject')}
@@ -250,15 +244,15 @@ const VoteButtons = (props) => {
 const QueueButton = (props) => {
   const { id, refetchData } = props
 
+  const { data: signer } = useSigner()
   const { t } = useTranslation()
   const walletChainId = useWalletChainId()
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransaction()
   const isWalletOnProperNetwork = useIsWalletOnProperNetwork()
-  const [txId, setTxId] = useState(0)
+  const [txId, setTxId] = useState('')
   const governanceAddress = CONTRACT_ADDRESSES[walletChainId]?.GovernorAlpha
   const tx = useTransaction(txId)
 
-  // TODO: Queue transaction
   const handleQueueProposal = async (e) => {
     e.preventDefault()
 
@@ -266,10 +260,10 @@ const QueueButton = (props) => {
 
     const txId = await sendTx({
       name: t('queueProposal', { id }),
-      contractAbi: GovernorAlphaABI,
-      contractAddress: governanceAddress,
-      method: 'queue',
-      params,
+      callTransaction: () => {
+        const contract = new Contract(governanceAddress, GovernorAlphaABI, signer)
+        return contract.functions.queue(...params)
+      },
       callbacks: {
         refetch: refetchData
       }
@@ -277,7 +271,7 @@ const QueueButton = (props) => {
     setTxId(txId)
   }
 
-  if (tx?.completed && !tx?.error && !tx?.cancelled) {
+  if (tx?.state === TransactionState.complete && tx?.status === TransactionStatus.success) {
     // Successfully Queued Proposal #{ id }
     return (
       <TxText className='text-green ml-auto'>
@@ -286,19 +280,25 @@ const QueueButton = (props) => {
     )
   }
 
-  if (tx?.inWallet && !tx?.cancelled && !tx?.error) {
+  if (
+    tx?.state === TransactionState.pending &&
+    tx?.status === TransactionStatus.pendingUserConfirmation
+  ) {
     return <TxText className='ml-auto'>{t('pleaseConfirmInYourWallet')}</TxText>
   }
 
-  if (tx?.sent) {
+  if (
+    tx?.state === TransactionState.pending &&
+    tx?.status === TransactionStatus.pendingBlockchainConfirmation
+  ) {
     return <TxText className='ml-auto'>{t('waitingForConfirmations')}...</TxText>
   }
 
   return (
     <div className='flex mt-2 justify-end'>
-      {tx?.error && (
+      {tx?.status === TransactionStatus.error && (
         <Tooltip
-          id={`tx-error-${tx?.hash || ''}`}
+          id={`tx-error-${tx?.receipt?.transactionHash || ''}`}
           tip={
             <div className='flex'>
               <p>{t('errorWithTxPleaseTryAgain')}</p>
@@ -311,7 +311,7 @@ const QueueButton = (props) => {
           />
         </Tooltip>
       )}
-      <SquareButton onClick={handleQueueProposal} disabled={!isWalletOnProperNetwork}>
+      <SquareButton onClick={handleQueueProposal} disabled={!isWalletOnProperNetwork || !signer}>
         {t('queueProposal')}
       </SquareButton>
     </div>
@@ -321,11 +321,12 @@ const QueueButton = (props) => {
 const ExecuteButton = (props) => {
   const { id, refetchData, executionETA, proposal } = props
 
+  const { data: signer } = useSigner()
   const { t } = useTranslation()
   const walletChainId = useWalletChainId()
-  const sendTx = useSendTransaction(t, poolToast)
+  const sendTx = useSendTransaction()
   const isWalletOnProperNetwork = useIsWalletOnProperNetwork()
-  const [txId, setTxId] = useState(0)
+  const [txId, setTxId] = useState('')
   const governanceAddress = CONTRACT_ADDRESSES[walletChainId]?.GovernorAlpha
   const tx = useTransaction(txId)
 
@@ -353,19 +354,20 @@ const ExecuteButton = (props) => {
 
     const txId = await sendTx({
       name: t('executeProposalId', { id }),
-      contractAbi: GovernorAlphaABI,
-      contractAddress: governanceAddress,
-      method: 'execute',
-      params,
+      callTransaction: () => {
+        const contract = new Contract(governanceAddress, GovernorAlphaABI, signer)
+        const value = payableAmountInWei.toHexString()
+        return contract.functions.execute(...params, { value } as Overrides)
+      },
+
       callbacks: {
         refetch: refetchData
-      },
-      value: payableAmountInWei.toHexString()
+      }
     })
     setTxId(txId)
   }
 
-  if (tx?.completed && !tx?.error && !tx?.cancelled) {
+  if (tx?.state === TransactionState.complete && tx?.status === TransactionStatus.success) {
     return (
       <TxText className='text-green ml-auto'>
         🎉 {t('successfullyExecutedProposalId', { id })} 🎉
@@ -373,11 +375,17 @@ const ExecuteButton = (props) => {
     )
   }
 
-  if (tx?.inWallet && !tx?.cancelled && !tx?.error) {
+  if (
+    tx?.state === TransactionState.pending &&
+    tx?.status === TransactionStatus.pendingUserConfirmation
+  ) {
     return <TxText className='ml-auto'>{t('pleaseConfirmInYourWallet')}</TxText>
   }
 
-  if (tx?.sent) {
+  if (
+    tx?.state === TransactionState.pending &&
+    tx?.status === TransactionStatus.pendingBlockchainConfirmation
+  ) {
     return <TxText className='ml-auto'>{t('waitingForConfirmations')}...</TxText>
   }
 
@@ -390,9 +398,9 @@ const ExecuteButton = (props) => {
         </div>
       )}
       <div className='flex mt-2 justify-end'>
-        {tx?.error && (
+        {tx?.status === TransactionStatus.error && (
           <Tooltip
-            id={`tx-error-${tx?.hash || ''}`}
+            id={`tx-error-${tx?.receipt?.transactionHash || ''}`}
             tip={
               <div className='flex'>
                 <p>{t('errorWithTxPleaseTryAgain')}</p>

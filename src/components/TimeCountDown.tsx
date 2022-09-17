@@ -1,11 +1,10 @@
 import React from 'react'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
-
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { SECONDS_PER_DAY, SECONDS_PER_HOUR } from '../constants'
 import { getSecondsSinceEpoch } from '../utils/getCurrentSecondsSinceEpoch'
-import { useTimeCountdown } from '@pooltogether/hooks'
+import { useTimeCountdown } from '@pooltogether/react-components'
 
 /**
  * endTime - An time in seconds since the epoch to count down to
@@ -17,8 +16,7 @@ export const TimeCountDown = (props) => {
 
   const { days, hours, minutes, secondsLeft } = useTimeCountdown(
     endTime ? endTime - getSecondsSinceEpoch() : initialSecondsLeft || 0,
-    null,
-    60000
+    null
   )
 
   const textColor = determineColor(secondsLeft)

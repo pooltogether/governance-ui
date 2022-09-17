@@ -2,7 +2,7 @@ import { SnapshotProposalsList } from '../../components/Proposals/SnapshotPropos
 import { PoolIcon, ExternalLink, LinkTheme } from '@pooltogether/react-components'
 import React from 'react'
 import { POOLPOOL_SNAPSHOT_URL } from '../../constants'
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'next-i18next'
 
 export const SnapshotProposals = (props) => {
   return (
@@ -16,8 +16,8 @@ export const SnapshotProposals = (props) => {
 const SnapshotTip = () => {
   const { t } = useTranslation()
   return (
-    <div className='mb-6 flex flex-col space-y-2 border border-pt-purple-light'>
-      <div>{t('voteGasFreeAndEarnRewards')}</div>
+    <div className='mb-6 flex flex-col space-y-2 border p-4 rounded-xl border-gradient-purple bg-white dark:border-pt-purple-light dark:bg-pt-purple-darker'>
+      <div className='font-bold text-lg'>{t('voteGasFree', 'Vote gas free')}</div>
       <div className='flex space-x-2 items-center'>
         <ExternalLink
           key='snapshot_link'
@@ -36,7 +36,7 @@ const SnapshotTip = () => {
           {t('learnMore')}
         </ExternalLink>
       </div>
-      <p className='text-sm'>
+      <p className='text-sm text-pt-purple-darkest text-opacity-75 dark:text-pt-purple-lightest dark:text-opacity-75'>
         <Trans
           i18nKey='snapshotTip'
           components={{
@@ -46,6 +46,7 @@ const SnapshotTip = () => {
                 className='text-sm'
                 href='https://v3.pooltogether.com/pools/mainnet/PT-stPOOL'
                 theme={LinkTheme.accent}
+                children={undefined}
               />
             )
           }}

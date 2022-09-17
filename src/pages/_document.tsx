@@ -58,7 +58,7 @@ class MyDocument extends Document {
             <script type='text/javascript' src='/graph-error-modal.js' />
           </>
         </Head>
-        <body className='bg-pt-purple-lightest dark:bg-pt-purple-darkest text-pt-purple-darkest dark:text-white overscroll-y-none'>
+        <body className='bg-body text-inverse'>
           <Main />
           <NextScript />
         </body>

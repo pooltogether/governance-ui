@@ -1,16 +1,15 @@
+import { useUsersAddress } from '@pooltogether/wallet-connection'
 import { ethers } from 'ethers'
-import { useUsersAddress } from '@pooltogether/hooks'
-
 import { DEFAULT_TOKEN_PRECISION } from '../constants'
 import { useGovernorAlpha } from '../hooks/useGovernorAlpha'
-import { useTokenHolder } from '../hooks/useTokenHolder'
+import { useTokenHolder } from './useTokenHolder'
 
 export const useUserCanCreateProposal = () => {
   const usersAddress = useUsersAddress()
   const { data: governorAlpha, isFetched: governorAlphaIsFetched } = useGovernorAlpha()
-  const { data: tokenHolder, isFetched: tokenHolderIsFetched } = useTokenHolder(usersAddress)
+  const { data: tokenHolder, isFetched: isTokenHolderFetched } = useTokenHolder(usersAddress)
 
-  if (!tokenHolderIsFetched || !governorAlphaIsFetched) {
+  if (!isTokenHolderFetched || !governorAlphaIsFetched) {
     return {
       isFetched: false,
       userCanCreateProposal: false

@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'next-i18next'
 import FeatherIcon from 'feather-icons-react'
 import {
   Card,
@@ -13,14 +13,14 @@ import {
   SquareLink,
   SquareButtonSize
 } from '@pooltogether/react-components'
-import { getMinPrecision, numberWithCommas } from '@pooltogether/utilities'
+import { getMinPrecision, numberWithCommas, POOL_ADDRESSES } from '@pooltogether/utilities'
 import classnames from 'classnames'
 
 import { useTokenHolder } from '../hooks/useTokenHolder'
-import { usePoolPoolBalance } from '../hooks/usePoolPoolBalance'
 import { POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from '../constants'
 import { DelegateAddress } from '../components/DelegateAddress'
-import { useIsWalletConnected, useUsersAddress } from '@pooltogether/wallet-connection'
+import { CHAIN_ID, useIsWalletConnected, useUsersAddress } from '@pooltogether/wallet-connection'
+import { useTokenBalance } from '@pooltogether/hooks'
 
 export const VotingPowerCard = (props) => {
   const { className, blockNumber, snapshotBlockNumber } = props
@@ -29,13 +29,15 @@ export const VotingPowerCard = (props) => {
   const { t } = useTranslation()
 
   const usersAddress = useUsersAddress()
-  const { isFetched: tokenHolderIsFetched, data: tokenHolder } = useTokenHolder(
+  const { isFetched: isTokenHolderFetched, data: tokenHolder } = useTokenHolder(
     usersAddress,
     blockNumber
   )
-  const { isFetched: poolPoolBalanceIsFetched, data: poolPoolBalance } = usePoolPoolBalance(
+
+  const { isFetched: poolPoolBalanceIsFetched, data: poolPoolBalance } = useTokenBalance(
+    CHAIN_ID.mainnet,
     usersAddress,
-    snapshotBlockNumber
+    POOL_ADDRESSES[CHAIN_ID.mainnet].ppool
   )
 
   if (!isWalletConnected) {
@@ -43,7 +45,7 @@ export const VotingPowerCard = (props) => {
   }
 
   if (
-    tokenHolderIsFetched &&
+    isTokenHolderFetched &&
     poolPoolBalanceIsFetched &&
     !poolPoolBalance.hasBalance &&
     !tokenHolder.hasBalance &&
@@ -74,7 +76,7 @@ export const VotingPowerCard = (props) => {
         </div>
       </div>
 
-      {(!tokenHolderIsFetched || !poolPoolBalanceIsFetched) && (
+      {(!isTokenHolderFetched || !poolPoolBalanceIsFetched) && (
         <ThemedClipSpinner className='absolute bottom-4 right-4' />
       )}
     </Card>
@@ -87,7 +89,7 @@ const LeftTop = (props) => {
   const { blockNumber } = props
 
   const usersAddress = useUsersAddress()
-  const { data: tokenHolder, isFetched: tokenHolderIsFetched } = useTokenHolder(
+  const { data: tokenHolder, isFetched: isTokenHolderFetched } = useTokenHolder(
     usersAddress,
     blockNumber
   )
@@ -96,7 +98,7 @@ const LeftTop = (props) => {
   let disabled = true
 
   let onChainVotesKey = 'onChainVotesTitle'
-  if (tokenHolderIsFetched) {
+  if (isTokenHolderFetched) {
     const { tokenBalance, isDelegating, isBeingDelegatedTo, delegatedVotes } = tokenHolder
     if (isBeingDelegatedTo && !isDelegating) {
       votes = delegatedVotes
@@ -133,7 +135,11 @@ const LeftTop = (props) => {
 const RightTop = (props) => {
   const { blockNumber, snapshotBlockNumber } = props
   const usersAddress = useUsersAddress()
-  const { data: poolPoolData, isFetched } = usePoolPoolBalance(usersAddress, snapshotBlockNumber)
+  const { isFetched, data: poolPoolData } = useTokenBalance(
+    CHAIN_ID.mainnet,
+    usersAddress,
+    POOL_ADDRESSES[CHAIN_ID.mainnet].ppool
+  )
 
   let votes = null
   let tip =
@@ -161,13 +167,13 @@ const LeftBottom = (props) => {
   const { blockNumber } = props
 
   const usersAddress = useUsersAddress()
-  const { data: tokenHolder, isFetched: tokenHolderIsFetched } = useTokenHolder(
+  const { data: tokenHolder, isFetched: isTokenHolderFetched } = useTokenHolder(
     usersAddress,
     blockNumber
   )
   const { t } = useTranslation()
 
-  if (!tokenHolderIsFetched) return null
+  if (!isTokenHolderFetched) return null
 
   const {
     tokenBalance,
@@ -217,6 +223,7 @@ const LeftBottom = (props) => {
               theme={LinkTheme.accent}
               title='Sybil'
               href='https://sybil.org/#/delegates/pool'
+              children={undefined}
             />
           )
         }}
@@ -273,7 +280,11 @@ const LeftBottom = (props) => {
 const RightBottom = (props) => {
   const { snapshotBlockNumber } = props
   const usersAddress = useUsersAddress()
-  const { data: poolPoolData, isFetched } = usePoolPoolBalance(usersAddress, snapshotBlockNumber)
+  const { isFetched, data: poolPoolData } = useTokenBalance(
+    CHAIN_ID.mainnet,
+    usersAddress,
+    POOL_ADDRESSES[CHAIN_ID.mainnet].ppool
+  )
 
   if (!isFetched) return null
 
@@ -290,6 +301,7 @@ const RightBottom = (props) => {
                 href={POOLPOOL_SNAPSHOT_URL}
                 theme={LinkTheme.light}
                 className='text-xs'
+                children={undefined}
               />
             )
           }}
@@ -304,7 +316,12 @@ const RightBottom = (props) => {
         i18nKey='depositIntoPoolPoolLink'
         components={{
           LinkToPoolPool: (
-            <ExternalLink href={POOLPOOL_URL} theme={LinkTheme.light} className='text-xs' />
+            <ExternalLink
+              href={POOLPOOL_URL}
+              theme={LinkTheme.light}
+              className='text-xs'
+              children={undefined}
+            />
           )
         }}
       />
@@ -368,7 +385,7 @@ const ZeroBalanceVotingPowerCard = (props) => {
             target='_blank'
             rel='nofollow noreferrer'
             size={SquareButtonSize.sm}
-            className='w-full sm:w-max h-fit-content my-auto whitespace-nowrap ml-2'
+            className='w-full sm:w-max h-fit-content my-auto whitespace-nowrap sm :ml-2'
           >
             <Trans i18nKey='getPoolToGetStarted' />
           </SquareLink>

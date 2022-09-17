@@ -6,21 +6,16 @@ import { ClipLoader } from 'react-spinners'
 import { isBrowser } from 'react-device-detect'
 import { useGovernanceChainId } from '@pooltogether/hooks'
 import { DropdownList } from '@pooltogether/react-components'
+import { useTranslation } from 'next-i18next'
+import { CONTRACT_ADDRESSES } from '../../constants'
+import { useEtherscanAbi } from '../../hooks/useEtherscanAbi'
+import { EMPTY_CONTRACT, EMPTY_FN } from '../../components/ProposalCreation/ProposalCreationForm'
+import { isValidSolidityData } from '../../utils/isValidSolidityData'
+import DelegateableERC20ABI from '../../abis/DelegateableERC20ABI'
+import { isAddress } from 'ethers/lib/utils'
 
-import { useTranslation } from 'react-i18next'
-import { isValidAddress } from '../utils/isValidAddress'
-import { usePrizePools } from '../hooks/usePrizePools'
-import { CONTRACT_ADDRESSES } from '../constants'
-import { useEtherscanAbi } from '../hooks/useEtherscanAbi'
-import { EMPTY_CONTRACT, EMPTY_FN } from '../components/ProposalCreation/ProposalCreationForm'
-import { isValidSolidityData } from '../utils/isValidSolidityData'
-
-import DelegateableERC20ABI from '../abis/DelegateableERC20ABI'
-import PrizePoolAbi from '@pooltogether/pooltogether-contracts/abis/PrizePool'
-// import PrizePoolBuilderAbi from '@pooltogether/pooltogether-contracts/abis/PoolWithMultipleWinnersBuilder'
+// @ts-ignore
 import ReserveAbi from '@pooltogether/pooltogether-contracts/abis/Reserve'
-import TokenFaucetAbi from '@pooltogether/pooltogether-contracts/abis/TokenFaucet'
-import MultipleWinnersPrizeStrategyAbi from '@pooltogether/pooltogether-contracts/abis/MultipleWinners'
 
 export const Action = (props) => {
   const { deleteAction, actionPath, index, hideRemoveButton } = props
@@ -113,7 +108,6 @@ const ContractSelect = (props) => {
   const { setContract, currentContract, contractPath } = props
 
   const { t } = useTranslation()
-  const { data: prizePools, isFetched: prizePoolsIsFetched } = usePrizePools()
   const chainId = useGovernanceChainId()
 
   const options = useMemo(() => {
@@ -148,58 +142,58 @@ const ContractSelect = (props) => {
     //   abi: PrizePoolBuilderAbi
     // })
 
-    if (prizePoolsIsFetched) {
-      // Add Prize Pool contracts
-      options.push({
-        groupHeader: t('prizePools')
-      })
-      Object.keys(prizePools).forEach((prizePoolAddress) => {
-        const prizePool = prizePools[prizePoolAddress]
-        options.push({
-          address: prizePool.prizePool,
-          name: t('prizePoolTokenName', {
-            tokenSymbol: prizePool.underlyingCollateralSymbol,
-            tokenName: prizePool.underlyingCollateralName
-          }),
-          abi: PrizePoolAbi
-        })
-      })
+    // if (prizePoolsIsFetched) {
+    //   // Add Prize Pool contracts
+    //   options.push({
+    //     groupHeader: t('prizePools')
+    //   })
+    //   Object.keys(prizePools).forEach((prizePoolAddress) => {
+    //     const prizePool = prizePools[prizePoolAddress]
+    //     options.push({
+    //       address: prizePool.prizePool,
+    //       name: t('prizePoolTokenName', {
+    //         tokenSymbol: prizePool.underlyingCollateralSymbol,
+    //         tokenName: prizePool.underlyingCollateralName
+    //       }),
+    //       abi: PrizePoolAbi
+    //     })
+    //   })
 
-      // Add Prize Strategies
-      options.push({
-        groupHeader: t('prizeStrategies')
-      })
-      Object.keys(prizePools).forEach((prizePoolAddress) => {
-        const prizePool = prizePools[prizePoolAddress]
-        options.push({
-          address: prizePool.prizeStrategy,
-          name: t('prizeStrategyTokenName', {
-            tokenSymbol: prizePool.underlyingCollateralSymbol,
-            tokenName: prizePool.underlyingCollateralName
-          }),
-          abi: MultipleWinnersPrizeStrategyAbi
-        })
-      })
+    //   // Add Prize Strategies
+    //   options.push({
+    //     groupHeader: t('prizeStrategies')
+    //   })
+    //   Object.keys(prizePools).forEach((prizePoolAddress) => {
+    //     const prizePool = prizePools[prizePoolAddress]
+    //     options.push({
+    //       address: prizePool.prizeStrategy,
+    //       name: t('prizeStrategyTokenName', {
+    //         tokenSymbol: prizePool.underlyingCollateralSymbol,
+    //         tokenName: prizePool.underlyingCollateralName
+    //       }),
+    //       abi: MultipleWinnersPrizeStrategyAbi
+    //     })
+    //   })
 
-      // Add Token Faucets
-      options.push({
-        groupHeader: t('tokenFaucets')
-      })
-      Object.keys(prizePools).forEach((prizePoolAddress) => {
-        const prizePool = prizePools[prizePoolAddress]
-        options.push({
-          address: prizePool.tokenFaucet,
-          name: t('tokenFaucetTokenName', {
-            tokenSymbol: prizePool.underlyingCollateralSymbol,
-            tokenName: prizePool.underlyingCollateralName
-          }),
-          abi: TokenFaucetAbi
-        })
-      })
-    }
+    //   // Add Token Faucets
+    //   options.push({
+    //     groupHeader: t('tokenFaucets')
+    //   })
+    //   Object.keys(prizePools).forEach((prizePoolAddress) => {
+    //     const prizePool = prizePools[prizePoolAddress]
+    //     options.push({
+    //       address: prizePool.tokenFaucet,
+    //       name: t('tokenFaucetTokenName', {
+    //         tokenSymbol: prizePool.underlyingCollateralSymbol,
+    //         tokenName: prizePool.underlyingCollateralName
+    //       }),
+    //       abi: TokenFaucetAbi
+    //     })
+    //   })
+    // }
 
     return options
-  }, [prizePools, prizePoolsIsFetched])
+  }, [])
 
   const formatValue = (contract) => {
     return contract?.name || t('selectAContract')
@@ -251,7 +245,7 @@ const CustomContractInputRinkeby = (props) => {
         name={`${contractPath}.address`}
         register={register}
         required
-        validate={(address) => isValidAddress(address) || t('invalidContractAddress')}
+        validate={(address) => isAddress(address) || t('invalidContractAddress')}
         placeholder='0x1f9840a85...'
       />
       <CustomAbiInput contract={contract} setContract={setContract} />
@@ -305,7 +299,7 @@ const CustomContractInputMainnet = (props) => {
         name={addressFormName}
         register={register}
         required
-        validate={(address) => isValidAddress(address) || t('invalidContractAddress')}
+        validate={(address) => isAddress(address) || t('invalidContractAddress')}
         placeholder='0x1f9840a85...'
         loading={etherscanAbiIsFetching}
       />

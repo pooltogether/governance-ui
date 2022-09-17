@@ -1,16 +1,14 @@
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'next-i18next'
 import { SquareButton, Card } from '@pooltogether/react-components'
 import { useGovernorAlpha } from '../../hooks/useGovernorAlpha'
-import { usePrizePools } from '../../hooks/usePrizePools'
 import { EMPTY_ACTION } from '../../components/ProposalCreation/ProposalCreationForm'
 import { Action } from '../../components/ProposalCreation/Action'
 
 export const ActionsCard = (props) => {
   const { t } = useTranslation()
-  const { isFetched: prizePoolsIsFetched } = usePrizePools()
   const { data: governorAlpha, isFetched: governorAlphaIsFetched } = useGovernorAlpha()
 
   const name = 'actions'
@@ -25,7 +23,7 @@ export const ActionsCard = (props) => {
     name
   })
 
-  if (!prizePoolsIsFetched || !governorAlphaIsFetched) return null
+  if (!governorAlphaIsFetched) return null
 
   const { proposalMaxOperations } = governorAlpha
 

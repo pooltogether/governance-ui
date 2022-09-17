@@ -4,13 +4,12 @@ import classnames from 'classnames'
 import { DateTime } from 'luxon'
 import {
   Card,
-  ButtonLink,
   ExternalLink,
   LoadingDots,
   LinkTheme,
   SquareLink
 } from '@pooltogether/react-components'
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'next-i18next'
 
 import { PROPOSAL_STATUS } from '../../constants'
 import { CountDown } from '../../components/CountDown'
@@ -206,6 +205,7 @@ export const EmptyProposalsList = () => {
                 underline
                 href='https://discord.gg/hxPhPDW'
                 title='Discord'
+                children={undefined}
               />
             ),
             LinkToDiscourse: (
@@ -214,6 +214,7 @@ export const EmptyProposalsList = () => {
                 underline
                 href='https://gov.pooltogether.com/'
                 title='Discourse'
+                children={undefined}
               />
             )
           }}

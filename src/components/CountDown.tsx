@@ -1,4 +1,4 @@
-import { useTimeCountdown } from '@pooltogether/hooks'
+import { useTimeCountdown } from '@pooltogether/react-components'
 import classnames from 'classnames'
 import React from 'react'
 
