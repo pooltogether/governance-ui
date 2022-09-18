@@ -1,7 +1,3 @@
-import React, { useState } from 'react'
-import classnames from 'classnames'
-import { Trans, useTranslation } from 'next-i18next'
-import { replaceQueryParam } from '@pooltogether/utilities'
 import {
   ContentPane,
   CountBadge,
@@ -10,14 +6,18 @@ import {
   Tab,
   Tabs
 } from '@pooltogether/react-components'
+import { replaceQueryParam } from '@pooltogether/utilities'
+import classnames from 'classnames'
+import { Trans, useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import React, { useState } from 'react'
 import { ProposalsList } from '../../components/Proposals/ProposalsList'
-import { RetroactivePoolClaimBanner } from '../../components/RetroactivePoolClaimBanner'
-import { SORTED_STATES, useAllProposalsSorted } from '../../hooks/useAllProposalsSorted'
 import { SnapshotProposals } from '../../components/Proposals/SnapshotProposals'
-import { useSnapshotProposals } from '../../hooks/useSnapshotProposals'
+import { RetroactivePoolClaimBanner } from '../../components/RetroactivePoolClaimBanner'
 import { VotingPowerCard } from '../../components/VotingPowerCard'
+import { SORTED_STATES, useAllProposalsSorted } from '../../hooks/useAllProposalsSorted'
+import { useSnapshotProposals } from '../../hooks/useSnapshotProposals'
 
 export const ProposalsUI = (props) => {
   const { t } = useTranslation()

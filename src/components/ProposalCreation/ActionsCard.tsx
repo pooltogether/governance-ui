@@ -1,11 +1,10 @@
+import { SquareButton, Card } from '@pooltogether/react-components'
+import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
-
-import { useTranslation } from 'next-i18next'
-import { SquareButton, Card } from '@pooltogether/react-components'
-import { useGovernorAlpha } from '../../hooks/useGovernorAlpha'
-import { EMPTY_ACTION } from '../../components/ProposalCreation/ProposalCreationForm'
 import { Action } from '../../components/ProposalCreation/Action'
+import { EMPTY_ACTION } from '../../components/ProposalCreation/ProposalCreationForm'
+import { useGovernorAlpha } from '../../hooks/useGovernorAlpha'
 
 export const ActionsCard = (props) => {
   const { t } = useTranslation()

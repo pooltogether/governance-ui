@@ -1,7 +1,7 @@
-import React from 'react'
 import classNames from 'classnames'
-import { PageHeader } from './PageHeader'
+import React from 'react'
 import { Navigation } from './Navigation'
+import { PageHeader } from './PageHeader'
 
 interface LayoutProps {
   className?: string

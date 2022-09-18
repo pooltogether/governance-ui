@@ -1,8 +1,7 @@
 import { contract } from '@pooltogether/etherplex'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-
-import { CONTRACT_ADDRESSES } from '../constants'
 import GovernorAlphaABI from '../abis/GovernorAlphaABI'
+import { CONTRACT_ADDRESSES } from '../constants'
 
 export function useEtherplexGovernanceContract() {
   const chainId = useGovernanceChainId()

@@ -1,5 +1,4 @@
-import React from 'react'
-import FeatherIcon from 'feather-icons-react'
+import { useGovernanceChainId, useTokenBalance } from '@pooltogether/hooks'
 import {
   Card,
   LoadingDots,
@@ -8,16 +7,17 @@ import {
   Tooltip,
   useTimeCountdown
 } from '@pooltogether/react-components'
-import { useTranslation } from 'next-i18next'
-import { getPoolPoolSnapshotId } from '../../utils/getPoolPoolSnapshotId'
-import { usePoolPoolProposal } from '../../hooks/usePoolPoolProposal'
-import { POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from '../../constants'
-import { getSecondsSinceEpoch } from '../../utils/getCurrentSecondsSinceEpoch'
-import { TimeCountDown } from '../../components/TimeCountDown'
-import Link from 'next/link'
-import { CHAIN_ID, useUsersAddress } from '@pooltogether/wallet-connection'
-import { useGovernanceChainId, useTokenBalance } from '@pooltogether/hooks'
 import { getPrecision, numberWithCommas, POOL_ADDRESSES } from '@pooltogether/utilities'
+import { CHAIN_ID, useUsersAddress } from '@pooltogether/wallet-connection'
+import FeatherIcon from 'feather-icons-react'
+import { useTranslation } from 'next-i18next'
+import Link from 'next/link'
+import React from 'react'
+import { TimeCountDown } from '../../components/TimeCountDown'
+import { POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from '../../constants'
+import { usePoolPoolProposal } from '../../hooks/usePoolPoolProposal'
+import { getSecondsSinceEpoch } from '../../utils/getCurrentSecondsSinceEpoch'
+import { getPoolPoolSnapshotId } from '../../utils/getPoolPoolSnapshotId'
 
 const POOLPOOL_PROPOSAL_STATES = Object.freeze({
   active: 'active',

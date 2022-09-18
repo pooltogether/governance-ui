@@ -1,10 +1,10 @@
-import React from 'react'
+import { useTimeCountdown } from '@pooltogether/react-components'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { useTranslation } from 'next-i18next'
+import React from 'react'
 import { SECONDS_PER_DAY, SECONDS_PER_HOUR } from '../constants'
 import { getSecondsSinceEpoch } from '../utils/getCurrentSecondsSinceEpoch'
-import { useTimeCountdown } from '@pooltogether/react-components'
 
 /**
  * endTime - An time in seconds since the epoch to count down to

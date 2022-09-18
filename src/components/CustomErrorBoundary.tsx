@@ -1,7 +1,7 @@
-import React from 'react'
 import { ErrorBoundary as SentryErrorBoundary } from '@sentry/react'
-import { ErrorPage } from '../components/ErrorPage'
+import React from 'react'
 import { useAccount } from 'wagmi'
+import { ErrorPage } from '../components/ErrorPage'
 
 export function CustomErrorBoundary(props) {
   const { children } = props

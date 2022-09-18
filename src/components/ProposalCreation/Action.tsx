@@ -1,21 +1,21 @@
-import FeatherIcon from 'feather-icons-react'
+import { useGovernanceChainId } from '@pooltogether/hooks'
+import ReserveAbi from '@pooltogether/pooltogether-contracts/abis/Reserve'
+import { DropdownList } from '@pooltogether/react-components'
 import classnames from 'classnames'
+import { isAddress } from 'ethers/lib/utils'
+import FeatherIcon from 'feather-icons-react'
+import { useTranslation } from 'next-i18next'
 import React, { useState, useMemo, useEffect } from 'react'
+import { isBrowser } from 'react-device-detect'
 import { useController, useForm, useFormContext, useWatch } from 'react-hook-form'
 import { ClipLoader } from 'react-spinners'
-import { isBrowser } from 'react-device-detect'
-import { useGovernanceChainId } from '@pooltogether/hooks'
-import { DropdownList } from '@pooltogether/react-components'
-import { useTranslation } from 'next-i18next'
+import DelegateableERC20ABI from '../../abis/DelegateableERC20ABI'
+import { EMPTY_CONTRACT, EMPTY_FN } from '../../components/ProposalCreation/ProposalCreationForm'
 import { CONTRACT_ADDRESSES } from '../../constants'
 import { useEtherscanAbi } from '../../hooks/useEtherscanAbi'
-import { EMPTY_CONTRACT, EMPTY_FN } from '../../components/ProposalCreation/ProposalCreationForm'
 import { isValidSolidityData } from '../../utils/isValidSolidityData'
-import DelegateableERC20ABI from '../../abis/DelegateableERC20ABI'
-import { isAddress } from 'ethers/lib/utils'
 
 // @ts-ignore
-import ReserveAbi from '@pooltogether/pooltogether-contracts/abis/Reserve'
 
 export const Action = (props) => {
   const { deleteAction, actionPath, index, hideRemoveButton } = props
@@ -288,7 +288,7 @@ const CustomContractInputMainnet = (props) => {
   }, [etherscanAbiUseQueryResponse, showAbiInput])
 
   const etherscanAbiStatus = etherscanAbiUseQueryResponse?.data?.status
-  const errorMessage = getErrorMessage(errors?.[addressFormName]?.message, etherscanAbiStatus)
+  const errorMessage = useErrorMessage(errors?.[addressFormName]?.message, etherscanAbiStatus)
 
   return (
     <>
@@ -508,7 +508,7 @@ const SimpleInput = (props) => {
   )
 }
 
-const getErrorMessage = (validationMessage, status) => {
+const useErrorMessage = (validationMessage, status) => {
   const { t } = useTranslation()
 
   if (validationMessage) return validationMessage

@@ -1,13 +1,13 @@
-import { useQuery } from 'react-query'
-import gql from 'graphql-tag'
-import { request } from 'graphql-request'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import { MAINNET_POLLING_INTERVAL, QUERY_KEYS } from '../constants'
-import { atom, useAtom } from 'jotai'
-import { useEffect } from 'react'
+import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
 import { useUsersAddress } from '@pooltogether/wallet-connection'
 import { isAddress } from 'ethers/lib/utils'
-import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
+import { request } from 'graphql-request'
+import gql from 'graphql-tag'
+import { atom, useAtom } from 'jotai'
+import { useEffect } from 'react'
+import { useQuery } from 'react-query'
+import { MAINNET_POLLING_INTERVAL, QUERY_KEYS } from '../constants'
 
 export const accountGovernanceDataQueryAtom = atom({})
 

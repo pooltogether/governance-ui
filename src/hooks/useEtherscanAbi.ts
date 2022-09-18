@@ -1,9 +1,8 @@
-import { useQuery } from 'react-query'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-
+import { isAddress } from 'ethers/lib/utils'
+import { useQuery } from 'react-query'
 import { axiosInstance } from '../axiosInstance'
 import { ETHERSCAN_API_KEY, QUERY_KEYS } from '../constants'
-import { isAddress } from 'ethers/lib/utils'
 
 const ETHERSCAN_URI = `https://api.etherscan.io/api`
 

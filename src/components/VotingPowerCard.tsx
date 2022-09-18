@@ -1,7 +1,4 @@
-import React from 'react'
-import Link from 'next/link'
-import { Trans, useTranslation } from 'next-i18next'
-import FeatherIcon from 'feather-icons-react'
+import { useTokenBalance } from '@pooltogether/hooks'
 import {
   Card,
   CardTheme,
@@ -14,13 +11,15 @@ import {
   SquareButtonSize
 } from '@pooltogether/react-components'
 import { getMinPrecision, numberWithCommas, POOL_ADDRESSES } from '@pooltogether/utilities'
-import classnames from 'classnames'
-
-import { useTokenHolder } from '../hooks/useTokenHolder'
-import { POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from '../constants'
-import { DelegateAddress } from '../components/DelegateAddress'
 import { CHAIN_ID, useIsWalletConnected, useUsersAddress } from '@pooltogether/wallet-connection'
-import { useTokenBalance } from '@pooltogether/hooks'
+import classnames from 'classnames'
+import FeatherIcon from 'feather-icons-react'
+import { Trans, useTranslation } from 'next-i18next'
+import Link from 'next/link'
+import React from 'react'
+import { DelegateAddress } from '../components/DelegateAddress'
+import { POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from '../constants'
+import { useTokenHolder } from '../hooks/useTokenHolder'
 
 export const VotingPowerCard = (props) => {
   const { className, blockNumber, snapshotBlockNumber } = props

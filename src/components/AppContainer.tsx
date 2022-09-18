@@ -1,25 +1,25 @@
-import { Provider as JotaiProvider } from 'jotai'
-import { ThemeProvider, useTheme } from 'next-themes'
-import { createClient, useAccount, useConnect, WagmiConfig } from 'wagmi'
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-import { InjectedConnector } from 'wagmi/connectors/injected'
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
-import { QueryClient, QueryClientProvider } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
-import { ScreenSize, useScreenSize, LoadingScreen } from '@pooltogether/react-components'
 import { useInitCookieOptions, getAppEnvString } from '@pooltogether/hooks'
-import { ToastContainer } from 'react-toastify'
+import { ScreenSize, useScreenSize, LoadingScreen } from '@pooltogether/react-components'
 import {
   CHAIN_ID,
   useUpdateStoredPendingTransactions,
   getReadProvider,
   initRpcUrls
 } from '@pooltogether/wallet-connection'
-import React from 'react'
-import { RPC_URLS, SUPPORTED_CHAINS } from '../constants'
-import { AppProps } from 'next/app'
+import { Provider as JotaiProvider } from 'jotai'
 import { useTranslation } from 'next-i18next'
+import { ThemeProvider, useTheme } from 'next-themes'
+import { AppProps } from 'next/app'
+import React from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { ToastContainer } from 'react-toastify'
+import { createClient, useAccount, WagmiConfig } from 'wagmi'
+import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
+import { InjectedConnector } from 'wagmi/connectors/injected'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
+import { RPC_URLS, SUPPORTED_CHAINS } from '../constants'
 import { CustomErrorBoundary } from './CustomErrorBoundary'
 
 // Initialize react-query Query Client

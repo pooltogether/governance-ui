@@ -1,11 +1,11 @@
+import { useGovernanceChainId } from '@pooltogether/hooks'
+import { shorten } from '@pooltogether/utilities'
+import { BlockExplorerLink } from '@pooltogether/wallet-connection'
 import FeatherIcon from 'feather-icons-react'
+import { useTranslation } from 'next-i18next'
 import React, { useEffect, useState } from 'react'
 import Loader from 'react-loader-spinner'
-import { useGovernanceChainId } from '@pooltogether/hooks'
 import { Banner } from '../components/Banner'
-import { useTranslation } from 'next-i18next'
-import { BlockExplorerLink } from '@pooltogether/wallet-connection'
-import { shorten } from '@pooltogether/utilities'
 
 export const TxStatus = (props) => {
   const { tx } = props

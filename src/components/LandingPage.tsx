@@ -5,10 +5,9 @@ import {
   PageTitleAndBreadcrumbs,
   SquareLink
 } from '@pooltogether/react-components'
+import { Trans, useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import React from 'react'
-import { Trans, useTranslation } from 'next-i18next'
-
 import { DISCORD_INVITE_URL, POOLTOGETHER_GOV_FORUM_URL } from '../constants'
 
 export const LandingPage = (props) => {

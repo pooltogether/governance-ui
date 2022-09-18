@@ -1,10 +1,9 @@
-import { useQuery } from 'react-query'
-import gql from 'graphql-tag'
-import { request } from 'graphql-request'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-
-import { QUERY_KEYS, VOTERS_PER_PAGE } from '../constants'
 import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
+import { request } from 'graphql-request'
+import gql from 'graphql-tag'
+import { useQuery } from 'react-query'
+import { QUERY_KEYS, VOTERS_PER_PAGE } from '../constants'
 
 export function useProposalVotes(id, page) {
   const { refetch, data, isFetching, isFetched, error } = useFetchProposalVotes(id, page)

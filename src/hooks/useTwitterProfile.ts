@@ -1,9 +1,9 @@
-import { QUERY_KEYS } from '../constants'
-import { fetchTwitterProfileData } from '../utils/social'
-import { useQuery } from 'react-query'
 import { useAtom } from 'jotai'
-import { socialIdentitiesAtom } from '../hooks/useSybilSocialIdentities'
 import { useEffect, useState } from 'react'
+import { useQuery } from 'react-query'
+import { QUERY_KEYS } from '../constants'
+import { socialIdentitiesAtom } from '../hooks/useSybilSocialIdentities'
+import { fetchTwitterProfileData } from '../utils/social'
 
 export const useTwitterProfile = (address) => {
   const twitterHandle = useSocialIdentity(address.toLowerCase())?.twitter?.handle ?? ''

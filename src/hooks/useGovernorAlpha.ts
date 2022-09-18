@@ -1,9 +1,9 @@
-import { useQuery } from 'react-query'
 import { batch, contract } from '@pooltogether/etherplex'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import { CONTRACT_ADDRESSES, QUERY_KEYS } from '../constants'
-import GovernorAlphaABI from '../abis/GovernorAlphaABI'
 import { getReadProvider } from '@pooltogether/wallet-connection'
+import { useQuery } from 'react-query'
+import GovernorAlphaABI from '../abis/GovernorAlphaABI'
+import { CONTRACT_ADDRESSES, QUERY_KEYS } from '../constants'
 
 export function useGovernorAlpha() {
   const chainId = useGovernanceChainId()

@@ -1,7 +1,3 @@
-import React, { useState } from 'react'
-import FeatherIcon from 'feather-icons-react'
-import classnames from 'classnames'
-import { DateTime } from 'luxon'
 import {
   Card,
   ExternalLink,
@@ -9,15 +5,17 @@ import {
   LinkTheme,
   SquareLink
 } from '@pooltogether/react-components'
+import { msToSeconds } from '@pooltogether/utilities'
+import classnames from 'classnames'
+import FeatherIcon from 'feather-icons-react'
+import { DateTime } from 'luxon'
 import { Trans, useTranslation } from 'next-i18next'
-
-import { PROPOSAL_STATUS } from '../../constants'
+import Link from 'next/link'
+import React, { useState } from 'react'
 import { CountDown } from '../../components/CountDown'
+import { PROPOSAL_STATUS } from '../../constants'
 import { useAllProposalsSorted } from '../../hooks/useAllProposalsSorted'
 import { useProposalData } from '../../hooks/useProposalData'
-
-import Link from 'next/link'
-import { msToSeconds } from '@pooltogether/utilities'
 
 export const ProposalsList = (props) => {
   const { proposalStates } = props

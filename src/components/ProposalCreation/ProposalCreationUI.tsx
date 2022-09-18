@@ -1,21 +1,21 @@
-import React from 'react'
-import { ethers } from 'ethers'
-import classnames from 'classnames'
-import { useTranslation } from 'next-i18next'
 import {
   SquareButton,
   ExternalLink,
   PageTitleAndBreadcrumbs,
   SquareButtonSize
 } from '@pooltogether/react-components'
-import { DEFAULT_TOKEN_PRECISION } from '../../constants'
+import { numberWithCommas } from '@pooltogether/utilities'
+import { useConnectWallet, useUsersAddress } from '@pooltogether/wallet-connection'
+import classnames from 'classnames'
+import { ethers } from 'ethers'
+import { useTranslation } from 'next-i18next'
+import Link from 'next/link'
+import React from 'react'
 import { Banner } from '../../components/Banner'
 import { ProposalCreationForm } from '../../components/ProposalCreation/ProposalCreationForm'
+import { DEFAULT_TOKEN_PRECISION } from '../../constants'
 import { useGovernorAlpha } from '../../hooks/useGovernorAlpha'
 import { useUserCanCreateProposal } from '../../hooks/useUserCanCreateProposal'
-import Link from 'next/link'
-import { useConnectWallet, useUsersAddress } from '@pooltogether/wallet-connection'
-import { numberWithCommas } from '@pooltogether/utilities'
 
 export const ProposalCreationUI = (props) => {
   const { t } = useTranslation()

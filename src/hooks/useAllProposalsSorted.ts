@@ -1,6 +1,6 @@
+import { useMemo } from 'react'
 import { PROPOSAL_STATUS } from '../constants'
 import { useAllProposals } from '../hooks/useAllProposals'
-import { useMemo } from 'react'
 
 export const SORTED_STATES = Object.freeze({
   executable: 'executable',

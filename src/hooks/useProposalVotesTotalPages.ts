@@ -1,10 +1,9 @@
+import { useGovernanceChainId } from '@pooltogether/hooks'
+import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
 import request from 'graphql-request'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-query'
-import { useGovernanceChainId } from '@pooltogether/hooks'
-
 import { QUERY_KEYS, VOTERS_PER_PAGE } from '../constants'
-import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
 
 export const useProposalVotesTotalPages = (proposalId) => {
   const chainId = useGovernanceChainId()

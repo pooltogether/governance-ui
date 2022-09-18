@@ -1,7 +1,7 @@
 import request, { gql } from 'graphql-request'
+import { useQuery } from 'react-query'
 import { QUERY_KEYS } from '../constants'
 import { getPoolPoolSnapshotId } from '../utils/getPoolPoolSnapshotId'
-import { useQuery } from 'react-query'
 
 const SNAPSHOT_GRAPHQL_URL = 'https://hub.snapshot.org/graphql'
 

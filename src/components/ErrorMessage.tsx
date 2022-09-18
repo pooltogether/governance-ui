@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { BlankStateMessage } from '../components/BlankStateMessage'
 
 export function ErrorMessage(props) {

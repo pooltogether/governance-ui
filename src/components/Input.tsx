@@ -1,8 +1,7 @@
-import React from 'react'
 import classnames from 'classnames'
 import { omit } from 'lodash'
+import React from 'react'
 import { isBrowser } from 'react-device-detect'
-
 import { DEFAULT_INPUT_CLASSES } from '../constants'
 
 export function Input(props) {

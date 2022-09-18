@@ -1,8 +1,7 @@
-import React from 'react'
-import Link from 'next/link'
 import classnames from 'classnames'
-
 import { useTranslation } from 'next-i18next'
+import Link from 'next/link'
+import React from 'react'
 
 const addPageQueryParam = (path, pageNum) => `${path}?page=${pageNum}`
 

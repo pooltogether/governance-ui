@@ -1,5 +1,5 @@
-import React from 'react'
 import classnames from 'classnames'
+import React from 'react'
 
 export const RadioInputGroup = (props) => {
   const { label, name, onChange, value, radios } = props

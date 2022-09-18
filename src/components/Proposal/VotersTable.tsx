@@ -1,17 +1,16 @@
-import React from 'react'
-import { useRouter } from 'next/router'
-import { useTable } from 'react-table'
-import { BasicTable, LinkTheme, LoadingDots, PoolIcon } from '@pooltogether/react-components'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-
+import { BasicTable, LinkTheme, LoadingDots, PoolIcon } from '@pooltogether/react-components'
+import { BlockExplorerLink } from '@pooltogether/wallet-connection'
 import { useTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
+import React from 'react'
+import { useTable } from 'react-table'
 import { BlankStateMessage } from '../../components/BlankStateMessage'
+import { DelegateAddress } from '../../components/DelegateAddress'
 import { DefaultPaginationButtons } from '../../components/PaginationUI'
 import { useProposalVotes } from '../../hooks/useProposalVotes'
-import { formatVotes } from '../../utils/formatVotes'
 import { useProposalVotesTotalPages } from '../../hooks/useProposalVotesTotalPages'
-import { DelegateAddress } from '../../components/DelegateAddress'
-import { BlockExplorerLink } from '@pooltogether/wallet-connection'
+import { formatVotes } from '../../utils/formatVotes'
 
 export const VotersTable = (props) => {
   const { id } = props

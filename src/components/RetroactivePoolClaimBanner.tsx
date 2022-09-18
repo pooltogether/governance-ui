@@ -1,9 +1,9 @@
-import React from 'react'
-import { useTranslation } from 'next-i18next'
-import { Banner } from '../components/Banner'
 import { SquareLink } from '@pooltogether/react-components'
 import { useUsersAddress } from '@pooltogether/wallet-connection'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
+import React from 'react'
+import { Banner } from '../components/Banner'
 
 // TODO: Fetch has user claimed pool
 export const RetroactivePoolClaimBanner = () => {

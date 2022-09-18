@@ -1,6 +1,5 @@
-import React from 'react'
 import classnames from 'classnames'
-
+import React from 'react'
 import { Input } from '../components/Input'
 
 export const TextInputGroup = (props) => {

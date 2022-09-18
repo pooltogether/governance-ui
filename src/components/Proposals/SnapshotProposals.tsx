@@ -1,8 +1,8 @@
-import { SnapshotProposalsList } from '../../components/Proposals/SnapshotProposalsList'
 import { PoolIcon, ExternalLink, LinkTheme } from '@pooltogether/react-components'
-import React from 'react'
-import { POOLPOOL_SNAPSHOT_URL } from '../../constants'
 import { Trans, useTranslation } from 'next-i18next'
+import React from 'react'
+import { SnapshotProposalsList } from '../../components/Proposals/SnapshotProposalsList'
+import { POOLPOOL_SNAPSHOT_URL } from '../../constants'
 
 export const SnapshotProposals = (props) => {
   return (

@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import {
   LanguagePickerDropdown,
   PageHeaderContainer,
@@ -11,10 +10,11 @@ import {
   HeaderLogo
 } from '@pooltogether/react-components'
 import { useTranslation } from 'next-i18next'
-import { FullWalletConnectionButtonWrapper } from './FullWalletConnectionButtonWrapper'
-import { SUPPORTED_LANGUAGES } from '../../languages'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import { SUPPORTED_LANGUAGES } from '../../languages'
+import { FullWalletConnectionButtonWrapper } from './FullWalletConnectionButtonWrapper'
 
 export enum ContentPaneState {
   deposit = 'deposit',

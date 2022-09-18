@@ -1,8 +1,8 @@
-import React from 'react'
 
-import { useTranslation } from 'next-i18next'
 import { HeaderLogo, PageTitleAndBreadcrumbs } from '@pooltogether/react-components'
+import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
+import React from 'react'
 
 export function ErrorPage() {
   const { t } = useTranslation()

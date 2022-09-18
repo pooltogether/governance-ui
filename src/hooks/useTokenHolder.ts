@@ -1,11 +1,11 @@
-import { useQuery } from 'react-query'
-import gql from 'graphql-tag'
-import { request } from 'graphql-request'
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import { QUERY_KEYS } from '../constants'
-import { isAddress } from 'ethers/lib/utils'
 import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
+import { isAddress } from 'ethers/lib/utils'
+import { request } from 'graphql-request'
+import gql from 'graphql-tag'
+import { useQuery } from 'react-query'
 import { useBlockNumber } from 'wagmi'
+import { QUERY_KEYS } from '../constants'
 
 const EMPTY_TOKEN_HOLDER = Object.freeze({
   delegatedVotes: null,

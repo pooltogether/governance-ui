@@ -1,4 +1,8 @@
 import { SquareLink } from '@pooltogether/react-components'
+import { msToSeconds } from '@pooltogether/utilities'
+import { useTranslation } from 'next-i18next'
+import Link from 'next/link'
+import React, { useState } from 'react'
 import { CountDown } from '../../components/CountDown'
 import {
   EmptyProposalsList,
@@ -9,10 +13,6 @@ import {
 } from '../../components/Proposals/ProposalsList'
 import { POOLPOOL_SNAPSHOT_URL } from '../../constants'
 import { useSnapshotProposals } from '../../hooks/useSnapshotProposals'
-import Link from 'next/link'
-import React, { useState } from 'react'
-import { useTranslation } from 'next-i18next'
-import { msToSeconds } from '@pooltogether/utilities'
 
 export const SnapshotProposalsList = (props) => {
   const { data: proposals, isFetched, error } = useSnapshotProposals()

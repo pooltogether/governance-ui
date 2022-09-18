@@ -1,10 +1,10 @@
+import { useGovernanceChainId } from '@pooltogether/hooks'
+import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
+import { isAddress } from 'ethers/lib/utils'
 import { request } from 'graphql-request'
 import gql from 'graphql-tag'
-import { useGovernanceChainId } from '@pooltogether/hooks'
-import { QUERY_KEYS } from '../constants'
 import { useQuery } from 'react-query'
-import { isAddress } from 'ethers/lib/utils'
-import { getGovernanceSubgraphUrl } from '@pooltogether/utilities'
+import { QUERY_KEYS } from '../constants'
 
 export const useVoteData = (delegateAddress, proposalId) => {
   const chainId = useGovernanceChainId()

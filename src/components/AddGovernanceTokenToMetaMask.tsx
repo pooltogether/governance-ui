@@ -1,10 +1,9 @@
-import React from 'react'
-
-import { useTranslation } from 'next-i18next'
-import { SquareButton } from '@pooltogether/react-components'
-import { addTokenToMetaMask } from '../utils/addTokenToMetaMask'
 import { useGovernanceChainId } from '@pooltogether/hooks'
+import { SquareButton } from '@pooltogether/react-components'
 import { useIsWalletMetamask } from '@pooltogether/wallet-connection'
+import { useTranslation } from 'next-i18next'
+import React from 'react'
+import { addTokenToMetaMask } from '../utils/addTokenToMetaMask'
 
 export function AddGovernanceTokenToMetaMask(props) {
   const { t } = useTranslation()
