@@ -1,7 +1,7 @@
 {
   "name": "pooltogether-governance-ui",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "author": "PoolTogether Inc.",
   "scripts": {
     "reinstall": "rm -rf .next out ./node_modules && yarn cache clean && yarn",
@@ -13,6 +13,9 @@
     "lint:fix": "next lint --fix",
     "config:sentry": "npx @sentry/wizard -i nextjs",
     "locize:download": "locize download --path ./public/locales"
+  },
+  "engines": {
+    "node": ">=16"
   },
   "devDependencies": {
     "@testing-library/react-hooks": "^3.7.0",
