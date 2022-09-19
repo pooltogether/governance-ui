@@ -106,7 +106,7 @@ const useInitialLoad = () => {
   useUpdateStoredPendingTransactions()
   useInitCookieOptions(process.env.NEXT_PUBLIC_DOMAIN_NAME)
   const { status } = useAccount()
-  return !!i18n.isInitialized && status !== 'reconnecting' && status !== 'connecting'
+  return !!i18n.isInitialized && status !== 'reconnecting'
 }
 
 const ThemedToastContainer = (props) => {

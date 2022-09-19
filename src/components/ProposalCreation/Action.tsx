@@ -1,5 +1,5 @@
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import ReserveAbi from '@pooltogether/pooltogether-contracts/abis/Reserve'
+import ReserveAbi from '@pooltogether/pooltogether-contracts/abis/Reserve.json'
 import { DropdownList } from '@pooltogether/react-components'
 import classnames from 'classnames'
 import { isAddress } from 'ethers/lib/utils'
