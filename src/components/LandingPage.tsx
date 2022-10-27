@@ -1,9 +1,9 @@
 import {
+  ButtonLink,
   Card,
   ExternalLink,
   LinkTheme,
-  PageTitleAndBreadcrumbs,
-  SquareLink
+  PageTitleAndBreadcrumbs
 } from '@pooltogether/react-components'
 import { Trans, useTranslation } from 'next-i18next'
 import Link from 'next/link'
@@ -24,9 +24,9 @@ export const LandingPage = (props) => {
           className='mb-4 sm:mb-0'
         />
         <Link href='/proposals' as='/proposals'>
-          <SquareLink className='w-full sm:w-max'>
+          <ButtonLink className='w-full sm:w-max'>
             <Trans i18nKey='goToGovernanceDashboard'>Go to Governance Dashboard</Trans>
-          </SquareLink>
+          </ButtonLink>
         </Link>
       </div>
 

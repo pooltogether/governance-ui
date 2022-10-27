@@ -1,5 +1,5 @@
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import { Card, LinkTheme, SquareButton, Tooltip } from '@pooltogether/react-components'
+import { Card, LinkTheme, Button, Tooltip } from '@pooltogether/react-components'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 import {
   TransactionState,
@@ -217,25 +217,21 @@ const VoteButtons = (props) => {
         </div>
       )}
       <Tooltip isEnabled={isButtonDisabled} id={`tooltip-proposal-vote-yes`} tip={tip}>
-        <SquareButton
-          onClick={handleVoteFor}
-          className='mr-4'
-          disabled={isButtonDisabled || !signer}
-        >
+        <Button onClick={handleVoteFor} className='mr-4' disabled={isButtonDisabled || !signer}>
           <div className='flex'>
             <FeatherIcon icon='check-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
             {t('accept')}
           </div>
-        </SquareButton>
+        </Button>
       </Tooltip>
 
       <Tooltip isEnabled={isButtonDisabled} id={`tooltip-proposal-vote-no`} tip={tip}>
-        <SquareButton onClick={handleVoteAgainst} disabled={!isWalletOnProperNetwork || cannotVote}>
+        <Button onClick={handleVoteAgainst} disabled={!isWalletOnProperNetwork || cannotVote}>
           <div className='flex'>
             <FeatherIcon icon='x-circle' className='my-auto mr-2 h-4 w-4 sm:h-6 sm:w-6' />
             {t('reject')}
           </div>
-        </SquareButton>
+        </Button>
       </Tooltip>
     </div>
   )
@@ -311,9 +307,9 @@ const QueueButton = (props) => {
           />
         </Tooltip>
       )}
-      <SquareButton onClick={handleQueueProposal} disabled={!isWalletOnProperNetwork || !signer}>
+      <Button onClick={handleQueueProposal} disabled={!isWalletOnProperNetwork || !signer}>
         {t('queueProposal')}
-      </SquareButton>
+      </Button>
     </div>
   )
 }
@@ -428,12 +424,12 @@ const ExecuteButton = (props) => {
             />
           </Tooltip>
         )}
-        <SquareButton
+        <Button
           onClick={handleExecuteProposal}
           disabled={currentTime < executionETA || !isWalletOnProperNetwork}
         >
           {t('executeProposal')}
-        </SquareButton>
+        </Button>
       </div>
     </>
   )

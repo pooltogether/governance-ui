@@ -1,5 +1,5 @@
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import { SquareButton } from '@pooltogether/react-components'
+import { Button } from '@pooltogether/react-components'
 import { useIsWalletMetamask } from '@pooltogether/wallet-connection'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
@@ -20,9 +20,7 @@ export function AddGovernanceTokenToMetaMask(props) {
       {isMetamask && (
         <>
           <div className='m-2'>
-            <SquareButton onClick={handleAddTokenToMetaMask}>
-              {t('addPoolTokenToMetamask')}
-            </SquareButton>
+            <Button onClick={handleAddTokenToMetaMask}>{t('addPoolTokenToMetamask')}</Button>
           </div>
         </>
       )}

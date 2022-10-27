@@ -3,7 +3,7 @@ import {
   ExternalLink,
   LoadingDots,
   LinkTheme,
-  SquareLink
+  ButtonLink
 } from '@pooltogether/react-components'
 import { msToSeconds } from '@pooltogether/utilities'
 import classnames from 'classnames'
@@ -174,14 +174,14 @@ const ViewProposalButton = (props) => {
   if (status === PROPOSAL_STATUS.active) {
     return (
       <Link href={`/proposals/${id}/`}>
-        <SquareLink>{t('voteNow')}</SquareLink>
+        <ButtonLink>{t('voteNow')}</ButtonLink>
       </Link>
     )
   }
 
   return (
     <Link href={`/proposals/${id}/`}>
-      <SquareLink>{t('viewProposal')}</SquareLink>
+      <ButtonLink>{t('viewProposal')}</ButtonLink>
     </Link>
   )
 }

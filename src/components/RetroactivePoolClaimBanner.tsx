@@ -1,4 +1,4 @@
-import { SquareLink } from '@pooltogether/react-components'
+import { ButtonLink } from '@pooltogether/react-components'
 import { useUsersAddress } from '@pooltogether/wallet-connection'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
@@ -27,9 +27,9 @@ export const RetroactivePoolClaimBanner = () => {
             {t('retroactivePoolBannerDescription')}
           </p>
           <Link href={`https://v3.pooltogether.com?claim=1&address=${usersAddress}`}>
-            <SquareLink type='button' className='w-full xs:w-auto'>
+            <ButtonLink type='button' className='w-full xs:w-auto'>
               {t('claimPool')}
-            </SquareLink>
+            </ButtonLink>
           </Link>
         </div>
       </div>

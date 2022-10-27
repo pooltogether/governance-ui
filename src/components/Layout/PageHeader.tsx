@@ -1,14 +1,12 @@
+import { PageHeaderContainer, HeaderLogo, SettingsModal } from '@pooltogether/react-components'
 import {
-  LanguagePickerDropdown,
-  PageHeaderContainer,
-  SettingsContainer,
-  SettingsItem,
-  TestnetSettingsItem,
-  FeatureRequestSettingsItem,
-  ThemeSettingsItem,
-  SocialLinks,
-  HeaderLogo
-} from '@pooltogether/react-components'
+  NetworkSelectionCurrentlySelected,
+  NetworkSelectionList,
+  useWalletChainId
+} from '@pooltogether/wallet-connection'
+import { getSupportedChains } from '@utils/getSupportedChains'
+import classNames from 'classnames'
+import FeatherIcon from 'feather-icons-react'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -42,69 +40,50 @@ export const PageHeader = (props) => {
 }
 
 const Settings = () => {
-  const { t } = useTranslation()
-
-  return (
-    <SettingsContainer t={t} className='ml-1 my-auto' sizeClassName='w-6 h-6 overflow-hidden'>
-      <div className='flex flex-col justify-between h-full sm:h-auto'>
-        <div>
-          <LanguagePicker />
-          <ThemeSettingsItem t={t} />
-          <TestnetSettingsItem t={t} />
-          <FeatureRequestSettingsItem t={t} />
-          <ClearLocalStorageSettingsItem />
-        </div>
-        <div className='sm:pt-24 pb-4 sm:pb-0'>
-          <SocialLinks t={t} />
-        </div>
-      </div>
-    </SettingsContainer>
-  )
-}
-
-const LanguagePicker = () => {
-  const { i18n: i18next, t } = useTranslation()
+  const { t, i18n: i18next } = useTranslation()
+  const [isOpen, setIsOpen] = useState(false)
+  const walletChainId = useWalletChainId()
+  const [currentLang, setCurrentLang] = useState(i18next.language)
   const router = useRouter()
 
   return (
-    <SettingsItem label={t('language')}>
-      <LanguagePickerDropdown
-        locales={['en', 'es', 'de', 'fa', 'fil', 'fr', 'hi', 'it', 'ko', 'pt', 'tr', 'zh', 'sk']}
-        className='dark:text-white'
-        currentLang={i18next.language}
-        onValueSet={(newLocale) => {
-          i18next.changeLanguage(newLocale)
+    <>
+      <button onClick={() => setIsOpen(true)}>
+        <FeatherIcon
+          icon='menu'
+          className={classNames('w-6 h-6 text-gradient-magenta hover:text-inverse transition')}
+        />
+      </button>
+      <SettingsModal
+        t={t}
+        isOpen={isOpen}
+        walletChainId={walletChainId}
+        closeModal={() => setIsOpen(false)}
+        networkView={() => <NetworkView />}
+        langs={SUPPORTED_LANGUAGES}
+        currentLang={currentLang}
+        changeLang={(newLang) => {
+          setCurrentLang(newLang)
+          i18next.changeLanguage(newLang)
           router.push({ pathname: router.pathname, query: router.query }, router.asPath, {
-            locale: newLocale
+            locale: newLang
           })
         }}
       />
-    </SettingsItem>
+    </>
   )
 }
 
-const ClearLocalStorageSettingsItem = () => {
+const NetworkView = () => {
+  const chains = getSupportedChains()
   const { t } = useTranslation()
   return (
-    <SettingsItem label={t('clearStorage', 'Clear storage')}>
-      <button
-        className='font-semibold text-pt-red-light transition-colors hover:text-pt-red'
-        onClick={() => {
-          if (
-            window.confirm(
-              t(
-                'clearingStorageWarning',
-                'Continuing will clear the websites storage in your browser. This DOES NOT have any effect on your deposits.'
-              )
-            )
-          ) {
-            localStorage.clear()
-            window.location.reload()
-          }
-        }}
-      >
-        {t('clear', 'Clear')}
-      </button>
-    </SettingsItem>
+    <>
+      <p className='mb-3 text-center'>
+        Selecting a network will prompt you to switch to the network selected in your wallet.
+      </p>
+      <NetworkSelectionList chains={chains} />
+      <NetworkSelectionCurrentlySelected t={t} />
+    </>
   )
 }

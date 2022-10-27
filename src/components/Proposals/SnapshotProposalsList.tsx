@@ -1,4 +1,4 @@
-import { SquareLink } from '@pooltogether/react-components'
+import { ButtonLink } from '@pooltogether/react-components'
 import { msToSeconds } from '@pooltogether/utilities'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
@@ -52,9 +52,9 @@ const SnapshotProposalItem = (props) => {
         <SnapshotProposalCountDown end={end} />
       </div>
       <Link href={`${POOLPOOL_SNAPSHOT_URL}/proposal/${id}`}>
-        <SquareLink target='_blank' rel='noopener noreferrer'>
+        <ButtonLink target='_blank' rel='noopener noreferrer'>
           {t('voteNow')}
-        </SquareLink>
+        </ButtonLink>
       </Link>
     </ProposalItemContainer>
   )

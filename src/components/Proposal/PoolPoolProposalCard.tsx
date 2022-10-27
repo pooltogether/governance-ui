@@ -2,8 +2,8 @@ import { useGovernanceChainId, useTokenBalance } from '@pooltogether/hooks'
 import {
   Card,
   LoadingDots,
-  SquareButtonSize,
-  SquareLink,
+  ButtonSize,
+  ButtonLink,
   Tooltip,
   useTimeCountdown
 } from '@pooltogether/react-components'
@@ -79,10 +79,10 @@ export const PoolPoolProposalCard = (props) => {
         <div className='flex flex-row xs:flex-col'>
           <PoolPoolSnapshotLinkButton state={state} snapShotId={poolPoolSnapShotId} />
           <Link href={POOLPOOL_URL}>
-            <SquareLink
+            <ButtonLink
               rel='noopener noreferrer'
               target='_blank'
-              size={SquareButtonSize.sm}
+              size={ButtonSize.sm}
               className='flex justify-center'
             >
               <span className='my-auto'>{t('goToPoolPool')}</span>
@@ -90,7 +90,7 @@ export const PoolPoolProposalCard = (props) => {
                 icon={'external-link'}
                 className='relative w-4 h-4 inline-block my-auto ml-2'
               />
-            </SquareLink>
+            </ButtonLink>
           </Link>
         </div>
       </div>
@@ -127,10 +127,10 @@ const PoolPoolSnapshotLinkButton = (props) => {
 
   return (
     <Link href={`${POOLPOOL_SNAPSHOT_URL}/proposal/${snapShotId}`}>
-      <SquareLink
+      <ButtonLink
         target='_blank'
         rel='noopener noreferrer'
-        size={SquareButtonSize.sm}
+        size={ButtonSize.sm}
         className='flex xs:mb-2 justify-center'
       >
         <span className='my-auto'>
@@ -140,7 +140,7 @@ const PoolPoolSnapshotLinkButton = (props) => {
           icon={'external-link'}
           className='relative w-4 h-4 inline-block my-auto ml-2'
         />
-      </SquareLink>
+      </ButtonLink>
     </Link>
   )
 }

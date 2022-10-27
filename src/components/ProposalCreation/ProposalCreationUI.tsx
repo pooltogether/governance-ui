@@ -1,8 +1,8 @@
 import {
-  SquareButton,
+  Button,
   ExternalLink,
   PageTitleAndBreadcrumbs,
-  SquareButtonSize
+  ButtonSize
 } from '@pooltogether/react-components'
 import { numberWithCommas } from '@pooltogether/utilities'
 import { useConnectWallet, useUsersAddress } from '@pooltogether/wallet-connection'
@@ -80,14 +80,14 @@ const ProposalCreationMinimumRequirementBanner = () => {
         >
           {t('learnMore')}
         </ExternalLink>
-        <SquareButton
+        <Button
           type='button'
           className='mx-auto mt-4 xs:w-5/12 sm:w-1/3 lg:w-1/4'
-          size={SquareButtonSize.sm}
+          size={ButtonSize.sm}
           onClick={() => connectWallet()}
         >
           {t('connectWallet')}
-        </SquareButton>
+        </Button>
       </Banner>
     )
   }

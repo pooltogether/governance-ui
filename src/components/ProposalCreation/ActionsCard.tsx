@@ -1,4 +1,4 @@
-import { SquareButton, Card } from '@pooltogether/react-components'
+import { Button, Card } from '@pooltogether/react-components'
 import { useTranslation } from 'next-i18next'
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
@@ -41,7 +41,7 @@ export const ActionsCard = (props) => {
           />
         )
       })}
-      <SquareButton
+      <Button
         className='mt-8'
         type='button'
         disabled={actions.length >= proposalMaxOperations}
@@ -51,7 +51,7 @@ export const ActionsCard = (props) => {
         }}
       >
         {t('addAnotherAction')}
-      </SquareButton>
+      </Button>
     </Card>
   )
 }

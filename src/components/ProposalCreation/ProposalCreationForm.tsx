@@ -1,6 +1,6 @@
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import { Card, SquareLink } from '@pooltogether/react-components'
-import { SquareButton } from '@pooltogether/react-components'
+import { Card, ButtonLink } from '@pooltogether/react-components'
+import { Button } from '@pooltogether/react-components'
 import { numberWithCommas, shorten } from '@pooltogether/utilities'
 import {
   BlockExplorerLink,
@@ -163,9 +163,9 @@ export const ProposalCreationForm = () => {
             <TitleCard />
             <DescriptionCard />
             {!userCanCreateProposal && <ProposalCreationWarning />}
-            <SquareButton className='mb-16 w-full' disabled={!userCanCreateProposal} type='submit'>
+            <Button className='mb-16 w-full' disabled={!userCanCreateProposal} type='submit'>
               {t('previewProposal')}
-            </SquareButton>
+            </Button>
           </div>
 
           {showSummary && (
@@ -353,7 +353,7 @@ const ProposalSummary = (props) => {
           <ActionSummary key={index} action={action} index={index} chainId={chainId} />
         ))}
       </Card>
-      <SquareButton
+      <Button
         className='w-full'
         type='button'
         onClick={(e) => {
@@ -362,8 +362,8 @@ const ProposalSummary = (props) => {
         }}
       >
         {t('editProposal')}
-      </SquareButton>
-      <SquareButton
+      </Button>
+      <Button
         className='mt-4 mb-16 w-full'
         type='button'
         onClick={(e) => {
@@ -373,7 +373,7 @@ const ProposalSummary = (props) => {
         disabled={!isWalletOnProperNetwork}
       >
         {t('submitProposal')}
-      </SquareButton>
+      </Button>
     </>
   )
 }
@@ -520,7 +520,7 @@ const ProposalTransactionModal: React.FC<{
         <TxStatus tx={tx} />
         {showNavigateToProposal && (
           <Link href={`/proposals/${proposalId}`}>
-            <SquareLink className='mt-8'>{t('viewProposal')}</SquareLink>
+            <ButtonLink className='mt-8'>{t('viewProposal')}</ButtonLink>
           </Link>
         )}
       </Banner>

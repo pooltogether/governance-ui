@@ -7,8 +7,8 @@ import {
   PoolIcon,
   Tooltip,
   ThemedClipSpinner,
-  SquareLink,
-  SquareButtonSize
+  ButtonLink,
+  ButtonSize
 } from '@pooltogether/react-components'
 import { getMinPrecision, numberWithCommas, POOL_ADDRESSES } from '@pooltogether/utilities'
 import { CHAIN_ID, useIsWalletConnected, useUsersAddress } from '@pooltogether/wallet-connection'
@@ -380,14 +380,14 @@ const ZeroBalanceVotingPowerCard = (props) => {
           </div>
         </div>
         <Link href='https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x0cec1a9154ff802e7934fc916ed7ca50bde6844e&use=V2'>
-          <SquareLink
+          <ButtonLink
             target='_blank'
             rel='nofollow noreferrer'
-            size={SquareButtonSize.sm}
+            size={ButtonSize.sm}
             className='w-full sm:w-max h-fit-content my-auto whitespace-nowrap sm :ml-2'
           >
             <Trans i18nKey='getPoolToGetStarted' />
-          </SquareLink>
+          </ButtonLink>
         </Link>
       </div>
     </Card>
