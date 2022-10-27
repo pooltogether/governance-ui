@@ -3,19 +3,18 @@ import {
   ExternalLink,
   LoadingDots,
   LinkTheme,
-  ButtonLink
+  ButtonLink,
+  TimeDisplay,
+  useCountdown
 } from '@pooltogether/react-components'
-import { msToSeconds } from '@pooltogether/utilities'
 import classnames from 'classnames'
 import FeatherIcon from 'feather-icons-react'
 import { DateTime } from 'luxon'
 import { Trans, useTranslation } from 'next-i18next'
 import Link from 'next/link'
-import React, { useState } from 'react'
-import { CountDown } from '../../components/CountDown'
+import React from 'react'
 import { PROPOSAL_STATUS } from '../../constants'
 import { useAllProposalsSorted } from '../../hooks/useAllProposalsSorted'
-import { useProposalData } from '../../hooks/useProposalData'
 
 export const ProposalsList = (props) => {
   const { proposalStates } = props
@@ -159,10 +158,17 @@ export const ProposalStatus = (props) => {
 const ProposalCountDown = (props) => {
   const { proposal } = props
 
-  const [seconds] = useState(proposal.endDateSeconds - msToSeconds(Date.now()))
-  const { refetch } = useProposalData(proposal.id)
+  const { seconds, minutes, hours, days } = useCountdown(proposal.endDateSeconds)
 
-  return <CountDown className='sm:ml-auto sm:w-unset mb-4 sm:mb-0' seconds={seconds} />
+  return (
+    <TimeDisplay
+      className='sm:ml-auto sm:w-unset mb-4 sm:mb-0'
+      seconds={seconds}
+      minutes={minutes}
+      hours={hours}
+      days={days}
+    />
+  )
 }
 
 const ViewProposalButton = (props) => {

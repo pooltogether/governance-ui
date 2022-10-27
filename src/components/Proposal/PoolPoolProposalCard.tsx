@@ -5,7 +5,8 @@ import {
   ButtonSize,
   ButtonLink,
   Tooltip,
-  useTimeCountdown
+  TimeDisplay,
+  useCountdown
 } from '@pooltogether/react-components'
 import { getPrecision, numberWithCommas, POOL_ADDRESSES } from '@pooltogether/utilities'
 import { CHAIN_ID, useUsersAddress } from '@pooltogether/wallet-connection'
@@ -13,7 +14,6 @@ import FeatherIcon from 'feather-icons-react'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import React from 'react'
-import { TimeCountDown } from '../../components/TimeCountDown'
 import { POOLPOOL_SNAPSHOT_URL, POOLPOOL_URL } from '../../constants'
 import { usePoolPoolProposal } from '../../hooks/usePoolPoolProposal'
 import { getSecondsSinceEpoch } from '../../utils/getCurrentSecondsSinceEpoch'
@@ -101,14 +101,13 @@ export const PoolPoolProposalCard = (props) => {
 const SnapshotVoteTime = (props) => {
   const { end } = props
   const { t } = useTranslation()
-  const initialSecondsLeft = end - getSecondsSinceEpoch()
-  const { days, hours, minutes, secondsLeft } = useTimeCountdown(initialSecondsLeft)
+  const { days, hours, minutes, seconds } = useCountdown(end)
 
-  if (secondsLeft > 0) {
+  if (days > 0 || hours > 0 || minutes > 0 || seconds > 0) {
     return (
       <span className='flex text-accent-1'>
         <span className='mt-auto'>{t('justEndsIn')} </span>
-        <TimeCountDown endTime={end} />
+        <TimeDisplay days={days} hours={hours} minutes={minutes} seconds={seconds} />
       </span>
     )
   }

@@ -1,9 +1,7 @@
-import { ButtonLink } from '@pooltogether/react-components'
-import { msToSeconds } from '@pooltogether/utilities'
+import { ButtonLink, TimeDisplay, useCountdown } from '@pooltogether/react-components'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
-import React, { useState } from 'react'
-import { CountDown } from '../../components/CountDown'
+import React from 'react'
 import {
   EmptyProposalsList,
   ErrorLoadingProposalsList,
@@ -63,7 +61,15 @@ const SnapshotProposalItem = (props) => {
 const SnapshotProposalCountDown = (props) => {
   const { end } = props
 
-  const [seconds] = useState(end - msToSeconds(Date.now()))
+  const { seconds, minutes, hours, days } = useCountdown(end)
 
-  return <CountDown className='sm:ml-auto sm:w-unset mb-4 sm:mb-0' seconds={seconds} />
+  return (
+    <TimeDisplay
+      className='sm:ml-auto sm:w-unset mb-4 sm:mb-0'
+      seconds={seconds}
+      minutes={minutes}
+      hours={hours}
+      days={days}
+    />
+  )
 }

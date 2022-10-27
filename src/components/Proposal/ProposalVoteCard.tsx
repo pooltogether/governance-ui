@@ -1,5 +1,12 @@
 import { useGovernanceChainId } from '@pooltogether/hooks'
-import { Card, LinkTheme, Button, Tooltip } from '@pooltogether/react-components'
+import {
+  Card,
+  LinkTheme,
+  Button,
+  Tooltip,
+  SimpleTimeDisplay,
+  useCountdown
+} from '@pooltogether/react-components'
 import { getNetworkNiceNameByChainId } from '@pooltogether/utilities'
 import {
   TransactionState,
@@ -19,7 +26,6 @@ import { useSigner } from 'wagmi'
 import GovernorAlphaABI from '../../abis/GovernorAlphaABI'
 import { DelegateAddress } from '../../components/DelegateAddress'
 import { ProposalStatus } from '../../components/Proposals/ProposalsList'
-import { TimeCountDown } from '../../components/TimeCountDown'
 import { TxText } from '../../components/TxText'
 import { CONTRACT_ADDRESSES, PROPOSAL_STATUS } from '../../constants'
 import { useInterval } from '../../hooks/useInterval'
@@ -332,6 +338,8 @@ const ExecuteButton = (props) => {
     setCurrentTime(getSecondsSinceEpoch())
   }, 1000)
 
+  const { seconds, minutes, hours, days } = useCountdown(executionETA)
+
   const payableAmountInWei = useMemo(
     () =>
       proposal.values.reduce(
@@ -390,7 +398,7 @@ const ExecuteButton = (props) => {
       {currentTime < executionETA && (
         <div className='flex'>
           <span className='xs:ml-auto mt-auto text-accent-1'>{t('executableIn')}</span>
-          <TimeCountDown endTime={executionETA} />
+          <SimpleTimeDisplay t={t} seconds={seconds} minutes={minutes} hours={hours} days={days} />
         </div>
       )}
       <div className='flex mt-2 justify-end'>
