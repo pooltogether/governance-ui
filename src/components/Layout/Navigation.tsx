@@ -38,7 +38,6 @@ export const Navigation: React.FC<{ className?: string }> = (props) => {
           t={t}
           Link={Link}
           pathname={router.pathname}
-          selectedClassName='bg-pt-teal'
         />
       ))}
     </NavigationContainer>
