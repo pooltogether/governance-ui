@@ -19,6 +19,7 @@
     "node": ">=16"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^4.28.3",
     "@testing-library/react-hooks": "^3.7.0",
     "babel-jest": "^26.3.0",
     "colors": "^1.4.0",
