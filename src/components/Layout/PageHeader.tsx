@@ -69,6 +69,11 @@ const Settings = () => {
             locale: newLang
           })
         }}
+        customButton={{
+          link: 'https://app.pooltogether.com',
+          title: t('coreApp', 'Core App'),
+          description: t('pooltogetherCoreApp', 'PoolTogether App')
+        }}
       />
     </>
   )
