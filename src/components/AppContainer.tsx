@@ -39,7 +39,13 @@ const queryClient = new QueryClient({
 initRpcUrls(RPC_URLS)
 
 // Initialize WAGMI wallet connectors
-const chains = SUPPORTED_CHAINS[getAppEnvString()]
+const chains = SUPPORTED_CHAINS[getAppEnvString()].map((chain) => {
+  if (!!RPC_URLS[chain.id]) {
+    chain.rpcUrls.default = RPC_URLS[chain.id]
+  }
+  return chain
+})
+
 const connectors = () => {
   return [
     new MetaMaskConnector({ chains, options: {} }),
