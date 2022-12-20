@@ -19,7 +19,8 @@ const EMPTY_TOKEN_HOLDER = Object.freeze({
 })
 
 export function useTokenHolder(address: string, blockNumber?: number) {
-  const { data: _blockNumber } = useBlockNumber()
+  const chainId = useGovernanceChainId()
+  const { data: _blockNumber } = useBlockNumber({ chainId: chainId })
 
   // Only add filter if it is in the past
   const isDataFromBeforeCurrentBlock = !!_blockNumber && blockNumber && blockNumber < _blockNumber

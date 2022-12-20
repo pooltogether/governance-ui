@@ -33,7 +33,7 @@ export function useAllProposals() {
 function useFetchProposals() {
   const chainId = useGovernanceChainId()
   const readProvider = getReadProvider(chainId)
-  const { data: blockNumber } = useBlockNumber()
+  const { data: blockNumber } = useBlockNumber({ chainId: chainId })
   const { data: block } = useBlock(blockNumber)
 
   return useQuery(
