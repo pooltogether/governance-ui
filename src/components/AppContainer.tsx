@@ -6,6 +6,7 @@ import {
   getReadProvider,
   initRpcUrls
 } from '@pooltogether/wallet-connection'
+import { ApexConnector } from 'apex-integration'
 import { Provider as JotaiProvider } from 'jotai'
 import { useTranslation } from 'next-i18next'
 import { ThemeProvider, useTheme } from 'next-themes'
@@ -48,6 +49,7 @@ const chains = SUPPORTED_CHAINS[getAppEnvString()].map((chain) => {
 
 const connectors = () => {
   return [
+    new ApexConnector({ chains, options: {} }),
     new MetaMaskConnector({ chains, options: {} }),
     new WalletConnectConnector({
       chains,
