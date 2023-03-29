@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useTable } from 'react-table'
+import { useEnsName } from 'wagmi'
 import { BlankStateMessage } from '../../components/BlankStateMessage'
 import { DelegateAddress } from '../../components/DelegateAddress'
 import { DefaultPaginationButtons } from '../../components/PaginationUI'
@@ -106,6 +107,8 @@ const SupportCell = (props) => {
 const VoterCell = (props) => {
   const chainId = useGovernanceChainId()
 
+  const { data: ensName } = useEnsName({ address: props.value, chainId: 1 })
+
   if (props.value.toLowerCase() === '0x070a96fe4ad5155ea91d409e8afec6b2f3c729c0') {
     return (
       <BlockExplorerLink
@@ -116,6 +119,19 @@ const VoterCell = (props) => {
       >
         <PoolIcon className='mr-2 my-auto' />
         <span>POOL Pool Multisig</span>
+      </BlockExplorerLink>
+    )
+  }
+
+  if (ensName) {
+    return (
+      <BlockExplorerLink
+        address={props.value}
+        theme={LinkTheme.light}
+        className='text-xxs xs:text-sm'
+        chainId={chainId}
+      >
+        <span>{ensName}</span>
       </BlockExplorerLink>
     )
   }
