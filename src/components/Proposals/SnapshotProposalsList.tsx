@@ -1,6 +1,5 @@
 import { ButtonLink, TimeDisplay, useCountdown } from '@pooltogether/react-components'
 import { useTranslation } from 'next-i18next'
-import Link from 'next/link'
 import React from 'react'
 import {
   EmptyProposalsList,
@@ -49,11 +48,13 @@ const SnapshotProposalItem = (props) => {
         </div>
         <SnapshotProposalCountDown end={end} />
       </div>
-      <Link href={`${POOLPOOL_SNAPSHOT_URL}/proposal/${id}`}>
-        <ButtonLink target='_blank' rel='noopener noreferrer'>
-          {t('voteNow')}
-        </ButtonLink>
-      </Link>
+      <ButtonLink
+        href={`${POOLPOOL_SNAPSHOT_URL}/proposal/${id}`}
+        target='_blank'
+        rel='noopener noreferrer'
+      >
+        {t('voteNow')}
+      </ButtonLink>
     </ProposalItemContainer>
   )
 }
