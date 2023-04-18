@@ -10,6 +10,7 @@ import { isBrowser } from 'react-device-detect'
 import { useController, useForm, useFormContext, useWatch } from 'react-hook-form'
 import { ClipLoader } from 'react-spinners'
 import DelegateableERC20ABI from '../../abis/DelegateableERC20ABI'
+import SablierABI from '../../abis/Sablierv1_1'
 import { EMPTY_CONTRACT, EMPTY_FN } from '../../components/ProposalCreation/ProposalCreationForm'
 import { CONTRACT_ADDRESSES } from '../../constants'
 import { useEtherscanAbi } from '../../hooks/useEtherscanAbi'
@@ -126,6 +127,13 @@ const ContractSelect = (props) => {
       address: CONTRACT_ADDRESSES[chainId].GovernanceToken,
       name: t('poolToken'),
       abi: DelegateableERC20ABI
+    })
+
+    // Add Sablier
+    options.push({
+      address: CONTRACT_ADDRESSES[chainId].Sablier,
+      name: 'Sablier',
+      abi: SablierABI
     })
 
     // Add Governance Reserve
