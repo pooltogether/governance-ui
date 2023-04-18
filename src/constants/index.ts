@@ -71,7 +71,8 @@ export const CONTRACT_ADDRESSES = {
     PrizePoolBuilder: PoolWithMultipleWinnersBuilderMainnet.address,
     GovernanceReserve: '0xdb8E47BEFe4646fCc62BE61EEE5DF350404c124F',
     MerkleDistributor: '0xBE1a33519F586A4c8AA37525163Df8d67997016f',
-    PoolPoolTicket: '0x27d22a7648e955e510a40bdb058333e9190d12d4'
+    PoolPoolTicket: '0x27d22a7648e955e510a40bdb058333e9190d12d4',
+    Sablier: '0xCD18eAa163733Da39c232722cBC4E8940b1D8888'
 
     // GovernorAlpha: '0x5e4be8Bc9637f0EAA1A755019e06A68ce081D58F',  // Uniswap Governance for testing
     // GovernanceToken: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984' // Uniswap UNI Token  for testing
