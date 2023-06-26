@@ -6,6 +6,7 @@ import {
 } from '@pooltogether/react-components'
 import { numberWithCommas } from '@pooltogether/utilities'
 import { useUsersAddress } from '@pooltogether/wallet-connection'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { useTranslation } from 'next-i18next'
@@ -16,7 +17,6 @@ import { ProposalCreationForm } from '../../components/ProposalCreation/Proposal
 import { DEFAULT_TOKEN_PRECISION } from '../../constants'
 import { useGovernorAlpha } from '../../hooks/useGovernorAlpha'
 import { useUserCanCreateProposal } from '../../hooks/useUserCanCreateProposal'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
 
 export const ProposalCreationUI = (props) => {
   const { t } = useTranslation()

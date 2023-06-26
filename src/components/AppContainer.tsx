@@ -6,10 +6,16 @@ import {
   getReadProvider,
   initRpcUrls
 } from '@pooltogether/wallet-connection'
+import {
+  RainbowKitProvider,
+  lightTheme,
+  darkTheme,
+  DisclaimerComponent
+} from '@rainbow-me/rainbowkit'
 import { jsonRpcProvider } from '@wagmi/core/providers/jsonRpc'
 import { publicProvider } from '@wagmi/core/providers/public'
-import { Trans } from 'next-i18next'
 import { Provider as JotaiProvider } from 'jotai'
+import { Trans } from 'next-i18next'
 import { useTranslation } from 'next-i18next'
 import { ThemeProvider, useTheme } from 'next-themes'
 import { AppProps } from 'next/app'
@@ -23,15 +29,9 @@ import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { RPC_URLS, SUPPORTED_CHAINS } from '../constants'
-import { CustomErrorBoundary } from './CustomErrorBoundary'
-import {
-  RainbowKitProvider,
-  lightTheme,
-  darkTheme,
-  DisclaimerComponent
-} from '@rainbow-me/rainbowkit'
-import { getSupportedChains } from '../utils/getSupportedChains'
 import { getWalletConnectors } from '../services/walletConnection'
+import { getSupportedChains } from '../utils/getSupportedChains'
+import { CustomErrorBoundary } from './CustomErrorBoundary'
 
 // Initialize react-query Query Client
 const queryClient = new QueryClient({
