@@ -3,6 +3,9 @@ export NEXT_PUBLIC_PT_ENV=dev
 # Blank if development. Domain if production.
 export NEXT_PUBLIC_DOMAIN_NAME=
 
+# WalletConnect Project ID
+export NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=''
+
 # Locize API keys for localization.
 export NEXT_PUBLIC_LOCIZE_PROJECT_ID=4436efaa-7b18-4332-a5e2-57437e041619
 export LOCIZE_PROJECTID=$NEXT_PUBLIC_LOCIZE_PROJECT_ID

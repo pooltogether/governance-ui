@@ -34,11 +34,13 @@
   },
   "dependencies": {
     "@pooltogether/etherplex": "^1.1.4",
-    "@pooltogether/hooks": "^2.0.0-beta.6",
+    "@pooltogether/hooks": "^2.1.0",
     "@pooltogether/pooltogether-contracts": "^3.4.4",
-    "@pooltogether/react-components": "2.0.4",
-    "@pooltogether/utilities": "^0.6.3",
-    "@pooltogether/wallet-connection": "^1.0.0-beta.4",
+    "@pooltogether/react-components": "2.0.5",
+    "@pooltogether/utilities": "^0.7.0",
+    "@pooltogether/wallet-connection": "1.1.0",
+    "@rainbow-me/rainbowkit": "0.12.15",
+    "uuid": "^9.0.0",
     "@reach/dialog": "^0.15.3",
     "@reach/menu-button": "^0.15.3",
     "@reach/tooltip": "^0.15.3",
@@ -94,6 +96,7 @@
     "solidity-validator": "^0.5.2",
     "tailwindcss": "^2.2.19",
     "typescript": "^4.8.3",
-    "wagmi": "0.6.4"
+    "wagmi": "0.12.17",
+    "@wagmi/chains": "1.3.0"
   }
 }
