@@ -5,7 +5,8 @@ import {
   ButtonSize
 } from '@pooltogether/react-components'
 import { numberWithCommas } from '@pooltogether/utilities'
-import { useConnectWallet, useUsersAddress } from '@pooltogether/wallet-connection'
+import { useUsersAddress } from '@pooltogether/wallet-connection'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import classnames from 'classnames'
 import { ethers } from 'ethers'
 import { useTranslation } from 'next-i18next'
@@ -58,7 +59,7 @@ const ProposalCreationMinimumRequirementBanner = () => {
   const { t } = useTranslation()
 
   const usersAddress = useUsersAddress()
-  const connectWallet = useConnectWallet()
+  const { openConnectModal } = useConnectModal()
   const { isFetched, userCanCreateProposal } = useUserCanCreateProposal()
   const { data: governorAlpha } = useGovernorAlpha()
 
@@ -84,7 +85,7 @@ const ProposalCreationMinimumRequirementBanner = () => {
           type='button'
           className='mx-auto mt-4 xs:w-5/12 sm:w-1/3 lg:w-1/4'
           size={ButtonSize.sm}
-          onClick={() => connectWallet()}
+          onClick={openConnectModal}
         >
           {t('connectWallet')}
         </Button>

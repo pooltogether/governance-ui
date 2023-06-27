@@ -11,6 +11,8 @@ import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import { SUPPORTED_CURRENCIES } from '../../constants/currencies'
+import { useSelectedCurrency } from '../../hooks/useSelectedCurrency'
 import { SUPPORTED_LANGUAGES } from '../../languages'
 import { FullWalletConnectionButtonWrapper } from './FullWalletConnectionButtonWrapper'
 
@@ -45,6 +47,7 @@ const Settings = () => {
   const walletChainId = useWalletChainId()
   const [currentLang, setCurrentLang] = useState(i18next.language)
   const router = useRouter()
+  const { currency, setCurrency } = useSelectedCurrency()
 
   return (
     <>
@@ -74,6 +77,9 @@ const Settings = () => {
           title: t('coreApp', 'Core App'),
           description: t('pooltogetherCoreApp', 'PoolTogether App')
         }}
+        currencies={SUPPORTED_CURRENCIES}
+        currentCurrency={currency}
+        changeCurrency={setCurrency}
       />
     </>
   )
